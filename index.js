@@ -49,17 +49,6 @@ function getSortOrder(options) {
     return order;
 }
 
-function cloneWithStyle(node) {
-    var nodeClone = node.clone();
-    nodeClone.raws = node.raws;
-
-    if (nodeClone.raws.before) {
-        nodeClone.raws.before = nodeClone.raws.before.replace(/\n\s*\n/g, '\n').replace(/\r\n\s*\r\n/g, '\r\n');
-    }
-
-    return nodeClone;
-}
-
 function cleanLineBreaks(node) {
     if (node.raws.before) {
         node.raws.before = node.raws.before.replace(/\r\n\s*\r\n/g, '\r\n').replace(/\n\s*\n/g, '\n');
@@ -133,7 +122,7 @@ module.exports = postcss.plugin('postcss-sort', function (opts) {
                             previousNode.propertyIndex = node.propertyIndex;
                             previousNode.initialIndex = index - 1;
 
-                            var previousNodeClone = cloneWithStyle(previousNode);
+                            var previousNodeClone = cleanLineBreaks(previousNode);
 
                             processed.push(previousNodeClone);
                         }
