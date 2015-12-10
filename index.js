@@ -26,6 +26,7 @@ function getSortOrder(options) {
         return {};
     }
 
+    // Add sorting indexes to order
     var order = {};
 
     if (typeof sortOrder[0] === 'string') {
@@ -49,6 +50,7 @@ function getSortOrder(options) {
     return order;
 }
 
+// Replace multiple line breaks with one
 function cleanLineBreaks(node) {
     if (node.raws.before) {
         node.raws.before = node.raws.before.replace(/\r\n\s*\r\n/g, '\r\n').replace(/\n\s*\n/g, '\n');
@@ -66,8 +68,10 @@ module.exports = postcss.plugin('postcss-sort', function (opts) {
         var lastPropertyIndex = order['...'] ? order['...'].prop : Infinity;
 
         css.walk(function (rule) {
+            // Process only rules and atrules with nodes
             if ((rule.type === 'rule' || rule.type === 'atrule') && rule.nodes && rule.nodes.length) {
 
+                // Nodes for sorting
                 var processed = [];
 
                 rule.each(function (node, index) {
@@ -78,20 +82,21 @@ module.exports = postcss.plugin('postcss-sort', function (opts) {
                     } else if (node.type === 'decl') {
                         sortName = node.prop;
 
-                        // if property start with $ and letters it's a variable
+                        // If property start with $ and letters it's a variable
                         if (/^\$[\w-]+/.test(node.prop)) {
                             sortName = '$variable';
                         }
                     } else if (node.type === 'atrule') {
                         sortName = '@atrule';
 
+                        // If atrule with name is in order use the name
                         var atruleName = '@' + node.name;
 
                         if (order[atruleName]) {
                             sortName = atruleName;
                         }
 
-                        // if atRule has a name like @mixin name or @include name, we can sort by this name too
+                        // Ff atRule has a parameter like @mixin name or @include name, sort by this parameter
                         var atruleParameter = /^[\w-]+/.exec(node.params);
 
                         if (atruleParameter && atruleParameter.length) {
@@ -106,7 +111,7 @@ module.exports = postcss.plugin('postcss-sort', function (opts) {
                     }
 
                     // If the declaration's property is in order's list, save its
-                    // group and property indices. Otherwise set them to 10000, so
+                    // group and property indexes. Otherwise set them to 10000, so
                     // declaration appears at the bottom of a sorted list:
                     var orderProperty = order[sortName];
 
@@ -114,6 +119,7 @@ module.exports = postcss.plugin('postcss-sort', function (opts) {
                     node.propertyIndex = orderProperty && orderProperty.prop > -1 ? orderProperty.prop : lastPropertyIndex;
                     node.initialIndex = index;
 
+                    // If comment on separate line before node, use node's indexes for comment
                     if (node.prev() && node.prev().type === 'comment') {
                         var previousNode = node.prev();
 
@@ -130,6 +136,7 @@ module.exports = postcss.plugin('postcss-sort', function (opts) {
 
                     processed.push(node);
 
+                    // If comment on same line with the node and node, use node's indexes for comment
                     if (node.next() && node.next().type === 'comment') {
                         var nextNode = node.next();
 
@@ -162,6 +169,7 @@ module.exports = postcss.plugin('postcss-sort', function (opts) {
                 rule.removeAll();
                 rule.append(processed);
 
+                // Remove all empty lines and add empty lines between groups
                 rule.each(function (node) {
                     node = cleanLineBreaks(node);
 
