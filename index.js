@@ -1,32 +1,52 @@
 var postcss = require('postcss');
+var path = require('path');
+var fs = require('fs');
 
 function getSortOrder(options) {
-    if (options.hasOwnProperty('sort-order') && Array.isArray(options['sort-order'])) {
-        var sortOrder = options['sort-order'];
-        var order = {};
+    // If no options use default config
+    if (options === null || typeof options !== 'object' || !options['sort-order']) {
+        options = { 'sort-order': 'default' };
+    }
 
-        if (typeof sortOrder[0] === 'string') {
-            sortOrder.forEach(function (prop, propIndex) {
+    var sortOrder;
+
+    if (Array.isArray(options['sort-order'])) {
+        sortOrder = options['sort-order'];
+    } else if (typeof options['sort-order'] === 'string') {
+        var configPath = path.join(__dirname, './configs/', options['sort-order']) + '.json';
+
+        try {
+            sortOrder = fs.readFileSync(configPath);
+            sortOrder = JSON.parse(sortOrder);
+            sortOrder = sortOrder['sort-order'];
+        } catch (error) {
+            return {};
+        }
+    } else {
+        return {};
+    }
+
+    var order = {};
+
+    if (typeof sortOrder[0] === 'string') {
+        sortOrder.forEach(function (prop, propIndex) {
+            order[prop] = {
+                group: 0,
+                prop: propIndex
+            };
+        });
+    } else {
+        sortOrder.forEach(function (group, groupIndex) {
+            group.forEach(function (prop, propIndex) {
                 order[prop] = {
-                    group: 0,
+                    group: groupIndex,
                     prop: propIndex
                 };
             });
-        } else {
-            sortOrder.forEach(function (group, groupIndex) {
-                group.forEach(function (prop, propIndex) {
-                    order[prop] = {
-                        group: groupIndex,
-                        prop: propIndex
-                    };
-                });
-            });
-        }
-
-        return order;
+        });
     }
 
-    return false;
+    return order;
 }
 
 function cloneWithStyle(node) {
@@ -49,8 +69,6 @@ function cleanLineBreaks(node) {
 }
 
 module.exports = postcss.plugin('postcss-sort', function (opts) {
-    opts = opts || {};
-
     return function (css) {
         var order = getSortOrder(opts);
 
