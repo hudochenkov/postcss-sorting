@@ -1,0 +1,5 @@
+.block {
+    @mixin island;
+    border: none;
+    @mixin clearfix;
+}

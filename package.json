@@ -1,0 +1,30 @@
+{
+  "name": "postcss-sort",
+  "version": "0.0.0",
+  "description": "PostCSS plugin sorting.",
+  "keywords": [
+    "postcss",
+    "css",
+    "postcss-plugin",
+    "sorting"
+  ],
+  "author": "Aleks Hudochenkov <aleks@hudochenkov.com>",
+  "license": "MIT",
+  "repository": "hudochenkov/postcss-sort",
+  "bugs": {
+    "url": "https://github.com/hudochenkov/postcss-sort/issues"
+  },
+  "homepage": "https://github.com/hudochenkov/postcss-sort",
+  "dependencies": {
+    "postcss": "^5.0.10"
+  },
+  "devDependencies": {
+    "ava": "^0.7.0",
+    "eslint": "^1.10.2"
+  },
+  "scripts": {
+    "test": "ava",
+    "test2": "ava && eslint index.js test/test.js",
+    "lint": "eslint index.js test/test.js"
+  }
+}

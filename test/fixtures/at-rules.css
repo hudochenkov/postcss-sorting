@@ -1,0 +1,10 @@
+.block {
+    @media (min-width: 100px) {
+        color: red;
+        top: 0;
+    }
+}
+@define-mixin some-mixin {
+    color: blue;
+    top: 10px;
+}
