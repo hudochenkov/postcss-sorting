@@ -1,4 +1,5 @@
 .block {
+    @some-rule hello;
     border: none;
     @mixin clearfix;
     @mixin island;

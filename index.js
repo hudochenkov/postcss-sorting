@@ -100,7 +100,7 @@ module.exports = postcss.plugin('postcss-sort', function (opts) {
                         var atruleParameter = /^[\w-]+/.exec(node.params);
 
                         if (atruleParameter && atruleParameter.length) {
-                            var sortNameExtended = sortName + ' ' + atruleParameter[0];
+                            var sortNameExtended = atruleName + ' ' + atruleParameter[0];
 
                             if (order[sortNameExtended]) {
                                 sortName = sortNameExtended;

@@ -109,9 +109,9 @@ test('Should sort complex case with leftovers', t => {
     ] });
 });
 
-test('Should sort at-rules by they parameter name', t => {
+test('Should sort at-rules by their parameter name', t => {
     return run(t, 'at-rules-by-parameter', { 'sort-order': [
-        ['@mixin', 'border', '@mixin clearfix']
+        ['@mixin', 'border', '@some-rule hello', '@mixin clearfix']
     ] });
 });
 
