@@ -149,7 +149,7 @@ test.skip('Should use default config if config is empty', t => {
     return run(t, 'at-rules-by-name', { });
 });
 
-test.skip('Should work correctly with comments in case of 1 group', t => {
+test('Should work correctly with comments in case of 1 group', t => {
     return run(t, 'single-group-comments', { 'sort-order': [
         ['border-bottom', 'font-style']
     ] });

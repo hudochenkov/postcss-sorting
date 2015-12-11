@@ -120,9 +120,10 @@ module.exports = postcss.plugin('postcss-sorting', function (opts) {
                     node.initialIndex = index;
 
                     // If comment on separate line before node, use node's indexes for comment
-                    if (node.prev() && node.prev().type === 'comment') {
-                        var previousNode = node.prev();
+                    var commentsBefore = [];
+                    var previousNode = node.prev();
 
+                    while (previousNode && previousNode.type === 'comment') {
                         if (previousNode.raws.before && previousNode.raws.before.indexOf('\n') > -1) {
                             previousNode.groupIndex = node.groupIndex;
                             previousNode.propertyIndex = node.propertyIndex;
@@ -130,21 +131,34 @@ module.exports = postcss.plugin('postcss-sorting', function (opts) {
 
                             var previousNodeClone = cleanLineBreaks(previousNode);
 
-                            processed.push(previousNodeClone);
+                            commentsBefore.unshift(previousNodeClone);
+
+                            previousNode = previousNode.prev();
+                        } else {
+                            break;
                         }
                     }
 
+                    if (commentsBefore.length) {
+                        processed = processed.concat(commentsBefore);
+                    }
+
+                    // Add node itself
                     processed.push(node);
 
                     // If comment on same line with the node and node, use node's indexes for comment
-                    if (node.next() && node.next().type === 'comment') {
-                        var nextNode = node.next();
+                    var nextNode = node.next();
 
+                    while (nextNode && nextNode.type === 'comment') {
                         if (nextNode.raws.before && nextNode.raws.before.indexOf('\n') < 0) {
                             nextNode.groupIndex = node.groupIndex;
                             nextNode.propertyIndex = node.propertyIndex;
                             nextNode.initialIndex = index + 1;
+
                             processed.push(nextNode);
+                            nextNode = nextNode.next();
+                        } else {
+                            break;
                         }
                     }
                 });
