@@ -59,7 +59,7 @@ function cleanLineBreaks(node) {
     return node;
 }
 
-module.exports = postcss.plugin('postcss-sort', function (opts) {
+module.exports = postcss.plugin('postcss-sorting', function (opts) {
     return function (css) {
         var order = getSortOrder(opts);
 

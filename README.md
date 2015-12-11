@@ -1,10 +1,10 @@
-# PostCSS Sort [![Build Status][ci-img]][ci]
+# PostCSS Sorting [![Build Status][ci-img]][ci]
 
 [PostCSS] plugin to sort rules content with specified order.
 
 [PostCSS]: https://github.com/postcss/postcss
-[ci-img]:  https://travis-ci.org/hudochenkov/postcss-sort.svg
-[ci]:      https://travis-ci.org/hudochenkov/postcss-sort
+[ci-img]:  https://travis-ci.org/hudochenkov/postcss-sorting.svg
+[ci]:      https://travis-ci.org/hudochenkov/postcss-sorting
 
 ```css
 .foo {
@@ -21,7 +21,7 @@
 ## Usage
 
 ```js
-postcss([ require('postcss-sort') ])
+postcss([ require('postcss-sorting') ])
 ```
 
 See [PostCSS] docs for examples for your environment.
