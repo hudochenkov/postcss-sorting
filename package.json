@@ -1,12 +1,13 @@
 {
   "name": "postcss-sorting",
-  "version": "0.0.0",
-  "description": "PostCSS plugin sorting.",
+  "version": "1.0.0",
+  "description": "PostCSS plugin to sort rules content with specified order.",
   "keywords": [
     "postcss",
     "css",
     "postcss-plugin",
-    "sorting"
+    "sorting",
+    "order"
   ],
   "author": "Aleks Hudochenkov <aleks@hudochenkov.com>",
   "license": "MIT",
