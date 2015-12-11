@@ -5,3 +5,7 @@ npm-debug.log
 
 test/
 .travis.yml
+.editorconfig
+.eslintrc
+*.sublime-*
+dev/
