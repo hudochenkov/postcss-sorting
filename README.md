@@ -17,61 +17,6 @@
 $ npm install postcss-sorting
 ```
 
-## Usage
-
-See [PostCSS] docs for examples for your environment.
-
-#### Gulp
-
-Add [Gulp PostCSS] to your build tool:
-
-```bash
-npm install gulp-postcss --save-dev
-```
-
-Enable [PostCSS Sorting] within your Gulpfile:
-
-```js
-var postcss = require('gulp-postcss');
-
-gulp.task('css', function () {
-    return gulp.src('./css/src/*.css').pipe(
-        postcss([
-            require('postcss-sorting')({ /* options */ })
-        ])
-    ).pipe(
-        gulp.dest('./css')
-    );
-});
-```
-
-#### Grunt
-
-Add [Grunt PostCSS] to your build tool:
-
-```bash
-npm install grunt-postcss --save-dev
-```
-
-Enable [PostCSS Sorting] within your Gruntfile:
-
-```js
-grunt.loadNpmTasks('grunt-postcss');
-
-grunt.initConfig({
-    postcss: {
-        options: {
-            processors: [
-                require('postcss-sorting')({ /* options */ })
-            ]
-        },
-        dist: {
-            src: 'css/*.css'
-        }
-    }
-});
-```
-
 ## Options
 
 Currently there is only one option.
@@ -265,6 +210,61 @@ everything would go into five groups: variables, then group with `position`, the
 * `yandex`
 
 Example: `{ "sort-order": "zen" }`
+
+## Usage
+
+See [PostCSS] docs for examples for your environment.
+
+#### Gulp
+
+Add [Gulp PostCSS] to your build tool:
+
+```bash
+npm install gulp-postcss --save-dev
+```
+
+Enable [PostCSS Sorting] within your Gulpfile:
+
+```js
+var postcss = require('gulp-postcss');
+
+gulp.task('css', function () {
+    return gulp.src('./css/src/*.css').pipe(
+        postcss([
+            require('postcss-sorting')({ /* options */ })
+        ])
+    ).pipe(
+        gulp.dest('./css')
+    );
+});
+```
+
+#### Grunt
+
+Add [Grunt PostCSS] to your build tool:
+
+```bash
+npm install grunt-postcss --save-dev
+```
+
+Enable [PostCSS Sorting] within your Gruntfile:
+
+```js
+grunt.loadNpmTasks('grunt-postcss');
+
+grunt.initConfig({
+    postcss: {
+        options: {
+            processors: [
+                require('postcss-sorting')({ /* options */ })
+            ]
+        },
+        dist: {
+            src: 'css/*.css'
+        }
+    }
+});
+```
 
 ## Thanks
 
