@@ -21,28 +21,6 @@ $ npm install postcss-sorting
 
 See [PostCSS] docs for examples for your environment.
 
-#### Node
-
-```js
-require('postcss-sorting').process(YOUR_CSS, { /* options */ });
-```
-
-#### PostCSS
-
-Add [PostCSS] to your build tool:
-
-```bash
-npm install postcss --save-dev
-```
-
-Load [PostCSS Sorting] as a PostCSS plugin:
-
-```js
-postcss([
-    require('postcss-sorting')({ /* options */ })
-]);
-```
-
 #### Gulp
 
 Add [Gulp PostCSS] to your build tool:
