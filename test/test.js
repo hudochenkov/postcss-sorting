@@ -177,6 +177,6 @@ test('Should sort at-rules by name', t => {
     ] });
 });
 
-test.skip('Should use default config if config is empty', t => {
-    return run(t, 'at-rules-by-name', { });
+test('Should use default config if config is empty', t => {
+    return run(t, 'without-specified-config');
 });
