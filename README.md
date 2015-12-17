@@ -2,6 +2,8 @@
 
 [PostCSS] plugin to sort rules content with specified order. Heavily inspired by [CSSComb].
 
+[Sublime Text plugin] is available also.
+
 ## Features
 
 * Plugin is sorting content for rules and at-rules.
@@ -215,6 +217,10 @@ Example: `{ "sort-order": "zen" }`
 
 See [PostCSS] docs for examples for your environment.
 
+#### Sublime Text
+
+See [Sublime Text plugin] repository.
+
 #### Gulp
 
 Add [Gulp PostCSS] to your build tool:
@@ -276,6 +282,7 @@ This plugin is heavily inspired by [CSSComb]. Some code logic, tests and documen
 [PostCSS Sorting]: https://github.com/hudochenkov/postcss-sorting
 [predefined configs]: https://github.com/hudochenkov/postcss-sorting/tree/master/configs
 [predefined config]: https://github.com/hudochenkov/postcss-sorting/tree/master/configs
+[Sublime Text plugin]: https://github.com/hudochenkov/sublime-postcss-sorting
 
 [CSSComb]: https://github.com/csscomb/csscomb.js
 [Gulp PostCSS]: https://github.com/postcss/gulp-postcss
