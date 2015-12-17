@@ -4,17 +4,31 @@ import fs      from 'fs';
 import path    from 'path';
 import plugin  from '../';
 
-function run(t, input, opts = { }) {
+function run(t, input, opts = { }, syntax) {
     var dir = './fixtures/';
+    var inputName = input;
+    var inputExt = 'css';
+    var inputSplitted = input.split('.');
 
-    var inputPath  = path.resolve(dir + input + '.css');
-    var expectPath = path.resolve(dir + input + '.expected.css');
-    var actualPath = path.resolve(dir + input + '.actual.css');
+    if (inputSplitted.length > 1) {
+        inputName = inputSplitted[0];
+        inputExt = inputSplitted[1];
+    }
+
+    var inputPath  = path.resolve(dir + inputName + '.' + inputExt);
+    var expectPath = path.resolve(dir + inputName + '.expected.' + inputExt);
+    var actualPath = path.resolve(dir + inputName + '.actual.' + inputExt);
 
     var inputCSS = fs.readFileSync(inputPath,  'utf8');
     var expectCSS = fs.readFileSync(expectPath,  'utf8');
 
-    return postcss([ plugin(opts) ]).process(inputCSS)
+    if (syntax && syntax === 'scss') {
+        syntax = { syntax: require('postcss-scss') };
+    } else {
+        syntax = {};
+    }
+
+    return postcss([ plugin(opts) ]).process(inputCSS, syntax)
         .then( result => {
             var actualCSS = result.css;
 
@@ -40,6 +54,24 @@ test('Should work correctly with one comment in case of 1 group', t => {
     return run(t, 'single-group-comment', { 'sort-order': [
         ['border-bottom', 'font-style']
     ] });
+});
+
+test('Should work correctly with comments in case of 1 group', t => {
+    return run(t, 'single-group-comments', { 'sort-order': [
+        ['border-bottom', 'font-style']
+    ] });
+});
+
+test('Should work correctly with one comment in case of 1 group. SCSS syntax', t => {
+    return run(t, 'single-group-comment-scss.scss', { 'sort-order': [
+        ['border-bottom', 'font-style']
+    ] }, 'scss');
+});
+
+test('Should work correctly with comments in case of 1 group. SCSS syntax', t => {
+    return run(t, 'single-group-comments-scss.scss', { 'sort-order': [
+        ['border-bottom', 'font-style']
+    ] }, 'scss');
 });
 
 test('Should place the leftovers in the end', t => {
@@ -147,10 +179,4 @@ test('Should sort at-rules by name', t => {
 
 test.skip('Should use default config if config is empty', t => {
     return run(t, 'at-rules-by-name', { });
-});
-
-test('Should work correctly with comments in case of 1 group', t => {
-    return run(t, 'single-group-comments', { 'sort-order': [
-        ['border-bottom', 'font-style']
-    ] });
 });

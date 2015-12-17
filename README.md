@@ -11,7 +11,7 @@
 * Sorting at-rules, also by at-rule name and parameter.
 * Sorting variables.
 * Grouping content.
-* Currently support CSS, [PreCSS] and most likely any other syntax added by other PostCSS plugins.
+* Support CSS, SCSS (if [postcss-scss] parser is used), [PreCSS] and most likely any other syntax added by other PostCSS plugins.
 
 ## Installation
 
@@ -288,3 +288,4 @@ This plugin is heavily inspired by [CSSComb]. Some code logic, tests and documen
 [Gulp PostCSS]: https://github.com/postcss/gulp-postcss
 [Grunt PostCSS]: https://github.com/nDmitry/grunt-postcss
 [PreCSS]: https://github.com/jonathantneal/precss
+[postcss-scss]: https://github.com/postcss/postcss-scss

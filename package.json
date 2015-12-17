@@ -21,7 +21,8 @@
   },
   "devDependencies": {
     "ava": "^0.7.0",
-    "eslint": "^1.10.2"
+    "eslint": "^1.10.2",
+    "postcss-scss": "^0.1.3"
   },
   "scripts": {
     "test": "ava && eslint index.js test/test.js",
