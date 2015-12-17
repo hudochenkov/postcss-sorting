@@ -53,6 +53,32 @@ p {
 }
 ```
 
+##### Prefixed properties
+
+Prefixed properties may not be in sort order. Plugin will look for unprefixed property and if it find one it will use that property order for prefixed property. It would be better not to write prefixed properties in CSS at all and delegate this job to [Autoprefixer].
+
+Example: `{ "sort-order": [ "position", "-webkit-box-sizing", "box-sizing", "width" ] }`
+
+```css
+/* before */
+div {
+    -moz-box-sizing: border-box;
+    width: 100%;
+    box-sizing: border-box;
+    position: absolute;
+    -webkit-box-sizing: border-box;
+}
+
+/* after */
+div {
+    position: absolute;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 100%;
+}
+```
+
 #### Grouping
 
 Using array of arrays for `sort-order` separate content into groups by empty line.
@@ -289,3 +315,4 @@ This plugin is heavily inspired by [CSSComb]. Some code logic, tests and documen
 [Grunt PostCSS]: https://github.com/nDmitry/grunt-postcss
 [PreCSS]: https://github.com/jonathantneal/precss
 [postcss-scss]: https://github.com/postcss/postcss-scss
+[Autoprefixer]: https://github.com/postcss/autoprefixer

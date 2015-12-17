@@ -180,3 +180,12 @@ test('Should sort at-rules by name', t => {
 test('Should use default config if config is empty', t => {
     return run(t, 'without-specified-config');
 });
+
+test('Should sort prefixed propertyes as unprefixed if first one not in order, but second one in', t => {
+    return run(t, 'prefixed', { 'sort-order': [
+        'position',
+        '-webkit-box-sizing',
+        'box-sizing',
+        'width'
+    ] });
+});

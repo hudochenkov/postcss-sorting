@@ -110,11 +110,18 @@ module.exports = postcss.plugin('postcss-sorting', function (opts) {
                         sortName = '>child';
                     }
 
+                    // Trying to get property indexes from order's list
+                    var orderProperty = order[sortName];
+
+                    // If no property in the list and this property is prefixed then trying to get parameters for unprefixed property
+                    if (!orderProperty && postcss.vendor.prefix(sortName)) {
+                        sortName = postcss.vendor.unprefixed(sortName);
+                        orderProperty = order[sortName];
+                    }
+
                     // If the declaration's property is in order's list, save its
                     // group and property indexes. Otherwise set them to 10000, so
                     // declaration appears at the bottom of a sorted list:
-                    var orderProperty = order[sortName];
-
                     node.groupIndex = orderProperty && orderProperty.group > -1 ? orderProperty.group : lastGroupIndex;
                     node.propertyIndex = orderProperty && orderProperty.prop > -1 ? orderProperty.prop : lastPropertyIndex;
                     node.initialIndex = index;
