@@ -21,11 +21,11 @@ $ npm install postcss-sorting
 
 ## Options
 
-Currently there is only one option.
+Currently, there is only one option.
 
 ### `sort-order`
 
-Set sort order. If no order is set, plugin uses default config.
+Set sort order. If no order is set, the plugin uses default config.
 
 **Note**: Use one of [predefined configs] as an example.
 
@@ -81,7 +81,7 @@ div {
 
 #### Grouping
 
-Using array of arrays for `sort-order` separate content into groups by empty line.
+Using an array of arrays for `sort-order` separate content into groups by an empty line.
 
 Example: `{ "sort-order": [ [ "margin", "padding" ], [ "border", "background" ] ] }`
 
@@ -106,10 +106,10 @@ p {
 
 #### @at-rules
 
-Any @at-rule inside other rule can be sorted. There is some keywords:
+Any @at-rule inside another rule can be sorted. There is some keywords:
 
 * `@atrule` — any at-rule.
-* `@atrulename` — any at-rule with specific name. Ex., `@media` or `@mixin`.
+* `@atrulename` — any at-rule with a specific name. Ex., `@media` or `@mixin`.
 * `@atrulename parameter` — any at-rule with specific name and parameter. Ex., `@mixin clearfix`.
 
 Example: `{ "sort-order": ["@atrule", "@mixin", "border", "@some-rule hello", "@mixin clearfix"] }`
@@ -210,7 +210,7 @@ Example: `{ "sort-order": [ ["$variable"], ["position", "top", "width", "height"
 
 When there are properties that are not mentioned in the `sort-order` option, they are inserted after all the sorted properties in the new group in the same order they were in the source stylesheet.
 
-You can override this by using a “leftovers” token: `...` — just place it either in its own group, or near other properties in any other group and CSSComb would place all the properties that were not sorted where the `...` was in `sort-order`.
+You can override this by using a “leftovers” token: `...` — just place it either in its own group or near other properties in any other group and CSSComb would place all the properties that were not sorted where the `...` was in `sort-order`.
 
 So, with this value:
 
@@ -300,7 +300,7 @@ grunt.initConfig({
 
 ## Thanks
 
-This plugin is heavily inspired by [CSSComb]. Some code logic, tests and documentation parts are taken from this tool.
+This plugin is heavily inspired by [CSSComb]. Some code logic, tests, and documentation parts are taken from this tool.
 
 [PostCSS]: https://github.com/postcss/postcss
 [ci-img]: https://travis-ci.org/hudochenkov/postcss-sorting.svg
