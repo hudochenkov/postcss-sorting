@@ -2,7 +2,7 @@
 
 [PostCSS] plugin to sort rules content with specified order. Heavily inspired by [CSSComb].
 
-[Sublime Text plugin] is available also.
+Also available as [Sublime Text plugin] and [Atom plugin] (unofficial).
 
 ## Features
 
@@ -309,6 +309,7 @@ This plugin is heavily inspired by [CSSComb]. Some code logic, tests, and docume
 [predefined configs]: https://github.com/hudochenkov/postcss-sorting/tree/master/configs
 [predefined config]: https://github.com/hudochenkov/postcss-sorting/tree/master/configs
 [Sublime Text plugin]: https://github.com/hudochenkov/sublime-postcss-sorting
+[Atom plugin]: https://github.com/lysyi3m/atom-postcss-sorting
 
 [CSSComb]: https://github.com/csscomb/csscomb.js
 [Gulp PostCSS]: https://github.com/postcss/gulp-postcss
