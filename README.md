@@ -2,7 +2,7 @@
 
 [PostCSS] plugin to sort rules content with specified order. Heavily inspired by [CSSComb].
 
-Also available as [Sublime Text plugin] and [Atom plugin] (unofficial).
+Also available as [Sublime Text plugin] and unofficial [Atom plugin].
 
 ## Features
 
