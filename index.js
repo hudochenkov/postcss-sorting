@@ -59,7 +59,28 @@ function cleanLineBreaks(node) {
     return node;
 }
 
+function createLineBreaks(lineBreaksCount) {
+    return new Array(lineBreaksCount + 1).join('\n');
+}
+
+function getLinesBetweenChildrenFromOptions(opts) {
+    var options = opts || {};
+    var lines = options['empty-lines-between-children-rules'];
+
+    if (lines === undefined || lines === null) {
+        return 0;
+    }
+
+    if (typeof lines !== 'number' || isNaN(lines) || !isFinite(lines) || lines < 0 || Math.floor(lines) !== lines) {
+        throw new Error('Type of "empty-lines-between-children-rules" option must be integer with positive value.');
+    }
+
+    return lines;
+}
+
 module.exports = postcss.plugin('postcss-sorting', function (opts) {
+    var linesBetweenChildrenRules = getLinesBetweenChildrenFromOptions(opts);
+
     return function (css) {
         var order = getSortOrder(opts);
 
@@ -196,9 +217,14 @@ module.exports = postcss.plugin('postcss-sorting', function (opts) {
 
                     var prevNode = node.prev();
 
-                    if (prevNode && node.groupIndex > prevNode.groupIndex) {
-                        if (node.raws.before) {
-                            node.raws.before = '\n' + node.raws.before;
+                    if (prevNode && node.raws.before) {
+                        if (node.groupIndex > prevNode.groupIndex) {
+                            node.raws.before = createLineBreaks(1) + node.raws.before;
+                        }
+
+                        // Insert empty lines between children classes
+                        if (node.type === 'rule' && prevNode.type === 'rule' && linesBetweenChildrenRules > 0) {
+                            node.raws.before = createLineBreaks(linesBetweenChildrenRules) + node.raws.before;
                         }
                     }
                 });

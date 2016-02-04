@@ -21,7 +21,7 @@ $ npm install postcss-sorting
 
 ## Options
 
-Currently, there is only one option.
+Currently, there is only two options.
 
 ### `sort-order`
 
@@ -238,6 +238,50 @@ everything would go into five groups: variables, then group with `position`, the
 * `yandex`
 
 Example: `{ "sort-order": "zen" }`
+
+### `empty-lines-between-children-rules`
+
+Set number of empty lines between nested children rules. By default there is no empty lines between '>child' rules.
+
+Acceptable value: `{Number}` of empty lines
+
+Example: `{ "empty-lines-between-children-rules": 1, "sort-order": [ ["..."], [">child"] ] }`
+
+```scss
+/* before */
+.block {
+    position: absolute;
+
+    span {
+        display: inline-block;
+    }
+
+
+    &__element {
+        display: none;
+    }
+    &:hover {
+        top: 0;
+    }
+}
+
+/* after */
+.block {
+    position: absolute;
+
+    span {
+        display: inline-block;
+    }
+
+    &__element {
+        display: none;
+    }
+
+    &:hover {
+        top: 0;
+    }
+}
+```
 
 ## Usage
 

@@ -3,3 +3,4 @@ npm-debug.log
 test/**/*.actual.css
 test/**/*.actual.scss
 dev/
+.idea/
