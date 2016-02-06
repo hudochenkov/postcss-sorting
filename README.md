@@ -241,7 +241,7 @@ Example: `{ "sort-order": "zen" }`
 
 ### `empty-lines-between-children-rules`
 
-Set number of empty lines between nested children rules. By default there is no empty lines between '>child' rules.
+Set a number of empty lines between nested children rules. By default there is no empty lines between '>child' rules.
 
 Acceptable value: `{Number}` of empty lines
 
