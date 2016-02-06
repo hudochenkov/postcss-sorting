@@ -27,6 +27,6 @@
   "scripts": {
     "test": "ava && eslint index.js test/test.js",
     "test2": "ava",
-    "lint": "eslint index.js test/test.js"
+    "lint": "eslint index.js test/test.js --fix"
   }
 }

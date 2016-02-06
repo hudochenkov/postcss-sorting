@@ -189,3 +189,13 @@ test('Should sort prefixed propertyes as unprefixed if first one not in order, b
         'width'
     ] });
 });
+
+test('Should insert empty lines between children classes in accordance with option \'empty-lines-between-children-rules\'', t => {
+    return run(t, 'lines-between-children', {
+        'sort-order': [
+            ['...'],
+            ['>child']
+        ],
+        'empty-lines-between-children-rules': 2
+    });
+});
