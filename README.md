@@ -21,7 +21,7 @@ $ npm install postcss-sorting
 
 ## Options
 
-Currently, there is only two options.
+Currently, there are only two options.
 
 ### `sort-order`
 
@@ -55,7 +55,7 @@ p {
 
 ##### Prefixed properties
 
-Prefixed properties may not be in sort order. Plugin will look for unprefixed property and if it find one it will use that property order for prefixed property. It would be better not to write prefixed properties in CSS at all and delegate this job to [Autoprefixer].
+Prefixed properties may not be in sort order. Plugin will look for unprefixed property and if it find one it will use that property order for the prefixed property. It would be better not to write prefixed properties in CSS at all and delegate this job to [Autoprefixer].
 
 Example: `{ "sort-order": [ "position", "-webkit-box-sizing", "box-sizing", "width" ] }`
 
@@ -351,7 +351,6 @@ This plugin is heavily inspired by [CSSComb]. Some code logic, tests, and docume
 [ci]: https://travis-ci.org/hudochenkov/postcss-sorting
 [PostCSS Sorting]: https://github.com/hudochenkov/postcss-sorting
 [predefined configs]: https://github.com/hudochenkov/postcss-sorting/tree/master/configs
-[predefined config]: https://github.com/hudochenkov/postcss-sorting/tree/master/configs
 [Sublime Text plugin]: https://github.com/hudochenkov/sublime-postcss-sorting
 [Atom plugin]: https://github.com/lysyi3m/atom-postcss-sorting
 
