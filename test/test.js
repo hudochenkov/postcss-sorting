@@ -199,3 +199,17 @@ test('Should insert empty lines between children classes in accordance with opti
         'empty-lines-between-children-rules': 2
     });
 });
+
+test('Should collapse lines between one lines group rules with \`smart-group-indent\` option', t => {
+    return run(t, 'smart-group-indent', {
+        'sort-order': [
+            ['display'],
+            ['position'],
+            ['...'],
+            ['font-size'],
+            ['>child']
+        ],
+        'empty-lines-between-children-rules': 1,
+        'smart-group-indent': true
+    });
+});
