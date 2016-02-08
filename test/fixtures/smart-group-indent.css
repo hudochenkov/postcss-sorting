@@ -1,0 +1,30 @@
+div {
+    position: absolute;
+    top: 10px;
+    left: 20px;
+    display: inline-block;
+    font-size: 1.2em;
+}
+
+div {
+    display: inline-block;
+
+
+    span {
+        position: absolute;
+        top: 10px;
+
+
+
+        left: 20px;
+
+
+        display: inline-block;
+
+
+        font-size: 1.2em;
+    }
+
+    font-size: 1.2em;
+    position: absolute;
+}
