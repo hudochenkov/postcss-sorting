@@ -2,7 +2,7 @@ var postcss = require('postcss');
 var path = require('path');
 var fs = require('fs');
 
-function getSortOrder(options) {
+function getSortOrderFromOptions(options) {
     // If no options use default config
     if (options === null || typeof options !== 'object' || !options['sort-order']) {
         options = { 'sort-order': 'default' };
@@ -29,15 +29,8 @@ function getSortOrder(options) {
     // Add sorting indexes to order
     var order = {};
 
-    if (typeof sortOrder[0] === 'string') {
-        sortOrder.forEach(function (prop, propIndex) {
-            order[prop] = {
-                group: 0,
-                prop: propIndex
-            };
-        });
-    } else {
-        sortOrder.forEach(function (group, groupIndex) {
+    (typeof sortOrder[0] === 'string' ? [sortOrder] : sortOrder)
+        .forEach(function (group, groupIndex) {
             group.forEach(function (prop, propIndex) {
                 order[prop] = {
                     group: groupIndex,
@@ -45,22 +38,8 @@ function getSortOrder(options) {
                 };
             });
         });
-    }
 
     return order;
-}
-
-// Replace multiple line breaks with one
-function cleanLineBreaks(node) {
-    if (node.raws.before) {
-        node.raws.before = node.raws.before.replace(/\r\n\s*\r\n/g, '\r\n').replace(/\n\s*\n/g, '\n');
-    }
-
-    return node;
-}
-
-function createLineBreaks(lineBreaksCount) {
-    return new Array(lineBreaksCount + 1).join('\n');
 }
 
 function getLinesBetweenChildrenFromOptions(opts) {
@@ -78,11 +57,113 @@ function getLinesBetweenChildrenFromOptions(opts) {
     return lines;
 }
 
+// Replace multiple line breaks with one
+function cleanLineBreaks(node) {
+    if (node.raws.before) {
+        node.raws.before = node.raws.before.replace(/\r\n\s*\r\n/g, '\r\n').replace(/\n\s*\n/g, '\n');
+    }
+
+    return node;
+}
+
+function createLineBreaks(lineBreaksCount) {
+    return new Array(lineBreaksCount + 1).join('\n');
+}
+
+function getAtruleSortName(node, order) {
+    var atruleName = '@' + node.name;
+
+    // If atRule has a parameter like @mixin name or @include name, sort by this parameter
+    var atruleParameter = /^[\w-]+/.exec(node.params);
+
+    if (atruleParameter && atruleParameter.length) {
+        var sortNameExtended = atruleName + ' ' + atruleParameter[0];
+
+        if (order[sortNameExtended]) {
+            return sortNameExtended;
+        }
+    }
+
+    // If atrule with name is in order use the name
+    if (order[atruleName]) {
+        return atruleName;
+    }
+
+    return '@atrule';
+}
+
+function getSortName(node, order) {
+    switch (node.type) {
+    case 'decl':
+        return /^\$[\w-]+/.test(node.prop) ? '$variable' : node.prop;
+
+    case 'atrule':
+        return getAtruleSortName(node, order);
+
+    case 'rule':
+        return '>child';
+
+    default:
+        return null;
+    }
+}
+
+function getOrderProperty(node, order) {
+    var sortName = getSortName(node, order);
+
+    // Trying to get property indexes from order's list
+    var orderProperty = order[sortName];
+
+    // If no property in the list and this property is prefixed then trying to get parameters for unprefixed property
+    if (!orderProperty && postcss.vendor.prefix(sortName)) {
+        sortName = postcss.vendor.unprefixed(sortName);
+        orderProperty = order[sortName];
+    }
+
+    return orderProperty;
+}
+
+function fetchAllCommentsBeforeNode(comments, previousNode, node) {
+    if (!previousNode || previousNode.type !== 'comment') {
+        return comments;
+    }
+
+    if (!previousNode.raws.before || previousNode.raws.before.indexOf('\n') === -1) {
+        return comments;
+    }
+
+    previousNode.groupIndex = node.groupIndex;
+    previousNode.propertyIndex = node.propertyIndex;
+    previousNode.initialIndex = node.initialIndex - 1;
+
+    var previousNodeClone = cleanLineBreaks(previousNode);
+    var newComments = [previousNodeClone].concat(comments);
+
+    return fetchAllCommentsBeforeNode(newComments, previousNode.prev(), node);
+}
+
+function fetchAllCommentsAfterNode(comments, nextNode, node) {
+    if (!nextNode || nextNode.type !== 'comment') {
+        return comments;
+    }
+
+    if (!nextNode.raws.before || nextNode.raws.before.indexOf('\n') >= 0) {
+        return comments;
+    }
+
+    nextNode.groupIndex = node.groupIndex;
+    nextNode.propertyIndex = node.propertyIndex;
+    nextNode.initialIndex = node.initialIndex + 1;
+
+    return fetchAllCommentsAfterNode(comments.concat(nextNode), nextNode.next(), node);
+}
+
+
 module.exports = postcss.plugin('postcss-sorting', function (opts) {
     var linesBetweenChildrenRules = getLinesBetweenChildrenFromOptions(opts);
 
     return function (css) {
-        var order = getSortOrder(opts);
+        var order = getSortOrderFromOptions(opts);
 
         // Index to place the nodes that shouldn't be sorted
         var lastGroupIndex = order['...'] ? order['...'].group : Infinity;
@@ -96,49 +177,11 @@ module.exports = postcss.plugin('postcss-sorting', function (opts) {
                 var processed = [];
 
                 rule.each(function (node, index) {
-                    var sortName = null;
-
                     if (node.type === 'comment') {
                         return;
-                    } else if (node.type === 'decl') {
-                        sortName = node.prop;
-
-                        // If property start with $ and letters it's a variable
-                        if (/^\$[\w-]+/.test(node.prop)) {
-                            sortName = '$variable';
-                        }
-                    } else if (node.type === 'atrule') {
-                        sortName = '@atrule';
-
-                        // If atrule with name is in order use the name
-                        var atruleName = '@' + node.name;
-
-                        if (order[atruleName]) {
-                            sortName = atruleName;
-                        }
-
-                        // Ff atRule has a parameter like @mixin name or @include name, sort by this parameter
-                        var atruleParameter = /^[\w-]+/.exec(node.params);
-
-                        if (atruleParameter && atruleParameter.length) {
-                            var sortNameExtended = atruleName + ' ' + atruleParameter[0];
-
-                            if (order[sortNameExtended]) {
-                                sortName = sortNameExtended;
-                            }
-                        }
-                    } else if (node.type === 'rule') {
-                        sortName = '>child';
                     }
 
-                    // Trying to get property indexes from order's list
-                    var orderProperty = order[sortName];
-
-                    // If no property in the list and this property is prefixed then trying to get parameters for unprefixed property
-                    if (!orderProperty && postcss.vendor.prefix(sortName)) {
-                        sortName = postcss.vendor.unprefixed(sortName);
-                        orderProperty = order[sortName];
-                    }
+                    var orderProperty = getOrderProperty(node, order);
 
                     // If the declaration's property is in order's list, save its
                     // group and property indexes. Otherwise set them to 10000, so
@@ -148,47 +191,12 @@ module.exports = postcss.plugin('postcss-sorting', function (opts) {
                     node.initialIndex = index;
 
                     // If comment on separate line before node, use node's indexes for comment
-                    var commentsBefore = [];
-                    var previousNode = node.prev();
-
-                    while (previousNode && previousNode.type === 'comment') {
-                        if (previousNode.raws.before && previousNode.raws.before.indexOf('\n') > -1) {
-                            previousNode.groupIndex = node.groupIndex;
-                            previousNode.propertyIndex = node.propertyIndex;
-                            previousNode.initialIndex = index - 1;
-
-                            var previousNodeClone = cleanLineBreaks(previousNode);
-
-                            commentsBefore.unshift(previousNodeClone);
-
-                            previousNode = previousNode.prev();
-                        } else {
-                            break;
-                        }
-                    }
-
-                    if (commentsBefore.length) {
-                        processed = processed.concat(commentsBefore);
-                    }
-
-                    // Add node itself
-                    processed.push(node);
+                    var commentsBefore = fetchAllCommentsBeforeNode([], node.prev(), node);
 
                     // If comment on same line with the node and node, use node's indexes for comment
-                    var nextNode = node.next();
+                    var commentsAfter = fetchAllCommentsAfterNode([], node.next(), node);
 
-                    while (nextNode && nextNode.type === 'comment') {
-                        if (nextNode.raws.before && nextNode.raws.before.indexOf('\n') < 0) {
-                            nextNode.groupIndex = node.groupIndex;
-                            nextNode.propertyIndex = node.propertyIndex;
-                            nextNode.initialIndex = index + 1;
-
-                            processed.push(nextNode);
-                            nextNode = nextNode.next();
-                        } else {
-                            break;
-                        }
-                    }
+                    processed = processed.concat(commentsBefore, node, commentsAfter);
                 });
 
                 // Sort declarations saved for sorting:
@@ -228,7 +236,6 @@ module.exports = postcss.plugin('postcss-sorting', function (opts) {
                         }
                     }
                 });
-
             }
         });
     };
