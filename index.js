@@ -161,6 +161,7 @@ function fetchAllCommentsAfterNode(comments, nextNode, node) {
 
 module.exports = postcss.plugin('postcss-sorting', function (opts) {
     var linesBetweenChildrenRules = getLinesBetweenChildrenFromOptions(opts);
+    var smartGroupIndentation = !!(opts || {})['smart-group-indent'] || false;
 
     return function (css) {
         var order = getSortOrderFromOptions(opts);
@@ -226,7 +227,16 @@ module.exports = postcss.plugin('postcss-sorting', function (opts) {
                     var prevNode = node.prev();
 
                     if (prevNode && node.raws.before) {
-                        if (node.groupIndex > prevNode.groupIndex) {
+                        var nextNode = node.next();
+                        var preventLineBreaking = smartGroupIndentation &&
+                            node.type !== 'rule' &&
+                            prevNode.type !== 'rule' &&
+                            node.groupIndex > prevNode.groupIndex &&
+                            prevNode.propertyIndex === 0 &&
+                            nextNode &&
+                            nextNode.groupIndex !== node.groupIndex;
+
+                        if (node.groupIndex > prevNode.groupIndex && !preventLineBreaking) {
                             node.raws.before = createLineBreaks(1) + node.raws.before;
                         }
 
