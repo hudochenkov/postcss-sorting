@@ -2,12 +2,18 @@ var postcss = require('postcss');
 var path = require('path');
 var fs = require('fs');
 
-function getSortOrderFromOptions(options) {
-    // If no options use default config
-    if (options === null || typeof options !== 'object' || !options['sort-order']) {
-        options = { 'sort-order': 'default' };
+function verifyOptions(options) {
+    if (options === null || typeof options !== 'object') {
+        options = {};
     }
 
+    options['sort-order'] = options['sort-order'] || 'default';
+    options['empty-lines-between-children-rules'] = options['empty-lines-between-children-rules'] || 0;
+
+    return options;
+}
+
+function getSortOrderFromOptions(options) {
     var sortOrder;
 
     if (Array.isArray(options['sort-order'])) {
@@ -42,13 +48,8 @@ function getSortOrderFromOptions(options) {
     return order;
 }
 
-function getLinesBetweenChildrenFromOptions(opts) {
-    var options = opts || {};
+function getLinesBetweenChildrenFromOptions(options) {
     var lines = options['empty-lines-between-children-rules'];
-
-    if (lines === undefined || lines === null) {
-        return 0;
-    }
 
     if (typeof lines !== 'number' || isNaN(lines) || !isFinite(lines) || lines < 0 || Math.floor(lines) !== lines) {
         throw new Error('Type of "empty-lines-between-children-rules" option must be integer with positive value.');
@@ -158,12 +159,13 @@ function fetchAllCommentsAfterNode(comments, nextNode, node) {
     return fetchAllCommentsAfterNode(comments.concat(nextNode), nextNode.next(), node);
 }
 
-
 module.exports = postcss.plugin('postcss-sorting', function (opts) {
-    var linesBetweenChildrenRules = getLinesBetweenChildrenFromOptions(opts);
+    // Verify options and use defaults if not specified
+    opts = verifyOptions(opts);
 
     return function (css) {
         var order = getSortOrderFromOptions(opts);
+        var linesBetweenChildrenRules = getLinesBetweenChildrenFromOptions(opts);
 
         // Index to place the nodes that shouldn't be sorted
         var lastGroupIndex = order['...'] ? order['...'].group : Infinity;
