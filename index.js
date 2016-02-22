@@ -124,7 +124,7 @@ function getOrderProperty(node, order) {
     return orderProperty;
 }
 
-function fetchAllCommentsBeforeNode(comments, previousNode, node) {
+function fetchAllCommentsBeforeNode(comments, previousNode, node, currentInitialIndex) {
     if (!previousNode || previousNode.type !== 'comment') {
         return comments;
     }
@@ -133,17 +133,19 @@ function fetchAllCommentsBeforeNode(comments, previousNode, node) {
         return comments;
     }
 
+    currentInitialIndex = currentInitialIndex || node.initialIndex;
+
     previousNode.groupIndex = node.groupIndex;
     previousNode.propertyIndex = node.propertyIndex;
-    previousNode.initialIndex = node.initialIndex - 1;
+    previousNode.initialIndex = currentInitialIndex - 0.0001;
 
     var previousNodeClone = cleanLineBreaks(previousNode);
     var newComments = [previousNodeClone].concat(comments);
 
-    return fetchAllCommentsBeforeNode(newComments, previousNode.prev(), node);
+    return fetchAllCommentsBeforeNode(newComments, previousNode.prev(), node, previousNode.initialIndex);
 }
 
-function fetchAllCommentsAfterNode(comments, nextNode, node) {
+function fetchAllCommentsAfterNode(comments, nextNode, node, currentInitialIndex) {
     if (!nextNode || nextNode.type !== 'comment') {
         return comments;
     }
@@ -152,11 +154,13 @@ function fetchAllCommentsAfterNode(comments, nextNode, node) {
         return comments;
     }
 
+    currentInitialIndex = currentInitialIndex || node.initialIndex;
+
     nextNode.groupIndex = node.groupIndex;
     nextNode.propertyIndex = node.propertyIndex;
-    nextNode.initialIndex = node.initialIndex + 1;
+    nextNode.initialIndex = currentInitialIndex + 0.0001;
 
-    return fetchAllCommentsAfterNode(comments.concat(nextNode), nextNode.next(), node);
+    return fetchAllCommentsAfterNode(comments.concat(nextNode), nextNode.next(), node, nextNode.initialIndex);
 }
 
 module.exports = postcss.plugin('postcss-sorting', function (opts) {
