@@ -1,6 +1,6 @@
 {
   "name": "postcss-sorting",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "PostCSS plugin to sort rules content with specified order.",
   "keywords": [
     "postcss",
@@ -17,12 +17,12 @@
   },
   "homepage": "https://github.com/hudochenkov/postcss-sorting",
   "dependencies": {
-    "postcss": "^5.0.14"
+    "postcss": "^5.0.16"
   },
   "devDependencies": {
     "ava": "^0.11.0",
     "eslint": "^1.10.2",
-    "postcss-scss": "^0.1.3"
+    "postcss-scss": "^0.1.5"
   },
   "scripts": {
     "test": "ava && eslint index.js test/test.js",
