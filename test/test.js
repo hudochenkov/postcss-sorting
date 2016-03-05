@@ -62,6 +62,10 @@ test('Should work correctly with comments in case of 1 group', t => {
     ] });
 });
 
+test('Should not remove comments in rules if they are only children', t => {
+    return run(t, 'rules-with-comments-only');
+});
+
 test('Should work correctly with one comment in case of 1 group. SCSS syntax', t => {
     return run(t, 'single-group-comment-scss.scss', { 'sort-order': [
         ['border-bottom', 'font-style']

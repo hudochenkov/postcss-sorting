@@ -222,8 +222,10 @@ module.exports = postcss.plugin('postcss-sorting', function (opts) {
                     return a.initialIndex - b.initialIndex;
                 });
 
-                rule.removeAll();
-                rule.append(processed);
+                if (processed.length) {
+                    rule.removeAll();
+                    rule.append(processed);
+                }
 
                 // Remove all empty lines and add empty lines between groups
                 rule.each(function (node) {

@@ -1,0 +1,16 @@
+div {
+    /* comment 1*/
+}
+
+section {
+    /* comment 2 */
+    a {
+        /* comment 3 */
+    }
+}
+
+article {
+    @media (min-width: 300px) {
+        /* comment 4 */
+    }
+}
