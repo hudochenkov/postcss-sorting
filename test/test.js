@@ -22,8 +22,12 @@ function run(t, input, opts = { }, syntax) {
     var inputCSS = fs.readFileSync(inputPath,  'utf8');
     var expectCSS = fs.readFileSync(expectPath,  'utf8');
 
-    if (syntax && syntax === 'scss') {
-        syntax = { syntax: require('postcss-scss') };
+    if (syntax) {
+        if (syntax === 'scss') {
+            syntax = { syntax: require('postcss-scss') };
+        } else if (syntax === 'less') {
+            syntax = { syntax: require('postcss-less') };
+        }
     } else {
         syntax = {};
     }
@@ -206,4 +210,11 @@ test('Should insert empty lines between children classes in accordance with opti
         ],
         'empty-lines-between-children-rules': 2
     });
+});
+
+test.skip('Should sort LESS files', t => {
+    return run(t, 'less.less', {
+        'sort-order': ['...'],
+        'empty-lines-between-children-rules': 1
+    }, 'less');
 });
