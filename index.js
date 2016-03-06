@@ -184,6 +184,10 @@ module.exports = postcss.plugin('postcss-sorting', function (opts) {
 
                 rule.each(function (node, index) {
                     if (node.type === 'comment') {
+                        if (index === 0 && node.raws.before.indexOf('\n') === -1) {
+                            processed.push(node);
+                        }
+
                         return;
                     }
 
