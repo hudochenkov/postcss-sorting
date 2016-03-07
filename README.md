@@ -11,7 +11,7 @@ Also available as [Sublime Text plugin] and unofficial [Atom plugin].
 * Sorting at-rules, also by at-rule name and parameter.
 * Sorting variables.
 * Grouping content.
-* Support CSS, SCSS (if [postcss-scss] parser is used), [PreCSS] and most likely any other syntax added by other PostCSS plugins.
+* Support CSS, SCSS (if [postcss-scss] parser is used), LESS (if [postcss-less] parser is used), [PreCSS] and most likely any other syntax added by other PostCSS plugins.
 
 ## Installation
 
@@ -360,3 +360,4 @@ This plugin is heavily inspired by [CSSComb]. Some code logic, tests, and docume
 [PreCSS]: https://github.com/jonathantneal/precss
 [postcss-scss]: https://github.com/postcss/postcss-scss
 [Autoprefixer]: https://github.com/postcss/autoprefixer
+[postcss-less]: https://github.com/webschik/postcss-less
