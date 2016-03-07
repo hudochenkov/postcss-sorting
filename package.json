@@ -22,7 +22,7 @@
   "devDependencies": {
     "ava": "^0.11.0",
     "eslint": "^1.10.2",
-    "postcss-less": "^0.2.0",
+    "postcss-less": "^0.2.1",
     "postcss-scss": "^0.1.5"
   },
   "scripts": {

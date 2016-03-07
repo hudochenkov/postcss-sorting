@@ -1,18 +1,19 @@
 @base: #f938ab;
 
 .box-shadow(@style, @c) when (iscolor(@c)) {
-  -webkit-box-shadow: @style @c;
-  will-change: transform;
   margin-top: 10px;
+  -webkit-box-shadow: @style @c;
   box-shadow:         @style @c;
+  will-change: transform;
 }
 .box-shadow(@style, @alpha: 50%) when (isnumber(@alpha)) {
   .box-shadow(@style, rgba(0, 0, 0, @alpha));
 }
 .box {
-  color: saturate(@base, 5%);
-  border-color: lighten(@base, 30%);
   margin-bottom: 1px;
+  border-color: lighten(@base, 30%);
+  color: saturate(@base, 5%);
+
   div {
     display: none;
     .box-shadow(0 0 5px, 30%)
@@ -32,10 +33,8 @@ div {
   // numbers are converted into the same units
   @conversion-1: 5cm + 10mm; // result is 6cm
   @conversion-2: 2 - 3cm - 5mm; // result is -1.5cm
-
   // conversion is impossible
   @incompatible-units: 2 + 5px - 3cm; // result is 4px
-
   // example with variables
   @base: 5%;
   @filler: @base * 2; // result is 10%
@@ -49,37 +48,33 @@ div {
 
 // Base class
 .badge {
-  border-radius: @badge-border-radius;
-  font-weight: @badge-font-weight;
-  padding: 3px 7px;
-  font-size: @font-size-small;
-  color: @badge-color;
-  white-space: nowrap;
-  line-height: @badge-line-height;
-  vertical-align: middle;
-  min-width: 10px;
   display: inline-block;
-  text-align: center;
+  padding: 3px 7px;
+  min-width: 10px;
+  border-radius: @badge-border-radius;
   background-color: @badge-bg;
+  color: @badge-color;
+  vertical-align: middle;
+  text-align: center;
+  white-space: nowrap;
+  font-weight: @badge-font-weight;
+  font-size: @font-size-small;
+  line-height: @badge-line-height;
 
   // Empty badges collapse automatically (not available in IE8)
   &:empty {
     display: none;
   }
-
   // Quick fix for badges in buttons
   .btn & {
     position: relative;
     top: -1px;
   }
-
   .btn-xs &,
   .btn-group-xs > .btn & {
-    padding: 1px 5px;
-
     top: 0;
+    padding: 1px 5px;
   }
-
   // Hover state, but only for links
   a& {
     &:hover,
@@ -89,22 +84,18 @@ div {
       cursor: pointer;
     }
   }
-
   // Account for badges in navs
   .list-group-item.active > &,
   .nav-pills > .active > a > & {
-    color: @badge-active-color;
     background-color: @badge-active-bg;
+    color: @badge-active-color;
   }
-
   .list-group-item > & {
     float: right;
   }
-
   .list-group-item > & + & {
     margin-right: 5px;
   }
-
   .nav-pills > li > a > & {
     margin-left: 3px;
   }

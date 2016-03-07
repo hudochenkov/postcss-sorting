@@ -212,9 +212,6 @@ test('Should insert empty lines between children classes in accordance with opti
     });
 });
 
-test.skip('Should sort LESS files', t => {
-    return run(t, 'less.less', {
-        'sort-order': ['...'],
-        'empty-lines-between-children-rules': 1
-    }, 'less');
+test('Should sort LESS files', t => {
+    return run(t, 'less.less', {}, 'less');
 });
