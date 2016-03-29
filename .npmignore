@@ -1,7 +1,9 @@
 .gitignore
+.gitattributes
 
 node_modules/
 npm-debug.log
+.npmignore
 
 test/
 .travis.yml
