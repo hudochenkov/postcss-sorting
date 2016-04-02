@@ -180,6 +180,21 @@ function fetchAllCommentsAfterNode(comments, nextNode, node, currentInitialIndex
     return fetchAllCommentsAfterNode(comments.concat(nextNode), nextNode.next(), node, nextNode.initialIndex);
 }
 
+function getApplicableNode(node) {
+    // find if there any rules before, and skip the comments
+    var prevNode = node.prev();
+
+    if (prevNode.type === 'rule') {
+        return node;
+    }
+
+    if (prevNode.type === 'comment') {
+        return getApplicableNode(prevNode);
+    }
+
+    return false;
+}
+
 module.exports = postcss.plugin('postcss-sorting', function (opts) {
     // Verify options and use defaults if not specified
     opts = verifyOptions(opts);
@@ -258,8 +273,13 @@ module.exports = postcss.plugin('postcss-sorting', function (opts) {
                         }
 
                         // Insert empty lines between children classes
-                        if (node.type === 'rule' && prevNode.type === 'rule' && linesBetweenChildrenRules > 0) {
-                            node.raws.before = createLineBreaks(linesBetweenChildrenRules) + node.raws.before;
+                        if (node.type === 'rule' && linesBetweenChildrenRules > 0) {
+                            // between child rules can be comments, so empty lines should be added to first comment between rules, rather than to rule
+                            var applicableNode = getApplicableNode(node);
+
+                            if (applicableNode) {
+                                applicableNode.raws.before = createLineBreaks(linesBetweenChildrenRules) + applicableNode.raws.before;
+                            }
                         }
                     }
                 });

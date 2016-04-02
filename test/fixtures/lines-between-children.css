@@ -27,3 +27,36 @@
         flex: 0 0 auto;
     }
 }
+
+.block {
+    display: none;
+
+    div {}
+    /* comment 1 */
+    section {}
+
+
+
+
+    article {}
+
+
+
+    /* comment 2 */
+    .child {}
+}
+
+.block {
+    display: none;
+
+    div {}
+    /* comment 1 */
+    section {}
+
+
+
+
+    /* comment 2 */
+    /* comment 3 */
+    .child {}
+}
