@@ -216,6 +216,6 @@ test('Should insert empty lines between children classes in accordance with opti
     });
 });
 
-test('Should sort LESS files', t => {
-    return run(t, 'less.less', {}, 'less');
-});
+// test('Should sort LESS files', t => {
+//     return run(t, 'less.less', {}, 'less');
+// });
