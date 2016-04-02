@@ -124,6 +124,23 @@ function getOrderProperty(node, order) {
     return orderProperty;
 }
 
+function addIndexesToNode(node, index, order) {
+    // Index to place the nodes that shouldn't be sorted
+    var lastGroupIndex = order['...'] ? order['...'].group : Infinity;
+    var lastPropertyIndex = order['...'] ? order['...'].prop : Infinity;
+
+    var orderProperty = getOrderProperty(node, order);
+
+    // If the declaration's property is in order's list, save its
+    // group and property indexes. Otherwise set them to 10000, so
+    // declaration appears at the bottom of a sorted list:
+    node.groupIndex = orderProperty && orderProperty.group > -1 ? orderProperty.group : lastGroupIndex;
+    node.propertyIndex = orderProperty && orderProperty.prop > -1 ? orderProperty.prop : lastPropertyIndex;
+    node.initialIndex = index;
+
+    return node;
+}
+
 function fetchAllCommentsBeforeNode(comments, previousNode, node, currentInitialIndex) {
     if (!previousNode || previousNode.type !== 'comment') {
         return comments;
@@ -171,10 +188,6 @@ module.exports = postcss.plugin('postcss-sorting', function (opts) {
         var order = getSortOrderFromOptions(opts);
         var linesBetweenChildrenRules = getLinesBetweenChildrenFromOptions(opts);
 
-        // Index to place the nodes that shouldn't be sorted
-        var lastGroupIndex = order['...'] ? order['...'].group : Infinity;
-        var lastPropertyIndex = order['...'] ? order['...'].prop : Infinity;
-
         css.walk(function (rule) {
             // Process only rules and atrules with nodes
             if ((rule.type === 'rule' || rule.type === 'atrule') && rule.nodes && rule.nodes.length) {
@@ -193,14 +206,7 @@ module.exports = postcss.plugin('postcss-sorting', function (opts) {
                         return;
                     }
 
-                    var orderProperty = getOrderProperty(node, order);
-
-                    // If the declaration's property is in order's list, save its
-                    // group and property indexes. Otherwise set them to 10000, so
-                    // declaration appears at the bottom of a sorted list:
-                    node.groupIndex = orderProperty && orderProperty.group > -1 ? orderProperty.group : lastGroupIndex;
-                    node.propertyIndex = orderProperty && orderProperty.prop > -1 ? orderProperty.prop : lastPropertyIndex;
-                    node.initialIndex = index;
+                    node = addIndexesToNode(node, index, order);
 
                     // If comment on separate line before node, use node's indexes for comment
                     var commentsBefore = fetchAllCommentsBeforeNode([], node.prev(), node);
