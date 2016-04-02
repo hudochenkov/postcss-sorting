@@ -20,10 +20,10 @@
     "postcss": "^5.0.16"
   },
   "devDependencies": {
-    "ava": "^0.11.0",
+    "ava": "^0.13.0",
     "eslint": "^1.10.2",
-    "postcss-less": "^0.2.1",
-    "postcss-scss": "^0.1.5"
+    "postcss-less": "^0.8.0",
+    "postcss-scss": "^0.1.7"
   },
   "scripts": {
     "test": "ava && eslint index.js test/test.js",
