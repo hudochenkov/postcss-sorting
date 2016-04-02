@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 1.2.3
+* Fixed removing last comments in the rule.
+* Fixed adding empty lines between children rules if there are comments between them.
+
 ## 1.2.2
 * Fixed removing comments in rule if they are only children.
 * Fixed removing of the first comment in the rule if it's not on separate line.
