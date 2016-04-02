@@ -16,6 +16,10 @@
     "url": "https://github.com/hudochenkov/postcss-sorting/issues"
   },
   "homepage": "https://github.com/hudochenkov/postcss-sorting",
+  "files": [
+    "configs",
+    "index.js"
+  ],
   "dependencies": {
     "postcss": "^5.0.16"
   },
