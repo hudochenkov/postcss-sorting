@@ -185,6 +185,8 @@ module.exports = postcss.plugin('postcss-sorting', function (opts) {
                 rule.each(function (node, index) {
                     if (node.type === 'comment') {
                         if (index === 0 && node.raws.before.indexOf('\n') === -1) {
+                            node.ruleComment = true; // need this flag to not append this comment twice
+
                             processed.push(node);
                         }
 
@@ -207,6 +209,13 @@ module.exports = postcss.plugin('postcss-sorting', function (opts) {
                     var commentsAfter = fetchAllCommentsAfterNode([], node.next(), node);
 
                     processed = processed.concat(commentsBefore, node, commentsAfter);
+                });
+
+                // Add last comments in the rule. Need this because last comments are not belonging to anything
+                rule.each(function (node) {
+                    if (node.type === 'comment' && !node.hasOwnProperty('groupIndex') && !node.ruleComment) {
+                        processed.push(node);
+                    }
                 });
 
                 // Sort declarations saved for sorting:

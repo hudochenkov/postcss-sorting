@@ -74,6 +74,10 @@ test('Should not remove first comment in the rule if it\'s not on separate line'
     return run(t, 'first-comment-in-the-rule');
 });
 
+test('Should not remove last comments in the rule', t => {
+    return run(t, 'last-comments');
+});
+
 test('Should work correctly with one comment in case of 1 group. SCSS syntax', t => {
     return run(t, 'single-group-comment-scss.scss', { 'sort-order': [
         ['border-bottom', 'font-style']
