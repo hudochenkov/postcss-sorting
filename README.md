@@ -293,21 +293,22 @@ See [Sublime Text plugin] repository.
 
 #### Gulp
 
-Add [Gulp PostCSS] to your build tool:
+Add [Gulp PostCSS] and PostCSS Sorting to your build tool:
 
 ```bash
-npm install gulp-postcss --save-dev
+npm install gulp-postcss postcss-sorting --save-dev
 ```
 
-Enable [PostCSS Sorting] within your Gulpfile:
+Enable PostCSS Sorting within your Gulpfile:
 
 ```js
 var postcss = require('gulp-postcss');
+var sorting = require('postcss-sorting');
 
 gulp.task('css', function () {
     return gulp.src('./css/src/*.css').pipe(
         postcss([
-            require('postcss-sorting')({ /* options */ })
+            sorting({ /* options */ })
         ])
     ).pipe(
         gulp.dest('./css')
@@ -317,13 +318,13 @@ gulp.task('css', function () {
 
 #### Grunt
 
-Add [Grunt PostCSS] to your build tool:
+Add [Grunt PostCSS] and PostCSS Sorting to your build tool:
 
 ```bash
-npm install grunt-postcss --save-dev
+npm install grunt-postcss postcss-sorting --save-dev
 ```
 
-Enable [PostCSS Sorting] within your Gruntfile:
+Enable PostCSS Sorting within your Gruntfile:
 
 ```js
 grunt.loadNpmTasks('grunt-postcss');
