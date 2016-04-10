@@ -345,7 +345,7 @@ grunt.initConfig({
 
 ## Related tools
 
-If you want format stylesheets, use [perfectionist], also a PostCSS-based tool.
+If you want format stylesheets, use [perfectionist] or [stylefmt], also a PostCSS-based tool.
 
 Don't forget to lint stylesheets with [stylelint]!
 
@@ -369,4 +369,5 @@ This plugin is heavily inspired by [CSSComb]. Some code logic, tests, and docume
 [postcss-scss]: https://github.com/postcss/postcss-scss
 [Autoprefixer]: https://github.com/postcss/autoprefixer
 [perfectionist]: https://github.com/ben-eb/perfectionist
+[stylefmt]: https://github.com/morishitter/stylefmt
 [stylelint]: http://stylelint.io/
