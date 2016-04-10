@@ -21,7 +21,14 @@ $ npm install postcss-sorting
 
 ## Options
 
-Currently, there are only two options.
+### Default options
+
+```json
+{
+    "sort-order": "default",
+    "empty-lines-between-children-rules": 0
+}
+```
 
 ### `sort-order`
 
