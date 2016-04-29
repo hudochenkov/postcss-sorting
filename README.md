@@ -29,6 +29,7 @@ Also available as [Sublime Text plugin], [Atom plugin], and [VS Code plugin].
 		* [Predefined configs](#predefined-configs)
 	* [`empty-lines-between-children-rules`](#empty-lines-between-children-rules)
 	* [`empty-lines-between-media-rules`](#empty-lines-between-media-rules)
+	* [Migration from CSSComb](#migration-from-csscomb)
 * [Usage](#usage)
 	* [Text editor](#text-editor)
 	* [Gulp](#gulp)
@@ -340,6 +341,10 @@ Example: `{ "empty-lines-between-media-rules": 1, "sort-order": ["@media"] }`
 	@media (min-width: 3px) {}
 }
 ```
+
+### Migration from CSSComb
+
+If you used to use custom sorting order in [CSSComb] you can easily use this sorting order in PostCSS Sorting. `sort-order` option in this plugin is compatible with `sort-order` in CSSComb. Just copy `sort-order` value from CSSComb config to PostCSS Sorting config.
 
 ## Usage
 
