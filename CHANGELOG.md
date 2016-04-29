@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 1.3.1
+* Fix adding additional empty line if both `empty-lines-between-children-rules` and `empty-lines-between-media-rules` are not 0. #19
+
 ## 1.3.0
 * Added `empty-lines-between-media-rules` option which set a number of empty lines between nested media rules. #16
 

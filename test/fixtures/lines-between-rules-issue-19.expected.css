@@ -1,0 +1,21 @@
+.color {
+	@mixin coloring;
+
+	color: white;
+
+	@media (--viewport-md) {
+		color: green;
+	}
+
+	@media (--viewport-lg) {
+		color: red;
+	}
+
+	span {
+		color: black;
+	}
+
+	span {
+		color: pink;
+	}
+}

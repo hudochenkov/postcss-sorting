@@ -226,6 +226,19 @@ test('Should insert empty lines between @media rules in accordance with option \
 	});
 });
 
+test('Should not insert additional line between @media and children rules if they have empty lines inside group', t => {
+	return run(t, 'lines-between-rules-issue-19', {
+		"sort-order": [
+			["@mixin"],
+			["..."],
+			["@media"],
+			[">child"]
+		],
+		"empty-lines-between-children-rules": 1,
+		"empty-lines-between-media-rules": 1
+	});
+});
+
 // test('Should sort LESS files', t => {
 //     return run(t, 'less.less', {}, 'less');
 // });
