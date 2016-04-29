@@ -1,63 +1,63 @@
 .platform-organize {
-    background-image: linear-gradient(-45deg, #ff83b2 0%, #da82d8 49%, #b480ff 100%);
+	background-image: linear-gradient(-45deg, #ff83b2 0%, #da82d8 49%, #b480ff 100%);
 
-    &__row {
-        display: flex;
+	&__row {
+		display: flex;
 
-        &:nth-child(2) {
-            flex-direction: row-reverse;
-        }
-
-
-        &:nth-child(3) {
-            &:hover {
-                margin-bottom: 50px;
-            }
-        }
-    }
+		&:nth-child(2) {
+			flex-direction: row-reverse;
+		}
 
 
-    &__row:nth-child(3) &__text {
-        padding-right: 80px;
-        @media (--platform-organize--lap) {
-            padding-right: 0;
-        }
-    }
+		&:nth-child(3) {
+			&:hover {
+				margin-bottom: 50px;
+			}
+		}
+	}
 
 
-    &__media {
-        flex: 0 0 auto;
-    }
+	&__row:nth-child(3) &__text {
+		padding-right: 80px;
+		@media (--platform-organize--lap) {
+			padding-right: 0;
+		}
+	}
+
+
+	&__media {
+		flex: 0 0 auto;
+	}
 }
 
 .block {
-    display: none;
+	display: none;
 
-    div {}
-
-
-    /* comment 1 */
-    section {}
+	div {}
 
 
-    article {}
+	/* comment 1 */
+	section {}
 
 
-    /* comment 2 */
-    .child {}
+	article {}
+
+
+	/* comment 2 */
+	.child {}
 }
 
 .block {
-    display: none;
+	display: none;
 
-    div {}
-
-
-    /* comment 1 */
-    section {}
+	div {}
 
 
-    /* comment 2 */
-    /* comment 3 */
-    .child {}
+	/* comment 1 */
+	section {}
+
+
+	/* comment 2 */
+	/* comment 3 */
+	.child {}
 }

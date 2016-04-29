@@ -1,23 +1,23 @@
 a
 {
-    position: absolute;
-    z-index: 1;
+	position: absolute;
+	z-index: 1;
 
-    leftover: yay;
+	leftover: yay;
 }
 
 b
 {
-    position: absolute;
-    z-index: 2;
+	position: absolute;
+	z-index: 2;
 
-    leftover: yay;
+	leftover: yay;
 }
 
 c
 {
-    position: absolute;
-    z-index: 3;
+	position: absolute;
+	z-index: 3;
 
-    leftover: yay;
+	leftover: yay;
 }

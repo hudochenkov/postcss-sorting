@@ -1,6 +1,6 @@
 .block {
-    @mixin island;
-    border: none;
-    @some-rule hello;
-    @mixin clearfix;
+	@mixin island;
+	border: none;
+	@some-rule hello;
+	@mixin clearfix;
 }

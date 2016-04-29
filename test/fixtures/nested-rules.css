@@ -1,23 +1,23 @@
 .platform-organize-media {
-    &__items {
-        margin-bottom: 24px;
-    }
-    display: inline-block;
-    width: 80px;
-    border: 2px solid #fff;
-    font-size: 12px;
-    &__item {
-    }
-    &__nav-item {
-        display: inline-block;
-        width: 80px;
-        border: 2px solid #fff;
-        font-size: 12px;
-        &:hover {
-            background: rgba(255, 255, 255, .2);
-        }
-        line-height: 26px;
-        cursor: pointer;
-        transition: background .15s;
-    }
+	&__items {
+		margin-bottom: 24px;
+	}
+	display: inline-block;
+	width: 80px;
+	border: 2px solid #fff;
+	font-size: 12px;
+	&__item {
+	}
+	&__nav-item {
+		display: inline-block;
+		width: 80px;
+		border: 2px solid #fff;
+		font-size: 12px;
+		&:hover {
+			background: rgba(255, 255, 255, .2);
+		}
+		line-height: 26px;
+		cursor: pointer;
+		transition: background .15s;
+	}
 }

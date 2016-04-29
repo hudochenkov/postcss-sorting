@@ -1,36 +1,36 @@
 a {
-    $red: tomato;
+	$red: tomato;
 
-    position: $tomato;
+	position: $tomato;
 
-    leftover: yay;
-    border: 1px solid;
+	leftover: yay;
+	border: 1px solid;
 
-    @mixin clearfix;
+	@mixin clearfix;
 
-    font: 20px/16px Arial, sans-serif;
+	font: 20px/16px Arial, sans-serif;
 }
 b {
-    $red: tomato;
+	$red: tomato;
 
-    position: $tomato;
+	position: $tomato;
 
-    leftover: yay;
-    border: 1px solid;
+	leftover: yay;
+	border: 1px solid;
 
-    @mixin clearfix;
+	@mixin clearfix;
 
-    font: 20px/16px Arial, sans-serif;
+	font: 20px/16px Arial, sans-serif;
 }
 c {
-    $red: tomato;
+	$red: tomato;
 
-    position: $tomato;
+	position: $tomato;
 
-    leftover: yay;
-    border: 1px solid;
+	leftover: yay;
+	border: 1px solid;
 
-    @mixin clearfix;
+	@mixin clearfix;
 
-    font: 20px/16px Arial, sans-serif;
+	font: 20px/16px Arial, sans-serif;
 }

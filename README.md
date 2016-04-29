@@ -25,8 +25,8 @@ $ npm install postcss-sorting
 
 ```json
 {
-    "sort-order": "default",
-    "empty-lines-between-children-rules": 0
+	"sort-order": "default",
+	"empty-lines-between-children-rules": 0
 }
 ```
 
@@ -49,14 +49,14 @@ Example: `{ "sort-order": [ "margin", "padding" ] }`
 ```css
 /* before */
 p {
-    padding: 0;
-    margin: 0;
+	padding: 0;
+	margin: 0;
 }
 
 /* after */
 p {
-    margin: 0;
-    padding: 0;
+	margin: 0;
+	padding: 0;
 }
 ```
 
@@ -69,20 +69,20 @@ Example: `{ "sort-order": [ "position", "-webkit-box-sizing", "box-sizing", "wid
 ```css
 /* before */
 div {
-    -moz-box-sizing: border-box;
-    width: 100%;
-    box-sizing: border-box;
-    position: absolute;
-    -webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	width: 100%;
+	box-sizing: border-box;
+	position: absolute;
+	-webkit-box-sizing: border-box;
 }
 
 /* after */
 div {
-    position: absolute;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    width: 100%;
+	position: absolute;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	width: 100%;
 }
 ```
 
@@ -95,19 +95,19 @@ Example: `{ "sort-order": [ [ "margin", "padding" ], [ "border", "background" ] 
 ```css
 /* before */
 p {
-    background: none;
-    border: 0;
-    margin: 0;
-    padding: 0;
+	background: none;
+	border: 0;
+	margin: 0;
+	padding: 0;
 }
 
 /* after */
 p {
-    margin: 0;
-    padding: 0;
+	margin: 0;
+	padding: 0;
 
-    border: 0;
-    background: none;
+	border: 0;
+	background: none;
 }
 ```
 
@@ -124,24 +124,24 @@ Example: `{ "sort-order": ["@atrule", "@mixin", "border", "@some-rule hello", "@
 ```scss
 /* before */
 .block {
-    @some-rule hello;
-    border: none;
-    @mixin clearfix;
-    @media (min-width: 100px) {
-        display: none;
-    }
-    @mixin island;
+	@some-rule hello;
+	border: none;
+	@mixin clearfix;
+	@media (min-width: 100px) {
+		display: none;
+	}
+	@mixin island;
 }
 
 /* after */
 .block {
-    @media (min-width: 100px) {
-        display: none;
-    }
-    @mixin island;
-    border: none;
-    @some-rule hello;
-    @mixin clearfix;
+	@media (min-width: 100px) {
+		display: none;
+	}
+	@mixin island;
+	border: none;
+	@some-rule hello;
+	@mixin clearfix;
 }
 ```
 
@@ -154,33 +154,33 @@ Example: `{ "sort-order": [ ["position", "top", "width"], ['>child'] ] }`
 ```scss
 /* before */
 .block {
-    position: absolute;
+	position: absolute;
 
-    span {
-        display: inline-block;
-    }
+	span {
+		display: inline-block;
+	}
 
-    width: 50%;
+	width: 50%;
 
-    &__element {
-        display: none;
-    }
+	&__element {
+		display: none;
+	}
 
-    top: 0;
+	top: 0;
 }
 
 /* after */
 .block {
-    position: absolute;
-    top: 0;
-    width: 50%;
+	position: absolute;
+	top: 0;
+	width: 50%;
 
-    span {
-        display: inline-block;
-    }
-    &__element {
-        display: none;
-    }
+	span {
+		display: inline-block;
+	}
+	&__element {
+		display: none;
+	}
 }
 ```
 
@@ -193,23 +193,23 @@ Example: `{ "sort-order": [ ["$variable"], ["position", "top", "width", "height"
 ```scss
 /* before */
 .block {
-    position: absolute;
-    $width: 10px;
-    top: 0;
-    $height: 20px;
-    height: $height;
-    width: $width;
+	position: absolute;
+	$width: 10px;
+	top: 0;
+	$height: 20px;
+	height: $height;
+	width: $width;
 }
 
 /* after */
 .block {
-    $width: 10px;
-    $height: 20px;
+	$width: 10px;
+	$height: 20px;
 
-    position: absolute;
-    top: 0;
-    width: $width;
-    height: $height;
+	position: absolute;
+	top: 0;
+	width: $width;
+	height: $height;
 }
 ```
 
@@ -223,13 +223,13 @@ So, with this value:
 
 ``` json
 {
-    "sort-order": [
-        ["$variable"],
-        ["position"],
-        ["...", "border"],
-        ["@mixin"],
-        ["font"]
-    ]
+	"sort-order": [
+		["$variable"],
+		["position"],
+		["...", "border"],
+		["@mixin"],
+		["font"]
+	]
 }
 ```
 
@@ -257,36 +257,36 @@ Example: `{ "empty-lines-between-children-rules": 1, "sort-order": [ ["..."], ["
 ```scss
 /* before */
 .block {
-    position: absolute;
+	position: absolute;
 
-    span {
-        display: inline-block;
-    }
+	span {
+		display: inline-block;
+	}
 
 
-    &__element {
-        display: none;
-    }
-    &:hover {
-        top: 0;
-    }
+	&__element {
+		display: none;
+	}
+	&:hover {
+		top: 0;
+	}
 }
 
 /* after */
 .block {
-    position: absolute;
+	position: absolute;
 
-    span {
-        display: inline-block;
-    }
+	span {
+		display: inline-block;
+	}
 
-    &__element {
-        display: none;
-    }
+	&__element {
+		display: none;
+	}
 
-    &:hover {
-        top: 0;
-    }
+	&:hover {
+		top: 0;
+	}
 }
 ```
 
@@ -313,13 +313,13 @@ var postcss = require('gulp-postcss');
 var sorting = require('postcss-sorting');
 
 gulp.task('css', function () {
-    return gulp.src('./css/src/*.css').pipe(
-        postcss([
-            sorting({ /* options */ })
-        ])
-    ).pipe(
-        gulp.dest('./css')
-    );
+	return gulp.src('./css/src/*.css').pipe(
+		postcss([
+			sorting({ /* options */ })
+		])
+	).pipe(
+		gulp.dest('./css')
+	);
 });
 ```
 
@@ -337,16 +337,16 @@ Enable PostCSS Sorting within your Gruntfile:
 grunt.loadNpmTasks('grunt-postcss');
 
 grunt.initConfig({
-    postcss: {
-        options: {
-            processors: [
-                require('postcss-sorting')({ /* options */ })
-            ]
-        },
-        dist: {
-            src: 'css/*.css'
-        }
-    }
+	postcss: {
+		options: {
+			processors: [
+				require('postcss-sorting')({ /* options */ })
+			]
+		},
+		dist: {
+			src: 'css/*.css'
+		}
+	}
 });
 ```
 
