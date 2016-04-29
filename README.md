@@ -26,7 +26,8 @@ $ npm install postcss-sorting
 ```json
 {
 	"sort-order": "default",
-	"empty-lines-between-children-rules": 0
+	"empty-lines-between-children-rules": 0,
+	"empty-lines-between-media-rules": 0
 }
 ```
 
@@ -248,7 +249,7 @@ Example: `{ "sort-order": "zen" }`
 
 ### `empty-lines-between-children-rules`
 
-Set a number of empty lines between nested children rules. By default there is no empty lines between '>child' rules.
+Set a number of empty lines between nested children rules. By default there is no empty lines between `>child` rules.
 
 Acceptable value: `{Number}` of empty lines
 
@@ -287,6 +288,34 @@ Example: `{ "empty-lines-between-children-rules": 1, "sort-order": [ ["..."], ["
 	&:hover {
 		top: 0;
 	}
+}
+```
+
+### `empty-lines-between-media-rules`
+
+Set a number of empty lines between nested media rules. By default there is no empty lines between `@media` rules.
+
+Acceptable value: `{Number}` of empty lines
+
+Example: `{ "empty-lines-between-media-rules": 1, "sort-order": ["@media"] }`
+
+```scss
+/* before */
+.block {
+	@media (min-width: 1px) {}
+
+
+	@media (min-width: 2px) {}
+	@media (min-width: 3px) {}
+}
+
+/* after */
+.block {
+	@media (min-width: 1px) {}
+
+	@media (min-width: 2px) {}
+
+	@media (min-width: 3px) {}
 }
 ```
 

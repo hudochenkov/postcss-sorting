@@ -9,6 +9,7 @@ function verifyOptions(options) {
 
 	options['sort-order'] = options['sort-order'] || 'default';
 	options['empty-lines-between-children-rules'] = options['empty-lines-between-children-rules'] || 0;
+	options['empty-lines-between-media-rules'] = options['empty-lines-between-media-rules'] || 0;
 
 	return options;
 }
@@ -48,11 +49,11 @@ function getSortOrderFromOptions(options) {
 	return order;
 }
 
-function getLinesBetweenChildrenFromOptions(options) {
-	var lines = options['empty-lines-between-children-rules'];
+function getLinesBetweenRulesFromOptions(name, options) {
+	var lines = options['empty-lines-between-' + name + '-rules'];
 
 	if (typeof lines !== 'number' || isNaN(lines) || !isFinite(lines) || lines < 0 || Math.floor(lines) !== lines) {
-		throw new Error('Type of "empty-lines-between-children-rules" option must be integer with positive value.');
+		throw new Error('Type of "empty-lines-between-' + name + '-rules" option must be integer with positive value.');
 	}
 
 	return lines;
@@ -188,6 +189,10 @@ function getApplicableNode(node) {
 		return node;
 	}
 
+	if (prevNode.type === 'atrule') {
+		return node;
+	}
+
 	if (prevNode.type === 'comment') {
 		return getApplicableNode(prevNode);
 	}
@@ -201,7 +206,8 @@ module.exports = postcss.plugin('postcss-sorting', function (opts) {
 
 	return function (css) {
 		var order = getSortOrderFromOptions(opts);
-		var linesBetweenChildrenRules = getLinesBetweenChildrenFromOptions(opts);
+		var linesBetweenChildrenRules = getLinesBetweenRulesFromOptions('children', opts);
+		var linesBetweenMediaRules = getLinesBetweenRulesFromOptions('media', opts);
 
 		css.walk(function (rule) {
 			// Process only rules and atrules with nodes
@@ -275,13 +281,25 @@ module.exports = postcss.plugin('postcss-sorting', function (opts) {
 							node.raws.before = createLineBreaks(1) + node.raws.before;
 						}
 
+						var applicableNode;
+
 						// Insert empty lines between children classes
 						if (node.type === 'rule' && linesBetweenChildrenRules > 0) {
-							// between child rules can be comments, so empty lines should be added to first comment between rules, rather than to rule
-							var applicableNode = getApplicableNode(node);
+							// between rules can be comments, so empty lines should be added to first comment between rules, rather than to rule
+							applicableNode = getApplicableNode(node);
 
 							if (applicableNode) {
 								applicableNode.raws.before = createLineBreaks(linesBetweenChildrenRules) + applicableNode.raws.before;
+							}
+						}
+
+						// Insert empty lines between media rules
+						if (node.type === 'atrule' && node.name === 'media' && linesBetweenMediaRules > 0) {
+							// between rules can be comments, so empty lines should be added to first comment between rules, rather than to rule
+							applicableNode = getApplicableNode(node);
+
+							if (applicableNode) {
+								applicableNode.raws.before = createLineBreaks(linesBetweenMediaRules) + applicableNode.raws.before;
 							}
 						}
 					}

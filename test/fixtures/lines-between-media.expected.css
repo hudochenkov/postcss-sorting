@@ -1,0 +1,34 @@
+.block {
+	@media (--platform-organize--lap) {
+		padding-right: 0;
+	}
+
+
+	@media (min-width: 900px) {
+		padding-right: 0;
+	}
+}
+.block {
+	@media (--platform-organize--lap) {
+		padding-right: 0;
+	}
+
+
+	@media (min-width: 900px) {
+		padding-right: 0;
+	}
+}
+.block {
+	display: none;
+
+	@media (min-width: 1px) {}
+
+
+	/* comment 1 */
+	@media (min-width: 2px) {}
+
+
+	/* comment 2 */
+	/* comment 3 */
+	@media (min-width: 3px) {}
+}

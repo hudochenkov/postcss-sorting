@@ -216,6 +216,16 @@ test('Should insert empty lines between children classes in accordance with opti
 	});
 });
 
+test('Should insert empty lines between @media rules in accordance with option \'empty-lines-between-media-rules\'', t => {
+	return run(t, 'lines-between-media', {
+		'sort-order': [
+			['...'],
+			['@media']
+		],
+		'empty-lines-between-media-rules': 2
+	});
+});
+
 // test('Should sort LESS files', t => {
 //     return run(t, 'less.less', {}, 'less');
 // });
