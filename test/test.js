@@ -1,8 +1,8 @@
 import postcss from 'postcss';
-import test    from 'ava';
-import fs      from 'fs';
-import path    from 'path';
-import plugin  from '../';
+import test from 'ava';
+import fs from 'fs';
+import path from 'path';
+import plugin from '../';
 
 function run(t, input, opts = { }, syntax) {
 	var dir = './fixtures/';
@@ -15,12 +15,12 @@ function run(t, input, opts = { }, syntax) {
 		inputExt = inputSplitted[1];
 	}
 
-	var inputPath  = path.resolve(dir + inputName + '.' + inputExt);
+	var inputPath = path.resolve(dir + inputName + '.' + inputExt);
 	var expectPath = path.resolve(dir + inputName + '.expected.' + inputExt);
 	var actualPath = path.resolve(dir + inputName + '.actual.' + inputExt);
 
-	var inputCSS = fs.readFileSync(inputPath,  'utf8');
-	var expectCSS = fs.readFileSync(expectPath,  'utf8');
+	var inputCSS = fs.readFileSync(inputPath, 'utf8');
+	var expectCSS = fs.readFileSync(expectPath, 'utf8');
 
 	if (syntax) {
 		if (syntax === 'scss') {
@@ -32,8 +32,8 @@ function run(t, input, opts = { }, syntax) {
 		syntax = {};
 	}
 
-	return postcss([ plugin(opts) ]).process(inputCSS, syntax)
-		.then( result => {
+	return postcss([plugin(opts)]).process(inputCSS, syntax)
+		.then(result => {
 			var actualCSS = result.css;
 
 			fs.writeFileSync(actualPath, actualCSS);
@@ -92,34 +92,34 @@ test('Should work correctly with comments in case of 1 group. SCSS syntax', t =>
 
 test('Should place the leftovers in the end', t => {
 	return run(t, 'leftovers-1', { 'sort-order': [
-		[ 'font' ],
-		[ 'position', 'z-index' ],
-		[ 'display' ]
+		['font'],
+		['position', 'z-index'],
+		['display']
 	] });
 });
 
 test('Should place the leftovers in the beginning', t => {
 	return run(t, 'leftovers-2', { 'sort-order': [
-		[ '...' ],
-		[ 'font' ],
-		[ 'position', 'z-index' ],
-		[ 'display' ]
+		['...'],
+		['font'],
+		['position', 'z-index'],
+		['display']
 	] });
 });
 
 test('Should place the leftovers in the beginning of its group', t => {
 	return run(t, 'leftovers-3', { 'sort-order': [
-		[ 'font' ],
-		[ '...', 'position', 'z-index' ],
-		[ 'display' ]
+		['font'],
+		['...', 'position', 'z-index'],
+		['display']
 	] });
 });
 
 test('Should place the leftovers in the middle of its group', t => {
 	return run(t, 'leftovers-4', { 'sort-order': [
-		[ 'font' ],
-		[ 'position', '...', 'z-index'],
-		[ 'display' ]
+		['font'],
+		['position', '...', 'z-index'],
+		['display']
 	] });
 });
 

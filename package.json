@@ -25,7 +25,7 @@
   },
   "devDependencies": {
     "ava": "^0.13.0",
-    "eslint": "^1.10.2",
+    "eslint": "^2.8.0",
     "postcss-less": "^0.8.0",
     "postcss-scss": "^0.1.7"
   },

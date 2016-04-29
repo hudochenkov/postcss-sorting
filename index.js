@@ -75,7 +75,7 @@ function getAtruleSortName(node, order) {
 	var atruleName = '@' + node.name;
 
 	// If atRule has a parameter like @mixin name or @include name, sort by this parameter
-	var atruleParameter = /^[\w-]+/.exec(node.params);
+	var atruleParameter = (/^[\w-]+/).exec(node.params);
 
 	if (atruleParameter && atruleParameter.length) {
 		var sortNameExtended = atruleName + ' ' + atruleParameter[0];
@@ -96,7 +96,7 @@ function getAtruleSortName(node, order) {
 function getSortName(node, order) {
 	switch (node.type) {
 	case 'decl':
-		return /^\$[\w-]+/.test(node.prop) ? '$variable' : node.prop;
+		return (/^\$[\w-]+/).test(node.prop) ? '$variable' : node.prop;
 
 	case 'atrule':
 		return getAtruleSortName(node, order);
@@ -206,7 +206,6 @@ module.exports = postcss.plugin('postcss-sorting', function (opts) {
 		css.walk(function (rule) {
 			// Process only rules and atrules with nodes
 			if ((rule.type === 'rule' || rule.type === 'atrule') && rule.nodes && rule.nodes.length) {
-
 				// Nodes for sorting
 				var processed = [];
 
@@ -243,12 +242,16 @@ module.exports = postcss.plugin('postcss-sorting', function (opts) {
 				processed.sort(function (a, b) {
 					// If a's group index is higher than b's group index, in a sorted
 					// list a appears after b:
-					if (a.groupIndex !== b.groupIndex) return a.groupIndex - b.groupIndex;
+					if (a.groupIndex !== b.groupIndex) {
+						return a.groupIndex - b.groupIndex;
+					}
 
 					// If a and b have the same group index, and a's property index is
 					// higher than b's property index, in a sorted list a appears after
 					// b:
-					if (a.propertyIndex !== b.propertyIndex) return a.propertyIndex - b.propertyIndex;
+					if (a.propertyIndex !== b.propertyIndex) {
+						return a.propertyIndex - b.propertyIndex;
+					}
 
 					// If a and b have the same group index and the same property index,
 					// in a sorted list they appear in the same order they were in
