@@ -13,6 +13,28 @@ Also available as [Sublime Text plugin], [Atom plugin], and [VS Code plugin].
 * Grouping content.
 * Support CSS, SCSS (if [postcss-scss] parser is used), [PreCSS] and most likely any other syntax added by other PostCSS plugins.
 
+## Table of Contents
+
+* [Installation](#installation)
+* [Options](#options)
+	* [Default options](#default-options)
+	* [`sort-order`](#sort-order)
+		* [Declarations](#declarations)
+			* [Prefixed properties](#prefixed-properties)
+		* [Grouping](#grouping)
+		* [@at-rules](#at-rules)
+		* [Nested rules](#nested-rules)
+		* [Variables](#variables)
+		* [Leftovers](#leftovers)
+		* [Predefined configs](#predefined-configs)
+	* [`empty-lines-between-children-rules`](#empty-lines-between-children-rules)
+	* [`empty-lines-between-media-rules`](#empty-lines-between-media-rules)
+* [Usage](#usage)
+	* [Text editor](#text-editor)
+	* [Gulp](#gulp)
+	* [Grunt](#grunt)
+* [Related tools](#related-tools)
+
 ## Installation
 
 ```bash
@@ -323,9 +345,9 @@ Example: `{ "empty-lines-between-media-rules": 1, "sort-order": ["@media"] }`
 
 See [PostCSS] docs for examples for your environment.
 
-#### Sublime Text
+#### Text editor
 
-See [Sublime Text plugin] repository.
+This plugin available as [Sublime Text plugin], [Atom plugin], and [VS Code plugin].
 
 #### Gulp
 
