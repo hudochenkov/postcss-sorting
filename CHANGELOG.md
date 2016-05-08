@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 1.4.0
+* Added `preserve-empty-lines-between-children-rules`, which preserve empty lines between children rules and preserve empty lines for comments between children rules. #20
+
 ## 1.3.1
 * Fix adding additional empty line if both `empty-lines-between-children-rules` and `empty-lines-between-media-rules` are not 0. #19
 

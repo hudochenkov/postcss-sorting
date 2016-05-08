@@ -10,6 +10,7 @@ function verifyOptions(options) {
 	options['sort-order'] = options['sort-order'] || 'default';
 	options['empty-lines-between-children-rules'] = options['empty-lines-between-children-rules'] || 0;
 	options['empty-lines-between-media-rules'] = options['empty-lines-between-media-rules'] || 0;
+	options['preserve-empty-lines-between-children-rules'] = options['preserve-empty-lines-between-children-rules'] || false;
 
 	return options;
 }
@@ -157,8 +158,7 @@ function fetchAllCommentsBeforeNode(comments, previousNode, node, currentInitial
 	previousNode.propertyIndex = node.propertyIndex;
 	previousNode.initialIndex = currentInitialIndex - 0.0001;
 
-	var previousNodeClone = cleanLineBreaks(previousNode);
-	var newComments = [previousNodeClone].concat(comments);
+	var newComments = [previousNode].concat(comments);
 
 	return fetchAllCommentsBeforeNode(newComments, previousNode.prev(), node, previousNode.initialIndex);
 }
@@ -196,6 +196,16 @@ function getApplicableNode(lookFor, node) {
 	return false;
 }
 
+function countEmptyLines(str) {
+	var lineBreaks = (str.match(/\n/g) || []).length;
+
+	if (lineBreaks > 0) {
+		lineBreaks -= 1;
+	}
+
+	return lineBreaks;
+}
+
 module.exports = postcss.plugin('postcss-sorting', function (opts) {
 	// Verify options and use defaults if not specified
 	opts = verifyOptions(opts);
@@ -204,6 +214,7 @@ module.exports = postcss.plugin('postcss-sorting', function (opts) {
 		var order = getSortOrderFromOptions(opts);
 		var linesBetweenChildrenRules = getLinesBetweenRulesFromOptions('children', opts);
 		var linesBetweenMediaRules = getLinesBetweenRulesFromOptions('media', opts);
+		var preserveLinesBetweenChildren = opts['preserve-empty-lines-between-children-rules'];
 
 		css.walk(function (rule) {
 			// Process only rules and atrules with nodes
@@ -268,7 +279,17 @@ module.exports = postcss.plugin('postcss-sorting', function (opts) {
 
 				// Remove all empty lines and add empty lines between groups
 				rule.each(function (node) {
-					node = cleanLineBreaks(node);
+					// don't remove empty lines if they are should be preserved
+					if (
+						!(
+							preserveLinesBetweenChildren &&
+							(node.type === 'rule' || node.type === 'comment') &&
+							node.prev() &&
+							getApplicableNode('rule', node)
+						)
+					) {
+						node = cleanLineBreaks(node);
+					}
 
 					var prevNode = node.prev();
 
@@ -285,7 +306,16 @@ module.exports = postcss.plugin('postcss-sorting', function (opts) {
 							applicableNode = getApplicableNode('rule', node);
 
 							if (applicableNode) {
-								applicableNode.raws.before = createLineBreaks(linesBetweenChildrenRules) + applicableNode.raws.before;
+								// add lines only if source empty lines not preserved, or if there are less empty lines then should be
+								if (
+									!preserveLinesBetweenChildren ||
+									(
+										preserveLinesBetweenChildren &&
+										countEmptyLines(applicableNode.raws.before) < linesBetweenChildrenRules
+									)
+								) {
+									applicableNode.raws.before = createLineBreaks(linesBetweenChildrenRules) + applicableNode.raws.before;
+								}
 							}
 						}
 

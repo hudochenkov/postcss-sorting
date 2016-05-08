@@ -239,6 +239,19 @@ test('Should not insert additional line between @media and children rules if the
 	});
 });
 
+test('Should preserve empty lines between children rules', t => {
+	return run(t, 'preserve-empty-lines-between-children', {
+		'preserve-empty-lines-between-children-rules': true
+	});
+});
+
+test('Should preserve empty lines between children rules and don\'t create unneeded empty lines if \'empty-lines-between-children-rules\' enabled', t => {
+	return run(t, 'preserve-empty-lines-between-children-2', {
+		'empty-lines-between-children-rules': 1,
+		'preserve-empty-lines-between-children-rules': true
+	});
+});
+
 // test('Should sort LESS files', t => {
 //     return run(t, 'less.less', {}, 'less');
 // });

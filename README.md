@@ -29,6 +29,7 @@ Also available as [Sublime Text plugin], [Atom plugin], and [VS Code plugin].
 		* [Predefined configs](#predefined-configs)
 	* [`empty-lines-between-children-rules`](#empty-lines-between-children-rules)
 	* [`empty-lines-between-media-rules`](#empty-lines-between-media-rules)
+	* [`preserve-empty-lines-between-children-rules`](#preserve-empty-lines-between-children-rules)
 	* [Migration from CSSComb](#migration-from-csscomb)
 * [Usage](#usage)
 	* [Text editor](#text-editor)
@@ -50,7 +51,8 @@ $ npm install postcss-sorting
 {
 	"sort-order": "default",
 	"empty-lines-between-children-rules": 0,
-	"empty-lines-between-media-rules": 0
+	"empty-lines-between-media-rules": 0,
+	"preserve-empty-lines-between-children-rules": false
 }
 ```
 
@@ -339,6 +341,40 @@ Example: `{ "empty-lines-between-media-rules": 1, "sort-order": ["@media"] }`
 	@media (min-width: 2px) {}
 
 	@media (min-width: 3px) {}
+}
+```
+
+### `preserve-empty-lines-between-children-rules`
+
+Preserve empty lines between children rules and preserve empty lines for comments between children rules.
+
+Acceptable value: `true`
+
+Example: `{ "preserve-empty-lines-between-children-rules": true }`
+
+```scss
+/* before */
+.block {
+	&:before {}
+	&:after {}
+
+	.element {}
+
+	/* comment */
+
+	.child {}
+}
+
+/* after (nothing changed) */
+.block {
+	&:before {}
+	&:after {}
+
+	.element {}
+
+	/* comment */
+
+	.child {}
 }
 ```
 

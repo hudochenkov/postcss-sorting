@@ -1,0 +1,27 @@
+.block {
+	div {}
+	/* comment 1 */
+	section {}
+
+
+
+
+	article {}
+
+
+	/* comment 2 */
+
+	.child {}
+}
+.block {
+	div {}
+	/* comment 1 */
+	section {}
+
+
+
+
+	/* comment 2 */
+	/* comment 3 */
+	.child {}
+}
