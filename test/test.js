@@ -252,6 +252,12 @@ test('Should preserve empty lines between children rules and don\'t create unnee
 	});
 });
 
+test('Should not fail if getApplicableNode() receive no node. Issue #21', t => {
+	return run(t, 'issue-21', {
+		'empty-lines-between-children-rules': 1
+	});
+});
+
 // test('Should sort LESS files', t => {
 //     return run(t, 'less.less', {}, 'less');
 // });

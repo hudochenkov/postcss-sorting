@@ -185,12 +185,14 @@ function getApplicableNode(lookFor, node) {
 	// find if there any rules before, and skip the comments
 	var prevNode = node.prev();
 
-	if (prevNode.type === lookFor) {
-		return node;
-	}
+	if (prevNode) {
+		if (prevNode.type === lookFor) {
+			return node;
+		}
 
-	if (prevNode.type === 'comment') {
-		return getApplicableNode(lookFor, prevNode);
+		if (prevNode.type === 'comment') {
+			return getApplicableNode(lookFor, prevNode);
+		}
 	}
 
 	return false;

@@ -1,6 +1,6 @@
 {
   "name": "postcss-sorting",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "PostCSS plugin to sort rules content with specified order.",
   "keywords": [
     "postcss",
