@@ -316,7 +316,7 @@ module.exports = postcss.plugin('postcss-sorting', function (opts) {
 										countEmptyLines(applicableNode.raws.before) < linesBetweenChildrenRules
 									)
 								) {
-									applicableNode.raws.before = createLineBreaks(linesBetweenChildrenRules) + applicableNode.raws.before;
+									applicableNode.raws.before = createLineBreaks(linesBetweenChildrenRules - countEmptyLines(applicableNode.raws.before)) + applicableNode.raws.before;
 								}
 							}
 						}
@@ -327,7 +327,7 @@ module.exports = postcss.plugin('postcss-sorting', function (opts) {
 							applicableNode = getApplicableNode('atrule', node);
 
 							if (applicableNode) {
-								applicableNode.raws.before = createLineBreaks(linesBetweenMediaRules) + applicableNode.raws.before;
+								applicableNode.raws.before = createLineBreaks(linesBetweenMediaRules - countEmptyLines(applicableNode.raws.before)) + applicableNode.raws.before;
 							}
 						}
 					}
