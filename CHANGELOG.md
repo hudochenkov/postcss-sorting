@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 1.5.0
+* Add `empty-lines-before-comment` and `empty-lines-after-comment`, which add empty lines before and after a comment or a group of comments.
+
 ## 1.4.1
 * Fix issue with a rule content starting with a comment and follow by a rule. Error happens if config has any option except `sort-order`. #21
 
