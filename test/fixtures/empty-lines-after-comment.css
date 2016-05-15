@@ -1,0 +1,20 @@
+.hello {
+	display: inline-block;
+	/* upline comment 1 */
+	/* upline comment 2 */
+	font-style: italic;
+	border-bottom: 1px solid red; /* trololo 1 */ /* trololo 2 */
+	/* arrow */
+	&:before {
+		/* yeah */
+		content: "";
+	}
+	/* thing */
+	&:after {
+		/* joy */
+		display: none;
+	}
+	&__element {
+		/* sdfsf */
+	}
+}

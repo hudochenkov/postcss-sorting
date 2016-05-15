@@ -30,6 +30,8 @@ Also available as [Sublime Text plugin], [Atom plugin], and [VS Code plugin].
 	* [`empty-lines-between-children-rules`](#empty-lines-between-children-rules)
 	* [`empty-lines-between-media-rules`](#empty-lines-between-media-rules)
 	* [`preserve-empty-lines-between-children-rules`](#preserve-empty-lines-between-children-rules)
+	* [`empty-lines-before-comment`](#empty-lines-before-comment)
+	* [`empty-lines-after-comment`](#empty-lines-after-comment)
 	* [Migration from CSSComb](#migration-from-csscomb)
 * [Usage](#usage)
 	* [Text editor](#text-editor)
@@ -375,6 +377,130 @@ Example: `{ "preserve-empty-lines-between-children-rules": true }`
 	/* comment */
 
 	.child {}
+}
+```
+
+### `empty-lines-before-comment`
+
+Set a number of empty lines before comment or comments group, which on separate lines. By default, there are no empty lines before comment.
+
+Acceptable value: `{Number}` of empty lines
+
+Example: `{ "empty-lines-before-comment": 2, "sort-order": [ "..." ] }`
+
+```scss
+/* before */
+.hello {
+	display: inline-block;
+	/* upline comment 1 */
+	/* upline comment 2 */
+	font-style: italic;
+	border-bottom: 1px solid red; /* trololo 1 */ /* trololo 2 */
+	/* arrow */
+	&:before {
+		/* yeah */
+		content: "";
+	}
+	/* thing */
+	&:after {
+		/* joy */
+		display: none;
+	}
+	&__element {
+		/* sdfsf */
+	}
+}
+
+/* after */
+.hello {
+	display: inline-block;
+
+
+	/* upline comment 1 */
+	/* upline comment 2 */
+	font-style: italic;
+	border-bottom: 1px solid red; /* trololo 1 */ /* trololo 2 */
+
+
+	/* arrow */
+	&:before {
+		/* yeah */
+		content: "";
+	}
+
+
+	/* thing */
+	&:after {
+		/* joy */
+		display: none;
+	}
+	&__element {
+		/* sdfsf */
+	}
+}
+```
+
+### `empty-lines-after-comment`
+
+Set a number of empty lines after comment or comments group, which on separate lines. By default, there are no empty lines after comment.
+
+Acceptable value: `{Number}` of empty lines
+
+Example: `{ "empty-lines-after-comment": 2, "sort-order": [ "..." ] }`
+
+```scss
+/* before */
+.hello {
+	display: inline-block;
+	/* upline comment 1 */
+	/* upline comment 2 */
+	font-style: italic;
+	border-bottom: 1px solid red; /* trololo 1 */ /* trololo 2 */
+	/* arrow */
+	&:before {
+		/* yeah */
+		content: "";
+	}
+	/* thing */
+	&:after {
+		/* joy */
+		display: none;
+	}
+	&__element {
+		/* sdfsf */
+	}
+}
+
+/* after */
+.hello {
+	display: inline-block;
+	/* upline comment 1 */
+	/* upline comment 2 */
+
+
+	font-style: italic;
+	border-bottom: 1px solid red; /* trololo 1 */ /* trololo 2 */
+	/* arrow */
+
+
+	&:before {
+		/* yeah */
+
+
+		content: "";
+	}
+	/* thing */
+
+
+	&:after {
+		/* joy */
+
+
+		display: none;
+	}
+	&__element {
+		/* sdfsf */
+	}
 }
 ```
 

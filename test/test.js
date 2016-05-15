@@ -258,6 +258,18 @@ test('Should not fail if getApplicableNode() receive no node. Issue #21', t => {
 	});
 });
 
+test('Should add empty lines before comment', t => {
+	return run(t, 'empty-lines-before-comment', {
+		'empty-lines-before-comment': 2
+	});
+});
+
+test('Should add empty lines after comment', t => {
+	return run(t, 'empty-lines-after-comment', {
+		'empty-lines-after-comment': 2
+	});
+});
+
 // test('Should sort LESS files', t => {
 //     return run(t, 'less.less', {}, 'less');
 // });

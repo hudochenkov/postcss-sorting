@@ -11,6 +11,8 @@ function verifyOptions(options) {
 	options['empty-lines-between-children-rules'] = options['empty-lines-between-children-rules'] || 0;
 	options['empty-lines-between-media-rules'] = options['empty-lines-between-media-rules'] || 0;
 	options['preserve-empty-lines-between-children-rules'] = options['preserve-empty-lines-between-children-rules'] || false;
+	options['empty-lines-before-comment'] = options['empty-lines-before-comment'] || 0;
+	options['empty-lines-after-comment'] = options['empty-lines-after-comment'] || 0;
 
 	return options;
 }
@@ -217,6 +219,8 @@ module.exports = postcss.plugin('postcss-sorting', function (opts) {
 		var linesBetweenChildrenRules = getLinesBetweenRulesFromOptions('children', opts);
 		var linesBetweenMediaRules = getLinesBetweenRulesFromOptions('media', opts);
 		var preserveLinesBetweenChildren = opts['preserve-empty-lines-between-children-rules'];
+		var linesBeforeComment = opts['empty-lines-before-comment'];
+		var linesAfterComment = opts['empty-lines-after-comment'];
 
 		css.walk(function (rule) {
 			// Process only rules and atrules with nodes
@@ -329,6 +333,28 @@ module.exports = postcss.plugin('postcss-sorting', function (opts) {
 							if (applicableNode) {
 								applicableNode.raws.before = createLineBreaks(linesBetweenMediaRules - countEmptyLines(applicableNode.raws.before)) + applicableNode.raws.before;
 							}
+						}
+
+						// Insert empty lines before comment
+						if (
+							linesBeforeComment &&
+							node.type === 'comment' &&
+							(prevNode.type !== 'comment' || prevNode.raws.before.indexOf('\n') === -1) && // prevNode it's not a comment or it's an inline comment
+							node.raws.before.indexOf('\n') >= 0 && // this isn't an inline comment
+							countEmptyLines(node.raws.before) < linesBeforeComment
+						) {
+							node.raws.before = createLineBreaks(linesBeforeComment - countEmptyLines(node.raws.before)) + node.raws.before;
+						}
+
+						// Insert empty lines after comment
+						if (
+							linesAfterComment &&
+							node.type !== 'comment' &&
+							prevNode.type === 'comment' &&
+							prevNode.raws.before.indexOf('\n') >= 0 && // this isn't an inline comment
+							countEmptyLines(node.raws.before) < linesAfterComment
+						) {
+							node.raws.before = createLineBreaks(linesAfterComment - countEmptyLines(node.raws.before)) + node.raws.before;
 						}
 					}
 				});
