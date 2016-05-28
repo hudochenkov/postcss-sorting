@@ -9,6 +9,7 @@ function verifyOptions(options) {
 
     options['sort-order'] = options['sort-order'] || 'default';
     options['empty-lines-between-children-rules'] = options['empty-lines-between-children-rules'] || 0;
+    options['group-single-declarations'] = options['group-single-declarations'] || false;
 
     return options;
 }
@@ -198,12 +199,12 @@ function getApplicableNode(node) {
 module.exports = postcss.plugin('postcss-sorting', function (opts) {
     // Verify options and use defaults if not specified
     opts = verifyOptions(opts);
-    // Move to verifyOptions
-    var smartGroupIndentation = !!(opts || {})['smart-group-indent'] || false;
+
 
     return function (css) {
         var order = getSortOrderFromOptions(opts);
         var linesBetweenChildrenRules = getLinesBetweenChildrenFromOptions(opts);
+        var groupSingleDeclarations = opts['group-single-declarations'];
 
         css.walk(function (rule) {
             // Process only rules and atrules with nodes
@@ -263,6 +264,20 @@ module.exports = postcss.plugin('postcss-sorting', function (opts) {
                     rule.append(processed);
                 }
 
+                var propsCountByGroupIndex = groupSingleDeclarations ? processed.reduce(function (result, el) {
+                    if (el.groupIndex === undefined) {
+                        return result;
+                    }
+
+                    if (result[el.groupIndex] === undefined) {
+                        result[el.groupIndex] = 0;
+                    }
+
+                    result[el.groupIndex] += 1;
+
+                    return result;
+                }, {}) : {};
+
                 // Remove all empty lines and add empty lines between groups
                 rule.each(function (node) {
                     node = cleanLineBreaks(node);
@@ -270,14 +285,10 @@ module.exports = postcss.plugin('postcss-sorting', function (opts) {
                     var prevNode = node.prev();
 
                     if (prevNode && node.raws.before) {
-                        var nextNode = node.next();
-                        var preventLineBreaking = smartGroupIndentation &&
-                            node.type !== 'rule' &&
-                            prevNode.type !== 'rule' &&
-                            node.groupIndex > prevNode.groupIndex &&
-                            prevNode.propertyIndex === 0 &&
-                            nextNode &&
-                            nextNode.groupIndex !== node.groupIndex;
+                        var preventLineBreaking = groupSingleDeclarations &&
+                            node.type === 'decl' &&
+                            propsCountByGroupIndex[node.groupIndex] === 1 &&
+                            (!prevNode || propsCountByGroupIndex[prevNode.groupIndex] === 1);
 
                         if (node.groupIndex > prevNode.groupIndex && !preventLineBreaking) {
                             node.raws.before = createLineBreaks(1) + node.raws.before;

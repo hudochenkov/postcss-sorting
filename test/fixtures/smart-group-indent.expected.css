@@ -9,7 +9,8 @@ div {
 }
 
 div {
-    display: inline-block;
+    display: inline-block; /* comment */
+
     position: absolute;
     font-size: 1.2em;
 
@@ -22,4 +23,23 @@ div {
 
         font-size: 1.2em;
     }
+}
+
+div {
+    display: inline-block;
+    position: absolute;
+    top: 10px;
+    font-size: 1.2em;
+}
+
+div {
+    /* display property block comment */
+    display: inline-block;
+
+    /* position property double block comment */
+    /* position property double block comment */
+    position: absolute;
+
+    top: 10px;
+    font-size: 1.2em;
 }

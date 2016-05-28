@@ -7,7 +7,7 @@ div {
 }
 
 div {
-    display: inline-block;
+    display: inline-block; /* comment */
 
 
     span {
@@ -27,4 +27,23 @@ div {
 
     font-size: 1.2em;
     position: absolute;
+}
+
+div {
+    position: absolute;
+    top: 10px;
+    display: inline-block;
+    font-size: 1.2em;
+}
+
+div {
+
+    /* position property double block comment */
+    /* position property double block comment */
+    position: absolute;
+    top: 10px;
+    /* display property block comment */
+    display: inline-block;
+
+    font-size: 1.2em;
 }
