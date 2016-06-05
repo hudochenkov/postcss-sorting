@@ -100,7 +100,7 @@ function getAtruleSortName(node, order) {
 function getSortName(node, order) {
 	switch (node.type) {
 	case 'decl':
-		return (/^\$[\w-]+/).test(node.prop) ? '$variable' : node.prop;
+		return (/^(\$|--)[\w-]+/).test(node.prop) ? '$variable' : node.prop;
 
 	case 'atrule':
 		return getAtruleSortName(node, order);

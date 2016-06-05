@@ -137,7 +137,7 @@ test('Should sort properties divided by nested rules', t => {
 
 test('Should sort variables', t => {
 	return run(t, 'variable', { 'sort-order': [
-		['$variable', 'color']
+		['$variable', '...']
 	] });
 });
 
