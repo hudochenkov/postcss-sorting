@@ -251,8 +251,12 @@ module.exports = postcss.plugin('postcss-sorting', function (opts) {
 				});
 
 				// Add last comments in the rule. Need this because last comments are not belonging to anything
-				rule.each(function (node) {
+				rule.each(function (node, index) {
 					if (node.type === 'comment' && !node.hasOwnProperty('groupIndex') && !node.ruleComment) {
+						node.groupIndex = Infinity;
+						node.propertyIndex = Infinity;
+						node.initialIndex = index;
+
 						processed.push(node);
 					}
 				});

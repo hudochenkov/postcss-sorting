@@ -1,6 +1,21 @@
 div {
 	display: none;
+
 	/* comment 1 */
 	/* comment 2 */
 	/* comment 3 */
+}
+.block {
+    position: absolute;
+    top: 100%;
+    right: 50%;
+
+    /* foo 1 */
+    /* foo 2 */
+    /* foo 3 */
+    /* foo 4 */
+    /* foo 5 */
+    /* foo 6 */
+    /* foo 7 */
+    /* foo 8 */
 }
