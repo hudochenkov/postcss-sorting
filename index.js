@@ -79,7 +79,7 @@ function getAtruleSortName(node, order) {
 	var atruleName = '@' + node.name;
 
 	// If atRule has a parameter like @mixin name or @include name, sort by this parameter
-	var atruleParameter = (/^[\w-]+/).exec(node.params);
+	var atruleParameter = (/^[\w-\(\)]+/).exec(node.params);
 
 	if (atruleParameter && atruleParameter.length) {
 		var sortNameExtended = atruleName + ' ' + atruleParameter[0];
