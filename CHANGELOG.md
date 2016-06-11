@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 1.6.0
+* Add special comments to disable processing for some part in style sheet
+* Support custom properties as $variable #27
+* Fix an issue when there is a lot of comments in the end of a rule #24
+* At-rule parameter now supports parentheses. For example, `@include mwp(1)`. (thanks, @Redknife) #29
+
 ## 1.5.0
 * Add `empty-lines-before-comment` and `empty-lines-after-comment`, which add empty lines before and after a comment or a group of comments.
 
