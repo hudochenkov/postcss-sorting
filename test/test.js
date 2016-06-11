@@ -276,6 +276,20 @@ test('Should add empty lines after comment', t => {
 	});
 });
 
+test('Should disable/enable sorting by special comments', t => {
+	return run(t, 'sorting-disabling', {
+		'sort-order': [
+			[
+				'display',
+				'width'
+			],
+			[
+				'>child'
+			]
+		]
+	});
+});
+
 // test('Should sort LESS files', t => {
 //     return run(t, 'less.less', {}, 'less');
 // });

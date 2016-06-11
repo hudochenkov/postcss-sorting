@@ -221,8 +221,21 @@ module.exports = postcss.plugin('postcss-sorting', function (opts) {
 		var preserveLinesBetweenChildren = opts['preserve-empty-lines-between-children-rules'];
 		var linesBeforeComment = opts['empty-lines-before-comment'];
 		var linesAfterComment = opts['empty-lines-after-comment'];
+		var enableSorting = true;
 
 		css.walk(function (rule) {
+			if (rule.type === 'comment' && rule.parent.type === 'root') {
+				if (rule.text === 'postcss-sorting: on') {
+					enableSorting = true;
+				} else if (rule.text === 'postcss-sorting: off') {
+					enableSorting = false;
+				}
+			}
+
+			if (!enableSorting) {
+				return;
+			}
+
 			// Process only rules and atrules with nodes
 			if ((rule.type === 'rule' || rule.type === 'atrule') && rule.nodes && rule.nodes.length) {
 				// Nodes for sorting

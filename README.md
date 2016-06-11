@@ -32,6 +32,7 @@ Also available as [Sublime Text plugin], [Atom plugin], and [VS Code plugin].
 	* [`preserve-empty-lines-between-children-rules`](#preserve-empty-lines-between-children-rules)
 	* [`empty-lines-before-comment`](#empty-lines-before-comment)
 	* [`empty-lines-after-comment`](#empty-lines-after-comment)
+	* [Disabling in style sheet](#disabling-in-style-sheet)
 	* [Migration from CSSComb](#migration-from-csscomb)
 * [Usage](#usage)
 	* [Text editor](#text-editor)
@@ -501,6 +502,30 @@ Example: `{ "empty-lines-after-comment": 2, "sort-order": [ "..." ] }`
 	&__element {
 		/* sdfsf */
 	}
+}
+```
+
+### Disabling in style sheet
+
+The plugin can be temporarily turned off by using special comments.
+
+```css
+/* postcss-sorting: off */
+.block1 {
+	width: 50px;
+	display: inline-block;
+}
+/* postcss-sorting: on */
+```
+
+Due to plugin nature only comments in the root of stylesheet will affect plugin processing. In this case comments will be treated like regular comments:
+
+```css
+.block5 {
+	/* postcss-sorting: off */
+	width: 20px;
+	display: inline-block;
+	/* postcss-sorting: on */
 }
 ```
 
