@@ -163,6 +163,12 @@ test('Should sort at-rules by their parameter name', t => {
 	] });
 });
 
+test('Should sort at-rules by their parameter name and argument', t => {
+	return run(t, 'at-rules-by-parameter-with-arg', { 'sort-order': [
+		['@mixin', 'border', '@include mwp(1)', '@include mwp(2)', '@include mwp(3)']
+	] });
+});
+
 test('Should preserve indentation', t => {
 	return run(t, 'indent', { 'sort-order': [
 		['...'],

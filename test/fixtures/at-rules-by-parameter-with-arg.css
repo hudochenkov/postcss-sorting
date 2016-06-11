@@ -1,0 +1,7 @@
+.block {
+	@mixin clearfix;
+	@include mwp(3);
+	border: none;
+	@include mwp(2);
+	@include mwp(1);
+}
