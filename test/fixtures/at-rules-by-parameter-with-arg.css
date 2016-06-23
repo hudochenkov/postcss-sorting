@@ -3,5 +3,9 @@
 	@include mwp(3);
 	border: none;
 	@include mwp(2);
+	@include mwp(some-name);
 	@include mwp(1);
+	@include media("<=desk") {
+		display: none;
+	}
 }

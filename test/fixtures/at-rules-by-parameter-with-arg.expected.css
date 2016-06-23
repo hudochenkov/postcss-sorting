@@ -2,6 +2,10 @@
 	@mixin clearfix;
 	border: none;
 	@include mwp(1);
+	@include media("<=desk") {
+		display: none;
+	}
 	@include mwp(2);
 	@include mwp(3);
+	@include mwp(some-name)
 }

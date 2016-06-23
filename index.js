@@ -77,15 +77,28 @@ function createLineBreaks(lineBreaksCount) {
 
 function getAtruleSortName(node, order) {
 	var atruleName = '@' + node.name;
+	var sortNameExtended;
+	var atruleParameter;
 
-	// If atRule has a parameter like @mixin name or @include name, sort by this parameter
-	var atruleParameter = (/^[\w-\(\)]+/).exec(node.params);
+	// If atRule has a parameter like `@mixin name` or `@include name`, sort by this parameter
+	if (node.params) {
+		atruleParameter = node.params;
+		sortNameExtended = atruleName + ' ' + atruleParameter;
 
-	if (atruleParameter && atruleParameter.length) {
-		var sortNameExtended = atruleName + ' ' + atruleParameter[0];
-
+		// check if there is a whole parameter in the config, e. g. `media("<=desk")`
 		if (order[sortNameExtended]) {
 			return sortNameExtended;
+		}
+
+		// check if there is a part of parameter in the config, e. g. `media` from `media("<=desk")`
+		atruleParameter = (/^[\w-]+/).exec(atruleParameter);
+
+		if (atruleParameter && atruleParameter.length) {
+			sortNameExtended = atruleName + ' ' + atruleParameter[0];
+
+			if (order[sortNameExtended]) {
+				return sortNameExtended;
+			}
 		}
 	}
 

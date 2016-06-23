@@ -159,13 +159,27 @@ test('Should sort complex case with leftovers', t => {
 
 test('Should sort at-rules by their parameter name', t => {
 	return run(t, 'at-rules-by-parameter', { 'sort-order': [
-		['@mixin', 'border', '@some-rule hello', '@mixin clearfix']
+		[
+			'@mixin',
+			'border',
+			'@some-rule hello',
+			'@include media(">=palm")',
+			'@mixin clearfix'
+		]
 	] });
 });
 
 test('Should sort at-rules by their parameter name and argument', t => {
 	return run(t, 'at-rules-by-parameter-with-arg', { 'sort-order': [
-		['@mixin', 'border', '@include mwp(1)', '@include mwp(2)', '@include mwp(3)']
+		[
+			'@mixin',
+			'border',
+			'@include mwp(1)',
+			'@include media("<=desk")',
+			'@include mwp(2)',
+			'@include mwp(3)',
+			'@include mwp(some-name)'
+		]
 	] });
 });
 

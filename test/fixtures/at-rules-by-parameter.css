@@ -1,4 +1,7 @@
 .block {
+	@include media(">=palm") {
+		border: 1px solid #000;
+	}
 	@some-rule hello;
 	border: none;
 	@mixin clearfix;
