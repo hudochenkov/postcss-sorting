@@ -272,6 +272,7 @@ everything would go into five groups: variables, then group with `position`, the
 * `zen`
 * `csscomb`
 * `yandex`
+* `smacss`
 
 Example: `{ "sort-order": "zen" }`
 
