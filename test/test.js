@@ -38,8 +38,8 @@ function run(t, input, opts = { }, syntax) {
 
 			fs.writeFileSync(actualPath, actualCSS);
 
-			t.same(result.css, expectCSS);
-			t.same(result.warnings().length, 0);
+			t.deepEqual(result.css, expectCSS);
+			t.deepEqual(result.warnings().length, 0);
 		});
 }
 
