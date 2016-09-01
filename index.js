@@ -112,17 +112,17 @@ function getAtruleSortName(node, order) {
 
 function getSortName(node, order) {
 	switch (node.type) {
-	case 'decl':
-		return (/^(\$|--)[\w-]+/).test(node.prop) ? '$variable' : node.prop;
+		case 'decl':
+			return (/^(\$|--)[\w-]+/).test(node.prop) ? '$variable' : node.prop;
 
-	case 'atrule':
-		return getAtruleSortName(node, order);
+		case 'atrule':
+			return getAtruleSortName(node, order);
 
-	case 'rule':
-		return '>child';
+		case 'rule':
+			return '>child';
 
-	default:
-		return null;
+		default:
+			return null;
 	}
 }
 
