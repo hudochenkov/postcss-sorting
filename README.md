@@ -269,6 +269,7 @@ everything would go into five groups: variables, then group with `position`, the
 [PostCSS Sorting] have [predefined configs]:
 
 * `default`
+* `alphabetical`
 * `zen`
 * `csscomb`
 * `yandex`
