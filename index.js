@@ -1,4 +1,5 @@
 var postcss = require('postcss');
+var objectAssign = require('object-assign');
 var path = require('path');
 var fs = require('fs');
 
@@ -7,14 +8,16 @@ function verifyOptions(options) {
 		options = {};
 	}
 
-	options['sort-order'] = options['sort-order'] || 'default';
-	options['empty-lines-between-children-rules'] = options['empty-lines-between-children-rules'] || 0;
-	options['empty-lines-between-media-rules'] = options['empty-lines-between-media-rules'] || 0;
-	options['preserve-empty-lines-between-children-rules'] = options['preserve-empty-lines-between-children-rules'] || false;
-	options['empty-lines-before-comment'] = options['empty-lines-before-comment'] || 0;
-	options['empty-lines-after-comment'] = options['empty-lines-after-comment'] || 0;
+	var defaultOptions = {
+		'sort-order': 'default',
+		'empty-lines-between-children-rules': 0,
+		'empty-lines-between-media-rules': 0,
+		'preserve-empty-lines-between-children-rules': false,
+		'empty-lines-before-comment': 0,
+		'empty-lines-after-comment': 0,
+	};
 
-	return options;
+	return objectAssign({}, defaultOptions, options);
 }
 
 function getSortOrderFromOptions(options) {

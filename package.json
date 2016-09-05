@@ -21,6 +21,7 @@
     "index.js"
   ],
   "dependencies": {
+    "object-assign": "^4.1.0",
     "postcss": "^5.1.2"
   },
   "devDependencies": {
