@@ -3,6 +3,63 @@ var objectAssign = require('object-assign');
 var path = require('path');
 var fs = require('fs');
 
+module.exports = postcss.plugin('postcss-sorting', function (opts) {
+	return function (css) {
+		plugin(css, opts);
+	};
+});
+
+function plugin(css, opts) {
+	// Verify options and use defaults if not specified
+	opts = verifyOptions(opts);
+
+	var enableSorting = true;
+
+	css.walk(function (node) {
+		if (node.type === 'comment' && node.parent.type === 'root') {
+			if (node.text === 'postcss-sorting: on') {
+				enableSorting = true;
+			} else if (node.text === 'postcss-sorting: off') {
+				enableSorting = false;
+			}
+		}
+
+		if (!enableSorting) {
+			return;
+		}
+
+		// Process only rules and atrules with nodes
+		if ((node.type === 'rule' || node.type === 'atrule') && node.nodes && node.nodes.length) {
+			// Nodes for sorting
+			var processed = [];
+
+			// Add indexes to nodes
+			node.each(function (childNode, index) {
+				processed = processMostNodes(childNode, index, opts, processed);
+			});
+
+			// Add last comments in the rule. Need this because last comments are not belonging to anything
+			node.each(function (childNode, index) {
+				processed = processLastComments(childNode, index, processed);
+			});
+
+			// Sort declarations saved for sorting
+			processed.sort(sortByIndexes);
+
+			// Replace rule content with sorted one
+			if (processed.length) {
+				node.removeAll();
+				node.append(processed);
+			}
+
+			// Taking care of empty lines
+			node.each(function (childNode) {
+				formatNodes(childNode, opts);
+			});
+		}
+	});
+}
+
 function verifyOptions(options) {
 	if (options === null || typeof options !== 'object') {
 		options = {};
@@ -226,172 +283,139 @@ function countEmptyLines(str) {
 	return lineBreaks;
 }
 
-module.exports = postcss.plugin('postcss-sorting', function (opts) {
-	// Verify options and use defaults if not specified
-	opts = verifyOptions(opts);
+function processMostNodes(node, index, opts, processedNodes) {
+	if (node.type === 'comment') {
+		if (index === 0 && node.raws.before.indexOf('\n') === -1) {
+			node.ruleComment = true; // need this flag to not append this comment twice
 
-	return function (css) {
-		var order = getSortOrderFromOptions(opts);
-		var linesBetweenChildrenRules = getLinesBetweenRulesFromOptions('children', opts);
-		var linesBetweenMediaRules = getLinesBetweenRulesFromOptions('media', opts);
-		var preserveLinesBetweenChildren = opts['preserve-empty-lines-between-children-rules'];
-		var linesBeforeComment = opts['empty-lines-before-comment'];
-		var linesAfterComment = opts['empty-lines-after-comment'];
-		var enableSorting = true;
+			return processedNodes.concat(node);
+		}
 
-		css.walk(function (rule) {
-			if (rule.type === 'comment' && rule.parent.type === 'root') {
-				if (rule.text === 'postcss-sorting: on') {
-					enableSorting = true;
-				} else if (rule.text === 'postcss-sorting: off') {
-					enableSorting = false;
+		return processedNodes;
+	}
+
+	var order = getSortOrderFromOptions(opts);
+
+	node = addIndexesToNode(node, index, order);
+
+	// If comment on separate line before node, use node's indexes for comment
+	var commentsBefore = fetchAllCommentsBeforeNode([], node.prev(), node);
+
+	// If comment on same line with the node and node, use node's indexes for comment
+	var commentsAfter = fetchAllCommentsAfterNode([], node.next(), node);
+
+	return processedNodes.concat(commentsBefore, node, commentsAfter);
+}
+
+function processLastComments(node, index, processedNodes) {
+	if (node.type === 'comment' && !node.hasOwnProperty('groupIndex') && !node.ruleComment) {
+		node.groupIndex = Infinity;
+		node.propertyIndex = Infinity;
+		node.initialIndex = index;
+
+		return processedNodes.concat(node);
+	}
+
+	return processedNodes;
+}
+
+function sortByIndexes(a, b) {
+	// If a's group index is higher than b's group index, in a sorted
+	// list a appears after b:
+	if (a.groupIndex !== b.groupIndex) {
+		return a.groupIndex - b.groupIndex;
+	}
+
+	// If a and b have the same group index, and a's property index is
+	// higher than b's property index, in a sorted list a appears after
+	// b:
+	if (a.propertyIndex !== b.propertyIndex) {
+		return a.propertyIndex - b.propertyIndex;
+	}
+
+	// If a and b have the same group index and the same property index,
+	// in a sorted list they appear in the same order they were in
+	// original array:
+	return a.initialIndex - b.initialIndex;
+}
+
+function formatNodes(node, opts) {
+	var linesBetweenChildrenRules = getLinesBetweenRulesFromOptions('children', opts);
+	var linesBetweenMediaRules = getLinesBetweenRulesFromOptions('media', opts);
+	var preserveLinesBetweenChildren = opts['preserve-empty-lines-between-children-rules'];
+	var linesBeforeComment = opts['empty-lines-before-comment'];
+	var linesAfterComment = opts['empty-lines-after-comment'];
+
+	// don't remove empty lines if they are should be preserved
+	if (
+		!(
+			preserveLinesBetweenChildren &&
+			(node.type === 'rule' || node.type === 'comment') &&
+			node.prev() &&
+			getApplicableNode('rule', node)
+		)
+	) {
+		node = cleanLineBreaks(node);
+	}
+
+	var prevNode = node.prev();
+
+	if (prevNode && node.raws.before) {
+		if (node.groupIndex > prevNode.groupIndex) {
+			node.raws.before = createLineBreaks(1) + node.raws.before;
+		}
+
+		var applicableNode;
+
+		// Insert empty lines between children classes
+		if (node.type === 'rule' && linesBetweenChildrenRules > 0) {
+			// between rules can be comments, so empty lines should be added to first comment between rules, rather than to rule
+			applicableNode = getApplicableNode('rule', node);
+
+			if (applicableNode) {
+				// add lines only if source empty lines not preserved, or if there are less empty lines then should be
+				if (
+					!preserveLinesBetweenChildren ||
+					(
+						preserveLinesBetweenChildren &&
+						countEmptyLines(applicableNode.raws.before) < linesBetweenChildrenRules
+					)
+				) {
+					applicableNode.raws.before = createLineBreaks(linesBetweenChildrenRules - countEmptyLines(applicableNode.raws.before)) + applicableNode.raws.before;
 				}
 			}
+		}
 
-			if (!enableSorting) {
-				return;
+		// Insert empty lines between media rules
+		if (node.type === 'atrule' && node.name === 'media' && linesBetweenMediaRules > 0) {
+			// between rules can be comments, so empty lines should be added to first comment between rules, rather than to rule
+			applicableNode = getApplicableNode('atrule', node);
+
+			if (applicableNode) {
+				applicableNode.raws.before = createLineBreaks(linesBetweenMediaRules - countEmptyLines(applicableNode.raws.before)) + applicableNode.raws.before;
 			}
+		}
 
-			// Process only rules and atrules with nodes
-			if ((rule.type === 'rule' || rule.type === 'atrule') && rule.nodes && rule.nodes.length) {
-				// Nodes for sorting
-				var processed = [];
+		// Insert empty lines before comment
+		if (
+			linesBeforeComment &&
+			node.type === 'comment' &&
+			(prevNode.type !== 'comment' || prevNode.raws.before.indexOf('\n') === -1) && // prevNode it's not a comment or it's an inline comment
+			node.raws.before.indexOf('\n') >= 0 && // this isn't an inline comment
+			countEmptyLines(node.raws.before) < linesBeforeComment
+		) {
+			node.raws.before = createLineBreaks(linesBeforeComment - countEmptyLines(node.raws.before)) + node.raws.before;
+		}
 
-				rule.each(function (node, index) {
-					if (node.type === 'comment') {
-						if (index === 0 && node.raws.before.indexOf('\n') === -1) {
-							node.ruleComment = true; // need this flag to not append this comment twice
-
-							processed.push(node);
-						}
-
-						return;
-					}
-
-					node = addIndexesToNode(node, index, order);
-
-					// If comment on separate line before node, use node's indexes for comment
-					var commentsBefore = fetchAllCommentsBeforeNode([], node.prev(), node);
-
-					// If comment on same line with the node and node, use node's indexes for comment
-					var commentsAfter = fetchAllCommentsAfterNode([], node.next(), node);
-
-					processed = processed.concat(commentsBefore, node, commentsAfter);
-				});
-
-				// Add last comments in the rule. Need this because last comments are not belonging to anything
-				rule.each(function (node, index) {
-					if (node.type === 'comment' && !node.hasOwnProperty('groupIndex') && !node.ruleComment) {
-						node.groupIndex = Infinity;
-						node.propertyIndex = Infinity;
-						node.initialIndex = index;
-
-						processed.push(node);
-					}
-				});
-
-				// Sort declarations saved for sorting:
-				processed.sort(function (a, b) {
-					// If a's group index is higher than b's group index, in a sorted
-					// list a appears after b:
-					if (a.groupIndex !== b.groupIndex) {
-						return a.groupIndex - b.groupIndex;
-					}
-
-					// If a and b have the same group index, and a's property index is
-					// higher than b's property index, in a sorted list a appears after
-					// b:
-					if (a.propertyIndex !== b.propertyIndex) {
-						return a.propertyIndex - b.propertyIndex;
-					}
-
-					// If a and b have the same group index and the same property index,
-					// in a sorted list they appear in the same order they were in
-					// original array:
-					return a.initialIndex - b.initialIndex;
-				});
-
-				if (processed.length) {
-					rule.removeAll();
-					rule.append(processed);
-				}
-
-				// Remove all empty lines and add empty lines between groups
-				rule.each(function (node) {
-					// don't remove empty lines if they are should be preserved
-					if (
-						!(
-							preserveLinesBetweenChildren &&
-							(node.type === 'rule' || node.type === 'comment') &&
-							node.prev() &&
-							getApplicableNode('rule', node)
-						)
-					) {
-						node = cleanLineBreaks(node);
-					}
-
-					var prevNode = node.prev();
-
-					if (prevNode && node.raws.before) {
-						if (node.groupIndex > prevNode.groupIndex) {
-							node.raws.before = createLineBreaks(1) + node.raws.before;
-						}
-
-						var applicableNode;
-
-						// Insert empty lines between children classes
-						if (node.type === 'rule' && linesBetweenChildrenRules > 0) {
-							// between rules can be comments, so empty lines should be added to first comment between rules, rather than to rule
-							applicableNode = getApplicableNode('rule', node);
-
-							if (applicableNode) {
-								// add lines only if source empty lines not preserved, or if there are less empty lines then should be
-								if (
-									!preserveLinesBetweenChildren ||
-									(
-										preserveLinesBetweenChildren &&
-										countEmptyLines(applicableNode.raws.before) < linesBetweenChildrenRules
-									)
-								) {
-									applicableNode.raws.before = createLineBreaks(linesBetweenChildrenRules - countEmptyLines(applicableNode.raws.before)) + applicableNode.raws.before;
-								}
-							}
-						}
-
-						// Insert empty lines between media rules
-						if (node.type === 'atrule' && node.name === 'media' && linesBetweenMediaRules > 0) {
-							// between rules can be comments, so empty lines should be added to first comment between rules, rather than to rule
-							applicableNode = getApplicableNode('atrule', node);
-
-							if (applicableNode) {
-								applicableNode.raws.before = createLineBreaks(linesBetweenMediaRules - countEmptyLines(applicableNode.raws.before)) + applicableNode.raws.before;
-							}
-						}
-
-						// Insert empty lines before comment
-						if (
-							linesBeforeComment &&
-							node.type === 'comment' &&
-							(prevNode.type !== 'comment' || prevNode.raws.before.indexOf('\n') === -1) && // prevNode it's not a comment or it's an inline comment
-							node.raws.before.indexOf('\n') >= 0 && // this isn't an inline comment
-							countEmptyLines(node.raws.before) < linesBeforeComment
-						) {
-							node.raws.before = createLineBreaks(linesBeforeComment - countEmptyLines(node.raws.before)) + node.raws.before;
-						}
-
-						// Insert empty lines after comment
-						if (
-							linesAfterComment &&
-							node.type !== 'comment' &&
-							prevNode.type === 'comment' &&
-							prevNode.raws.before.indexOf('\n') >= 0 && // this isn't an inline comment
-							countEmptyLines(node.raws.before) < linesAfterComment
-						) {
-							node.raws.before = createLineBreaks(linesAfterComment - countEmptyLines(node.raws.before)) + node.raws.before;
-						}
-					}
-				});
-			}
-		});
-	};
-});
+		// Insert empty lines after comment
+		if (
+			linesAfterComment &&
+			node.type !== 'comment' &&
+			prevNode.type === 'comment' &&
+			prevNode.raws.before.indexOf('\n') >= 0 && // this isn't an inline comment
+			countEmptyLines(node.raws.before) < linesAfterComment
+		) {
+			node.raws.before = createLineBreaks(linesAfterComment - countEmptyLines(node.raws.before)) + node.raws.before;
+		}
+	}
+}
