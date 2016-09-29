@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 1.7.0
+* Added `smacss` and `alphabetical` predefined configs.
+* Under the hood refactoring.
+
 ## 1.6.1
 * Fixed a regression in 1.6.0. Sort order with item like `@include media` didn't found rules like `@include media(">=desk") {}`.
 
