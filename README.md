@@ -48,6 +48,12 @@ $ npm install postcss-sorting
 
 ## Options
 
+You can pass options when calling the `sorting` function (see [usage](#usage) below). If you're using the postcss CLI, you can specify a configuration file:
+
+```
+$ postcss --config yourconfigfile.json --use postcss-sorting -r file.css
+```
+
 ### Default options
 
 ```json
