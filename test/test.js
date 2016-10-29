@@ -4,7 +4,7 @@ import fs from 'fs';
 import path from 'path';
 import plugin from '../';
 
-function run(t, input, opts = {}, syntax = {}) {
+function run(t, input, opts = {}) {
 	const dir = './fixtures/';
 	const inputSplitted = input.split('.');
 	let inputName = input;
@@ -34,11 +34,7 @@ function run(t, input, opts = {}, syntax = {}) {
 		fs.writeFileSync(expectPath, expectCSS);
 	}
 
-	if (syntax === 'scss') {
-		syntax = { syntax: require('postcss-scss') };
-	}
-
-	return postcss([plugin(opts)]).process(inputCSS, syntax)
+	return postcss([plugin(opts)]).process(inputCSS)
 		.then((result) => {
 			const actualCSS = result.css;
 
@@ -91,14 +87,14 @@ test.skip(
 	(t) => run(t, 'last-comments')
 );
 
-test(
+test.skip(
 	'Should work correctly with one comment in case of 1 group. SCSS syntax',
 	(t) => run(t, 'single-group-comment-scss.scss', { 'sort-order': [
 		['border-bottom', 'font-style']
 	] }, 'scss')
 );
 
-test(
+test.skip(
 	'Should work correctly with comments in case of 1 group. SCSS syntax',
 	(t) => run(t, 'single-group-comments-scss.scss', { 'sort-order': [
 		['border-bottom', 'font-style']
