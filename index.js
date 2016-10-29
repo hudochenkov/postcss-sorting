@@ -1,5 +1,4 @@
 var postcss = require('postcss');
-var objectAssign = require('object-assign');
 var path = require('path');
 var fs = require('fs');
 
@@ -74,7 +73,7 @@ function verifyOptions(options) {
 		'empty-lines-after-comment': 0,
 	};
 
-	return objectAssign({}, defaultOptions, options);
+	return Object.assign({}, defaultOptions, options);
 }
 
 function getSortOrderFromOptions(options) {
@@ -83,7 +82,7 @@ function getSortOrderFromOptions(options) {
 	if (Array.isArray(options['sort-order'])) {
 		sortOrder = options['sort-order'];
 	} else if (typeof options['sort-order'] === 'string') {
-		var configPath = path.join(__dirname, './configs/', options['sort-order']) + '.json';
+		const configPath = `${path.join(__dirname, './configs/', options['sort-order'])}.json`;
 
 		try {
 			sortOrder = fs.readFileSync(configPath);
@@ -113,10 +112,10 @@ function getSortOrderFromOptions(options) {
 }
 
 function getLinesBetweenRulesFromOptions(name, options) {
-	var lines = options['empty-lines-between-' + name + '-rules'];
+	const lines = options[`empty-lines-between-${name}-rules`];
 
 	if (typeof lines !== 'number' || isNaN(lines) || !isFinite(lines) || lines < 0 || Math.floor(lines) !== lines) {
-		throw new Error('Type of "empty-lines-between-' + name + '-rules" option must be integer with positive value.');
+		throw new Error(`Type of "empty-lines-between-${name}-rules" option must be integer with positive value.`);
 	}
 
 	return lines;
@@ -136,14 +135,14 @@ function createLineBreaks(lineBreaksCount) {
 }
 
 function getAtruleSortName(node, order) {
-	var atruleName = '@' + node.name;
+	var atruleName = `@${node.name}`;
 	var sortNameExtended;
 	var atruleParameter;
 
 	// If atRule has a parameter like `@mixin name` or `@include name`, sort by this parameter
 	if (node.params) {
 		atruleParameter = node.params;
-		sortNameExtended = atruleName + ' ' + atruleParameter;
+		sortNameExtended = `${atruleName} ${atruleParameter}`;
 
 		// check if there is a whole parameter in the config, e. g. `media("<=desk")`
 		if (order[sortNameExtended]) {
@@ -154,7 +153,7 @@ function getAtruleSortName(node, order) {
 		atruleParameter = (/^[\w-]+/).exec(atruleParameter);
 
 		if (atruleParameter && atruleParameter.length) {
-			sortNameExtended = atruleName + ' ' + atruleParameter[0];
+			sortNameExtended = `${atruleName} ${atruleParameter[0]}`;
 
 			if (order[sortNameExtended]) {
 				return sortNameExtended;
