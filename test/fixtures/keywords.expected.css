@@ -1,0 +1,38 @@
+a {
+	--width: 10px;
+	display: none;
+}
+
+a {
+	--width: 10px;
+	$height: 20px;
+	display: none;
+}
+
+div {
+	color: tomato;
+	a {
+		color: blue;
+		top: 0;
+	}
+}
+
+div {
+	a {
+		$hello: 10px;
+		color: blue;
+		top: 0;
+	}
+}
+
+a {
+	--width: 10px;
+	$height: 20px;
+	display: none;
+
+	span {}
+
+	span {}
+
+	@media (min-width: 100px) {}
+}

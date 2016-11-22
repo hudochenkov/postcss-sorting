@@ -1,12 +1,36 @@
 a {
-	@extend .something;
-	@mixin hiya {
-		display: none;
-	}
 	@include hello;
+	@extend .something;
 	@include hello {
 		display: block;
 	}
+}
+
+a {
+	@include media('palm') {
+		display: block;
+	}
+	@include media('desk');
+}
+
+a {
+	@include media('palm') {
+		display: block;
+	}
+	@mixin media('palm') {
+		color: red;
+	}
+}
+
+a {
+	@include hello {
+		display: block;
+	}
+	@include hello;
+	@mixin hiya {
+		display: none;
+	}
+	@extend .something;
 	@include media('desk');
 	@include media('palm') {
 		display: block;
@@ -14,31 +38,10 @@ a {
 }
 
 a {
+	@include hello {
+		display: block;
+	}
 	@include hello;
-	@include hello {
-		display: block;
-	}
-}
-
-a {
-	@mixin hiya {
-		display: none;
-	}
-	@include hello {
-		display: block;
-	}
-}
-
-a {
-	@mixin hiya {
-		display: none;
-	}
-	@include media('palm') {
-		display: block;
-	}
-}
-
-a {
 	@extend .something;
 	@mixin hiya {
 		display: none;
@@ -47,10 +50,11 @@ a {
 
 a {
 	@extend .something;
+	@include hello {
+		display: block;
+	}
 	@include hello;
-}
-
-a {
-	@mixin yeap;
-	@mixin nope {}
+	@mixin hiya {
+		display: none;
+	}
 }

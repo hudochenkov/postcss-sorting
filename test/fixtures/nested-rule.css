@@ -1,0 +1,11 @@
+div {
+	color: tomato;
+	--width: 100px;
+	a {
+		color: red;
+		--width: 0;
+		top: 0;
+	}
+	--height: 0;
+	left: 0;
+}

@@ -1,9 +1,0 @@
-.block {
-	@mixin island;
-	border: none;
-	@some-rule hello;
-	@include media(">=palm") {
-		border: 1px solid #000;
-	}
-	@mixin clearfix;
-}

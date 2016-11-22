@@ -1,6 +1,5 @@
-var postcss = require('postcss');
-var path = require('path');
-var fs = require('fs');
+const postcss = require('postcss');
+const _ = require('lodash');
 
 module.exports = postcss.plugin('postcss-sorting', function (opts) {
 	return function (css) {
@@ -9,235 +8,358 @@ module.exports = postcss.plugin('postcss-sorting', function (opts) {
 });
 
 function plugin(css, opts) {
-	// Verify options and use defaults if not specified
-	opts = verifyOptions(opts);
+	if (!validateOptions(opts)) {
+		return;
+	}
 
-	var enableSorting = true;
+	if (opts.order) {
+		const expectedOrder = createExpectedOrder(opts.order);
 
-	css.walk(function (node) {
-		if (node.type === 'comment' && node.parent.type === 'root') {
-			if (node.text === 'postcss-sorting: on') {
-				enableSorting = true;
-			} else if (node.text === 'postcss-sorting: off') {
-				enableSorting = false;
-			}
-		}
+		css.walk(function (node) {
+			// Process only rules and atrules with nodes
+			if (isRuleWithNodes(node)) {
+				// Nodes for sorting
+				let processed = [];
 
-		if (!enableSorting) {
-			return;
-		}
+				// Add indexes to nodes
+				node.each(function (childNode, index) {
+					processed = processMostNodes(childNode, index, expectedOrder, processed);
+				});
 
-		// Process only rules and atrules with nodes
-		if ((node.type === 'rule' || node.type === 'atrule') && node.nodes && node.nodes.length) {
-			// Nodes for sorting
-			var processed = [];
+				// Add last comments in the rule. Need this because last comments are not belonging to anything
+				node.each(function (childNode, index) {
+					processed = processLastComments(childNode, index, processed);
+				});
 
-			// Add indexes to nodes
-			node.each(function (childNode, index) {
-				processed = processMostNodes(childNode, index, opts, processed);
-			});
+				// Sort declarations saved for sorting
+				processed.sort(sortByIndexes);
 
-			// Add last comments in the rule. Need this because last comments are not belonging to anything
-			node.each(function (childNode, index) {
-				processed = processLastComments(childNode, index, processed);
-			});
+				// Enforce semicolon for the last node
+				node.raws.semicolon = true;
 
-			// Sort declarations saved for sorting
-			processed.sort(sortByIndexes);
-
-			// Replace rule content with sorted one
-			if (processed.length) {
+				// Replace rule content with sorted one
 				node.removeAll();
 				node.append(processed);
 			}
+		});
+	}
+}
 
-			// Taking care of empty lines
-			node.each(function (childNode) {
-				formatNodes(childNode, opts);
-			});
+function processMostNodes(node, index, order, processedNodes) {
+	if (node.type === 'comment') {
+		return processedNodes;
+	}
+
+	const nodeOrderData = getOrderData(order, node);
+
+	node.position = nodeOrderData && nodeOrderData.position ? nodeOrderData.position : Infinity;
+	node.initialIndex = index;
+
+	// If comment on separate line before node, use node's indexes for comment
+	const commentsBefore = getAllCommentsBeforeNode([], node.prev(), node);
+
+	// If comment on same line with the node and node, use node's indexes for comment
+	const commentsAfter = getAllCommentsAfterNode([], node.next(), node);
+
+	return processedNodes.concat(commentsBefore, node, commentsAfter);
+}
+
+function validateOptions(options) {
+	if (!_.isPlainObject(options)) {
+		throw new Error('Options should be an object.');
+	}
+
+	if (!_.isUndefined(options.order) && !validateOrder(options.order)) {
+		return false;
+	}
+
+	if (!_.isUndefined(options['properties-order'])) {
+		// placeholder
+	}
+
+	return true;
+}
+
+function validateOrder(options) {
+	// Otherwise, begin checking array options
+	if (!Array.isArray(options)) {
+		return false;
+	}
+
+	// Every item in the array must be a certain string or an object
+	// with a "type" property
+	if (!options.every((item) => {
+		if (_.isString(item)) {
+			return _.includes(['custom-properties', 'dollar-variables', 'declarations', 'rules', 'at-rules'], item);
+		}
+
+		return _.isPlainObject(item) && !_.isUndefined(item.type);
+	})) {
+		return false;
+	}
+
+	const objectItems = options.filter(_.isPlainObject);
+
+	if (!objectItems.every((item) => {
+		let result = true;
+
+		if (item.type !== 'at-rule') {
+			return false;
+		}
+
+		// if parameter is specified, name should be specified also
+		if (!_.isUndefined(item.parameter) && _.isUndefined(item.name)) {
+			return false;
+		}
+
+		if (!_.isUndefined(item.hasBlock)) {
+			result = item.hasBlock === true || item.hasBlock === false;
+		}
+
+		if (!_.isUndefined(item.name)) {
+			result = _.isString(item.name) && item.name.length;
+		}
+
+		if (!_.isUndefined(item.parameter)) {
+			result = (_.isString(item.parameter) && item.parameter.length) || _.isRegExp(item.parameter);
+		}
+
+		return result;
+	})) {
+		return false;
+	}
+
+	return true;
+}
+
+function createExpectedOrder(input) {
+	const order = {};
+	let position = 0;
+
+	input.forEach((item) => {
+		position += 1;
+
+		if (_.isString(item) && item !== 'at-rules') {
+			order[item] = {
+				position
+			};
+		} else {
+			// If it's an object
+			// Currently 'at-rules' only
+
+			// Convert 'at-rules' into extended pattern
+			if (item === 'at-rules') {
+				item = {
+					type: 'at-rule',
+				};
+			}
+
+			// It there are no nodes like that create array for them
+			if (!order[item.type]) {
+				order[item.type] = [];
+			}
+
+			const nodeData = {
+				position,
+			};
+
+			if (item.name) {
+				nodeData.name = item.name;
+			}
+
+			if (item.parameter) {
+				nodeData.parameter = item.parameter;
+
+				if (_.isString(item.parameter)) {
+					nodeData.parameter = new RegExp(item.parameter);
+				}
+			}
+
+			if (item.hasBlock) {
+				nodeData.hasBlock = item.hasBlock;
+			}
+
+			order[item.type].push(nodeData);
 		}
 	});
-}
-
-function verifyOptions(options) {
-	if (options === null || typeof options !== 'object') {
-		options = {};
-	}
-
-	var defaultOptions = {
-		'sort-order': 'default',
-		'empty-lines-between-children-rules': 0,
-		'empty-lines-between-media-rules': 0,
-		'preserve-empty-lines-between-children-rules': false,
-		'empty-lines-before-comment': 0,
-		'empty-lines-after-comment': 0,
-	};
-
-	return Object.assign({}, defaultOptions, options);
-}
-
-function getSortOrderFromOptions(options) {
-	var sortOrder;
-
-	if (Array.isArray(options['sort-order'])) {
-		sortOrder = options['sort-order'];
-	} else if (typeof options['sort-order'] === 'string') {
-		const configPath = `${path.join(__dirname, './configs/', options['sort-order'])}.json`;
-
-		try {
-			sortOrder = fs.readFileSync(configPath);
-			sortOrder = JSON.parse(sortOrder);
-			sortOrder = sortOrder['sort-order'];
-		} catch (error) {
-			return {};
-		}
-	} else {
-		return {};
-	}
-
-	// Add sorting indexes to order
-	var order = {};
-
-	(typeof sortOrder[0] === 'string' ? [sortOrder] : sortOrder)
-		.forEach(function (group, groupIndex) {
-			group.forEach(function (prop, propIndex) {
-				order[prop] = {
-					group: groupIndex,
-					prop: propIndex
-				};
-			});
-		});
 
 	return order;
 }
 
-function getLinesBetweenRulesFromOptions(name, options) {
-	const lines = options[`empty-lines-between-${name}-rules`];
+function getOrderData(expectedOrder, node) {
+	let nodeType;
 
-	if (typeof lines !== 'number' || isNaN(lines) || !isFinite(lines) || lines < 0 || Math.floor(lines) !== lines) {
-		throw new Error(`Type of "empty-lines-between-${name}-rules" option must be integer with positive value.`);
-	}
+	if (node.type === 'decl') {
+		if (isCustomProperty(node.prop)) {
+			nodeType = 'custom-properties';
+		} else if (isDollarVariable(node.prop)) {
+			nodeType = 'dollar-variables';
+		} else if (isStandardSyntaxProperty(node.prop)) {
+			nodeType = 'declarations';
+		}
+	} else if (node.type === 'rule') {
+		nodeType = 'rules';
+	} else if (node.type === 'atrule') {
+		nodeType = {
+			type: 'at-rule',
+			name: node.name,
+			hasBlock: false
+		};
 
-	return lines;
-}
-
-// Replace multiple line breaks with one
-function cleanLineBreaks(node) {
-	if (node.raws.before) {
-		node.raws.before = node.raws.before.replace(/\r\n\s*\r\n/g, '\r\n').replace(/\n\s*\n/g, '\n');
-	}
-
-	return node;
-}
-
-function createLineBreaks(lineBreaksCount) {
-	return new Array(lineBreaksCount + 1).join('\n');
-}
-
-function getAtruleSortName(node, order) {
-	var atruleName = `@${node.name}`;
-	var sortNameExtended;
-	var atruleParameter;
-
-	// If atRule has a parameter like `@mixin name` or `@include name`, sort by this parameter
-	if (node.params) {
-		atruleParameter = node.params;
-		sortNameExtended = `${atruleName} ${atruleParameter}`;
-
-		// check if there is a whole parameter in the config, e. g. `media("<=desk")`
-		if (order[sortNameExtended]) {
-			return sortNameExtended;
+		if (node.nodes && node.nodes.length) {
+			nodeType.hasBlock = true;
 		}
 
-		// check if there is a part of parameter in the config, e. g. `media` from `media("<=desk")`
-		atruleParameter = (/^[\w-]+/).exec(atruleParameter);
+		if (node.params && node.params.length) {
+			nodeType.parameter = node.params;
+		}
 
-		if (atruleParameter && atruleParameter.length) {
-			sortNameExtended = `${atruleName} ${atruleParameter[0]}`;
+		const atRules = expectedOrder['at-rule'];
 
-			if (order[sortNameExtended]) {
-				return sortNameExtended;
+		// Looking for most specified pattern, because it can match many patterns
+		if (atRules && atRules.length) {
+			let prioritizedPattern;
+			let max = 0;
+
+			atRules.forEach(function (pattern) {
+				const priority = calcPatternPriority(pattern, nodeType);
+
+				if (priority > max) {
+					max = priority;
+					prioritizedPattern = pattern;
+				}
+			});
+
+			if (max) {
+				return prioritizedPattern;
 			}
 		}
 	}
 
-	// If atrule with name is in order use the name
-	if (order[atruleName]) {
-		return atruleName;
+	if (expectedOrder[nodeType]) {
+		return expectedOrder[nodeType];
 	}
 
-	return '@atrule';
+	// Return null if there no patterns for that node
+	return null;
 }
 
-function getSortName(node, order) {
-	switch (node.type) {
-		case 'decl':
-			return (/^(\$|--)[\w-]+/).test(node.prop) ? '$variable' : node.prop;
+function calcPatternPriority(pattern, node) {
+	// 0 — it pattern doesn't match
+	// 1 — pattern without `name` and `hasBlock`
+	// 10010 — pattern match `hasBlock`
+	// 10100 — pattern match `name`
+	// 20110 — pattern match `name` and `hasBlock`
+	// 21100 — patter match `name` and `parameter`
+	// 31110 — patter match `name`, `parameter`, and `hasBlock`
 
-		case 'atrule':
-			return getAtruleSortName(node, order);
+	let priority = 0;
 
-		case 'rule':
-			return '>child';
-
-		default:
-			return null;
-	}
-}
-
-function getOrderProperty(node, order) {
-	var sortName = getSortName(node, order);
-
-	// Trying to get property indexes from order's list
-	var orderProperty = order[sortName];
-
-	// If no property in the list and this property is prefixed then trying to get parameters for unprefixed property
-	if (!orderProperty && postcss.vendor.prefix(sortName)) {
-		sortName = postcss.vendor.unprefixed(sortName);
-		orderProperty = order[sortName];
+	// match `hasBlock`
+	if (pattern.hasOwnProperty('hasBlock') && node.hasBlock === pattern.hasBlock) {
+		priority += 10;
+		priority += 10000;
 	}
 
-	return orderProperty;
+	// match `name`
+	if (pattern.hasOwnProperty('name') && node.name === pattern.name) {
+		priority += 100;
+		priority += 10000;
+	}
+
+	// match `name`
+	if (pattern.hasOwnProperty('parameter') && pattern.parameter.test(node.parameter)) {
+		priority += 1100;
+		priority += 10000;
+	}
+
+	// doesn't have `name` and `hasBlock`
+	if (!pattern.hasOwnProperty('hasBlock') && !pattern.hasOwnProperty('name') && !pattern.hasOwnProperty('paremeter')) {
+		priority = 1;
+	}
+
+	// patter has `name` and `hasBlock`, but it doesn't match both properties
+	if (pattern.hasOwnProperty('hasBlock') && pattern.hasOwnProperty('name') && priority < 20000) {
+		priority = 0;
+	}
+
+	// patter has `name` and `parameter`, but it doesn't match both properties
+	if (pattern.hasOwnProperty('name') && pattern.hasOwnProperty('parameter') && priority < 21100) {
+		priority = 0;
+	}
+
+	// patter has `name`, `parameter`, and `hasBlock`, but it doesn't match all properties
+	if (pattern.hasOwnProperty('name') && pattern.hasOwnProperty('parameter') && pattern.hasOwnProperty('hasBlock') && priority < 30000) {
+		priority = 0;
+	}
+
+	return priority;
 }
 
-function addIndexesToNode(node, index, order) {
-	// Index to place the nodes that shouldn't be sorted
-	var lastGroupIndex = order['...'] ? order['...'].group : Infinity;
-	var lastPropertyIndex = order['...'] ? order['...'].prop : Infinity;
-
-	var orderProperty = getOrderProperty(node, order);
-
-	// If the declaration's property is in order's list, save its
-	// group and property indexes. Otherwise set them to 10000, so
-	// declaration appears at the bottom of a sorted list:
-	node.groupIndex = orderProperty && orderProperty.group > -1 ? orderProperty.group : lastGroupIndex;
-	node.propertyIndex = orderProperty && orderProperty.prop > -1 ? orderProperty.prop : lastPropertyIndex;
-	node.initialIndex = index;
-
-	return node;
+function isDollarVariable(property) {
+	return property[0] === '$';
 }
 
-function fetchAllCommentsBeforeNode(comments, previousNode, node, currentInitialIndex) {
+function isCustomProperty(property) {
+	return property.slice(0, 2) === '--';
+}
+
+function isStandardSyntaxProperty(property) {
+	// SCSS var (e.g. $var: x), list (e.g. $list: (x)) or map (e.g. $map: (key:value))
+	if (property[0] === '$') {
+		return false;
+	}
+
+	// Less var (e.g. @var: x)
+	if (property[0] === '@') {
+		return false;
+	}
+
+	// SCSS or Less interpolation
+	if (/#{.+?}|@{.+?}|\$\(.+?\)/.test(property)) {
+		return false;
+	}
+
+	return true;
+}
+
+function sortByIndexes(a, b) {
+	// If a and b have the same group index, and a's property index is
+	// higher than b's property index, in a sorted list a appears after
+	// b:
+	if (a.position !== b.position) {
+		return a.position - b.position;
+	}
+
+	// If a and b have the same group index and the same property index,
+	// in a sorted list they appear in the same order they were in
+	// original array:
+	return a.initialIndex - b.initialIndex;
+}
+
+function getAllCommentsBeforeNode(comments, previousNode, node, currentInitialIndex) {
 	if (!previousNode || previousNode.type !== 'comment') {
 		return comments;
 	}
 
-	if (!previousNode.raws.before || previousNode.raws.before.indexOf('\n') === -1) {
+	if (
+		!previousNode.raws.before ||
+		(previousNode.raws.before.indexOf('\n') === -1 && !previousNode)
+	) {
 		return comments;
 	}
 
 	currentInitialIndex = currentInitialIndex || node.initialIndex;
 
-	previousNode.groupIndex = node.groupIndex;
-	previousNode.propertyIndex = node.propertyIndex;
+	previousNode.position = node.position;
 	previousNode.initialIndex = currentInitialIndex - 0.0001;
 
-	var newComments = [previousNode].concat(comments);
+	const newComments = [previousNode].concat(comments);
 
-	return fetchAllCommentsBeforeNode(newComments, previousNode.prev(), node, previousNode.initialIndex);
+	return getAllCommentsBeforeNode(newComments, previousNode.prev(), node, previousNode.initialIndex);
 }
 
-function fetchAllCommentsAfterNode(comments, nextNode, node, currentInitialIndex) {
+function getAllCommentsAfterNode(comments, nextNode, node, currentInitialIndex) {
 	if (!nextNode || nextNode.type !== 'comment') {
 		return comments;
 	}
@@ -248,68 +370,15 @@ function fetchAllCommentsAfterNode(comments, nextNode, node, currentInitialIndex
 
 	currentInitialIndex = currentInitialIndex || node.initialIndex;
 
-	nextNode.groupIndex = node.groupIndex;
-	nextNode.propertyIndex = node.propertyIndex;
+	nextNode.position = node.position;
 	nextNode.initialIndex = currentInitialIndex + 0.0001;
 
-	return fetchAllCommentsAfterNode(comments.concat(nextNode), nextNode.next(), node, nextNode.initialIndex);
-}
-
-function getApplicableNode(lookFor, node) {
-	// find if there any rules before, and skip the comments
-	var prevNode = node.prev();
-
-	if (prevNode) {
-		if (prevNode.type === lookFor) {
-			return node;
-		}
-
-		if (prevNode.type === 'comment') {
-			return getApplicableNode(lookFor, prevNode);
-		}
-	}
-
-	return false;
-}
-
-function countEmptyLines(str) {
-	var lineBreaks = (str.match(/\n/g) || []).length;
-
-	if (lineBreaks > 0) {
-		lineBreaks -= 1;
-	}
-
-	return lineBreaks;
-}
-
-function processMostNodes(node, index, opts, processedNodes) {
-	if (node.type === 'comment') {
-		if (index === 0 && node.raws.before.indexOf('\n') === -1) {
-			node.ruleComment = true; // need this flag to not append this comment twice
-
-			return processedNodes.concat(node);
-		}
-
-		return processedNodes;
-	}
-
-	var order = getSortOrderFromOptions(opts);
-
-	node = addIndexesToNode(node, index, order);
-
-	// If comment on separate line before node, use node's indexes for comment
-	var commentsBefore = fetchAllCommentsBeforeNode([], node.prev(), node);
-
-	// If comment on same line with the node and node, use node's indexes for comment
-	var commentsAfter = fetchAllCommentsAfterNode([], node.next(), node);
-
-	return processedNodes.concat(commentsBefore, node, commentsAfter);
+	return getAllCommentsAfterNode(comments.concat(nextNode), nextNode.next(), node, nextNode.initialIndex);
 }
 
 function processLastComments(node, index, processedNodes) {
-	if (node.type === 'comment' && !node.hasOwnProperty('groupIndex') && !node.ruleComment) {
-		node.groupIndex = Infinity;
-		node.propertyIndex = Infinity;
+	if (node.type === 'comment' && !node.hasOwnProperty('position')) {
+		node.position = Infinity;
 		node.initialIndex = index;
 
 		return processedNodes.concat(node);
@@ -318,103 +387,6 @@ function processLastComments(node, index, processedNodes) {
 	return processedNodes;
 }
 
-function sortByIndexes(a, b) {
-	// If a's group index is higher than b's group index, in a sorted
-	// list a appears after b:
-	if (a.groupIndex !== b.groupIndex) {
-		return a.groupIndex - b.groupIndex;
-	}
-
-	// If a and b have the same group index, and a's property index is
-	// higher than b's property index, in a sorted list a appears after
-	// b:
-	if (a.propertyIndex !== b.propertyIndex) {
-		return a.propertyIndex - b.propertyIndex;
-	}
-
-	// If a and b have the same group index and the same property index,
-	// in a sorted list they appear in the same order they were in
-	// original array:
-	return a.initialIndex - b.initialIndex;
-}
-
-function formatNodes(node, opts) {
-	var linesBetweenChildrenRules = getLinesBetweenRulesFromOptions('children', opts);
-	var linesBetweenMediaRules = getLinesBetweenRulesFromOptions('media', opts);
-	var preserveLinesBetweenChildren = opts['preserve-empty-lines-between-children-rules'];
-	var linesBeforeComment = opts['empty-lines-before-comment'];
-	var linesAfterComment = opts['empty-lines-after-comment'];
-
-	// don't remove empty lines if they are should be preserved
-	if (
-		!(
-			preserveLinesBetweenChildren &&
-			(node.type === 'rule' || node.type === 'comment') &&
-			node.prev() &&
-			getApplicableNode('rule', node)
-		)
-	) {
-		node = cleanLineBreaks(node);
-	}
-
-	var prevNode = node.prev();
-
-	if (prevNode && node.raws.before) {
-		if (node.groupIndex > prevNode.groupIndex) {
-			node.raws.before = createLineBreaks(1) + node.raws.before;
-		}
-
-		var applicableNode;
-
-		// Insert empty lines between children classes
-		if (node.type === 'rule' && linesBetweenChildrenRules > 0) {
-			// between rules can be comments, so empty lines should be added to first comment between rules, rather than to rule
-			applicableNode = getApplicableNode('rule', node);
-
-			if (applicableNode) {
-				// add lines only if source empty lines not preserved, or if there are less empty lines then should be
-				if (
-					!preserveLinesBetweenChildren ||
-					(
-						preserveLinesBetweenChildren &&
-						countEmptyLines(applicableNode.raws.before) < linesBetweenChildrenRules
-					)
-				) {
-					applicableNode.raws.before = createLineBreaks(linesBetweenChildrenRules - countEmptyLines(applicableNode.raws.before)) + applicableNode.raws.before;
-				}
-			}
-		}
-
-		// Insert empty lines between media rules
-		if (node.type === 'atrule' && node.name === 'media' && linesBetweenMediaRules > 0) {
-			// between rules can be comments, so empty lines should be added to first comment between rules, rather than to rule
-			applicableNode = getApplicableNode('atrule', node);
-
-			if (applicableNode) {
-				applicableNode.raws.before = createLineBreaks(linesBetweenMediaRules - countEmptyLines(applicableNode.raws.before)) + applicableNode.raws.before;
-			}
-		}
-
-		// Insert empty lines before comment
-		if (
-			linesBeforeComment &&
-			node.type === 'comment' &&
-			(prevNode.type !== 'comment' || prevNode.raws.before.indexOf('\n') === -1) && // prevNode it's not a comment or it's an inline comment
-			node.raws.before.indexOf('\n') >= 0 && // this isn't an inline comment
-			countEmptyLines(node.raws.before) < linesBeforeComment
-		) {
-			node.raws.before = createLineBreaks(linesBeforeComment - countEmptyLines(node.raws.before)) + node.raws.before;
-		}
-
-		// Insert empty lines after comment
-		if (
-			linesAfterComment &&
-			node.type !== 'comment' &&
-			prevNode.type === 'comment' &&
-			prevNode.raws.before.indexOf('\n') >= 0 && // this isn't an inline comment
-			countEmptyLines(node.raws.before) < linesAfterComment
-		) {
-			node.raws.before = createLineBreaks(linesAfterComment - countEmptyLines(node.raws.before)) + node.raws.before;
-		}
-	}
+function isRuleWithNodes(node) {
+	return (node.type === 'rule' || node.type === 'atrule') && node.nodes && node.nodes.length;
 }

@@ -1,0 +1,20 @@
+a {
+	$width: 5px;
+	--height: 10px;
+	display: none;
+}
+
+a {
+	$width: 5px;
+	@include hello;
+}
+
+a {
+	$width: 5px;
+	display: none;
+}
+
+a {
+	$width: 5px;
+	--height: 10px;
+}
