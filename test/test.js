@@ -218,12 +218,36 @@ test(
 );
 
 test(
-	'Should sort properties',
+	'Should sort properties (array config)',
 	(t) => run(t, 'properties-simple',
 		{
 			'properties-order': [
 				'position',
+				'top',
+				'display',
 				'z-index',
+			],
+		}
+	)
+);
+
+test(
+	'Should sort properties (array of objects config)',
+	(t) => run(t, 'properties-simple',
+		{
+			'properties-order': [
+				{
+					properties: [
+						'position',
+						'top',
+					]
+				},
+				{
+					properties: [
+						'display',
+						'z-index',
+					]
+				},
 			],
 		}
 	)

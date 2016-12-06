@@ -339,8 +339,17 @@ function createExpectedOrder(input) {
 
 function createExpectedPropertiesOrder(input) {
 	const order = {};
+	let optionsOrder = [];
 
-	input.forEach((property, propertyIndex) => {
+	if (_.isPlainObject(input[0])) {
+		input.forEach((item) => {
+			optionsOrder = optionsOrder.concat(item.properties);
+		});
+	} else {
+		optionsOrder = input;
+	}
+
+	optionsOrder.forEach((property, propertyIndex) => {
 		order[property] = {
 			propertyIndex
 		};
