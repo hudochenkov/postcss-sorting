@@ -45,9 +45,7 @@ function run(t, input, opts = {}) {
 		});
 }
 
-let config;
-
-config = {
+const config = {
 	order: [
 		'declarations',
 		'rules',
@@ -60,13 +58,26 @@ test(
 );
 
 test(
-	`Should not remove first comment in the rule if it's not on separate line`,
+	`Should not remove first comment in the rule if it's not on separate line (order)`,
 	(t) => run(t, 'first-comment-in-the-rule', config)
 );
 
 test(
 	'Should not remove last comments in the rule',
 	(t) => run(t, 'last-comments', config)
+);
+
+test(
+	'Should assign comments before and after nodes correctly (order)',
+	(t) => run(t, 'nodes-comments.css',
+		{
+			order: [
+				'custom-properties',
+				'dollar-variables',
+				'declarations',
+			],
+		}
+	)
 );
 
 test(

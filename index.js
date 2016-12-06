@@ -344,7 +344,7 @@ function getAllCommentsBeforeNode(comments, previousNode, node, currentInitialIn
 
 	if (
 		!previousNode.raws.before ||
-		(previousNode.raws.before.indexOf('\n') === -1 && !previousNode)
+		(previousNode.raws.before.indexOf('\n') === -1 && previousNode.prev())
 	) {
 		return comments;
 	}
