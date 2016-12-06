@@ -216,3 +216,124 @@ test(
 		}
 	)
 );
+
+test(
+	'Should sort properties',
+	(t) => run(t, 'properties-simple',
+		{
+			'properties-order': [
+				'position',
+				'z-index',
+			],
+		}
+	)
+);
+
+test(
+	'Should sort prefixed properties before unprefixed property',
+	(t) => run(t, 'prefixed',
+		{
+			'properties-order': [
+				'position',
+				'-webkit-box-sizing',
+				'box-sizing',
+				'width',
+			],
+		}
+	)
+);
+
+test(
+	'Should assign comments before and after declarations correctly (properties-order)',
+	(t) => run(t, 'properties-comments',
+		{
+			'properties-order': [
+				'border-bottom',
+				'font-style',
+			],
+		}
+	)
+);
+
+test(
+	'Should place the leftovers properties in the end',
+	(t) => run(t, 'leftover-properties-bottom',
+		{
+			'properties-order': [
+				'position',
+				'z-index',
+			],
+		}
+	)
+);
+
+test(
+	'Should preserve order if properties have same name',
+	(t) => run(t, 'properties-have-same-name',
+		{
+			'properties-order': [
+				'position',
+				'z-index',
+			],
+		}
+	)
+);
+
+test(
+	`Should not remove first comment in the rule if it's not on separate line (properties-order)`,
+	(t) => run(t, 'first-comment-in-the-rule',
+		{
+			'properties-order': [
+				'display',
+			],
+		}
+	)
+);
+
+test(
+	`Should sort declarations grouped together between not declarations (without comments)`,
+	(t) => run(t, 'properties-grouped-together',
+		{
+			'properties-order': [
+				'display',
+				'position',
+			],
+		}
+	)
+);
+
+test(
+	`Should sort declarations grouped together between not declarations (with comments)`,
+	(t) => run(t, 'properties-grouped-together-comments',
+		{
+			'properties-order': [
+				'display',
+				'position',
+			],
+		}
+	)
+);
+
+test(
+	`Should sort declarations scattered everywhere (without comments)`,
+	(t) => run(t, 'properties-scattered',
+		{
+			'properties-order': [
+				'display',
+				'position',
+			],
+		}
+	)
+);
+
+test(
+	`Should sort declarations scattered everywhere (with comments)`,
+	(t) => run(t, 'properties-scattered-comments',
+		{
+			'properties-order': [
+				'display',
+				'position',
+			],
+		}
+	)
+);

@@ -43,6 +43,157 @@ function plugin(css, opts) {
 			}
 		});
 	}
+
+	if (opts['properties-order']) {
+		const expectedOrder = createExpectedPropertiesOrder(opts['properties-order']);
+
+		css.walk(function (node) {
+			// Process only rules and atrules with nodes
+			if (isRuleWithNodes(node)) {
+				const allRuleNodes = [];
+				let declarations = [];
+
+				node.each(function (childNode, index) {
+					if (
+						childNode.type === 'decl' &&
+						isStandardSyntaxProperty(childNode.prop) &&
+						!isCustomProperty(childNode.prop)
+					) {
+						const unprefixedPropName = postcss.vendor.unprefixed(childNode.prop);
+
+						const propData = {
+							name: childNode.prop,
+							unprefixedName: unprefixedPropName,
+							orderData: getPropertiesOrderData(expectedOrder, unprefixedPropName),
+							node: childNode,
+							initialIndex: index,
+						};
+
+						// add a marker
+						childNode.sortProperty = true;
+
+						// If comment on separate line before node, use node's indexes for comment
+						const commentsBefore = getAllCommentsBeforeDeclaration([], childNode.prev(), propData);
+
+						// If comment on same line with the node and node, use node's indexes for comment
+						const commentsAfter = getAllCommentsAfterDeclaration([], childNode.next(), propData);
+
+						declarations = declarations.concat(commentsBefore, propData, commentsAfter);
+					}
+				});
+
+				declarations.sort(sortDeclarations);
+
+				let foundDeclarations = false;
+
+				node.each(function (childNode) {
+					if (childNode.sortProperty) {
+						if (!foundDeclarations) {
+							foundDeclarations = true;
+
+							declarations.forEach((item) => {
+								allRuleNodes.push(item.node);
+							});
+						}
+					} else {
+						allRuleNodes.push(childNode);
+					}
+				});
+
+				node.removeAll();
+				node.append(allRuleNodes);
+			}
+		});
+	}
+}
+
+function sortDeclarations(a, b) {
+	// If unprefixed prop names are the same, compare the prefixed versions
+	if (
+		!_.isUndefined(a.unprefixedName) &&
+		!_.isUndefined(b.unprefixedName) &&
+		a.unprefixedName === b.unprefixedName
+	) {
+		// If first property has no prefix and second property has prefix
+		if (!postcss.vendor.prefix(a.name).length && postcss.vendor.prefix(b.name).length) {
+			return 1;
+		}
+
+		// Otherwise keep original order
+		return 0;
+	}
+
+	if (!_.isUndefined(a.orderData) && !_.isUndefined(b.orderData)) {
+		// If a and b have the same group index, and a's property index is
+		// higher than b's property index, in a sorted list a appears after
+		// b:
+		if (a.orderData.propertyIndex !== b.orderData.propertyIndex) {
+			return a.orderData.propertyIndex - b.orderData.propertyIndex;
+		}
+	}
+
+	if (!_.isUndefined(a.orderData) && _.isUndefined(b.orderData)) {
+		return -1;
+	}
+
+	if (_.isUndefined(a.orderData) && !_.isUndefined(b.orderData)) {
+		return 1;
+	}
+
+	// If a and b have the same group index and the same property index,
+	// in a sorted list they appear in the same order they were in
+	// original array:
+	return a.initialIndex - b.initialIndex;
+}
+
+function getAllCommentsBeforeDeclaration(comments, previousNode, nodeData, currentInitialIndex) {
+	if (!previousNode || previousNode.type !== 'comment') {
+		return comments;
+	}
+
+	if (!previousNode.raws.before || previousNode.raws.before.indexOf('\n') === -1) {
+		return comments;
+	}
+
+	currentInitialIndex = currentInitialIndex || nodeData.initialIndex;
+
+	const commentData = {
+		orderData: nodeData.orderData,
+		node: previousNode,
+	};
+
+	commentData.initialIndex = currentInitialIndex - 0.0001;
+
+	// add a marker
+	previousNode.sortProperty = true;
+
+	const newComments = [commentData].concat(comments);
+
+	return getAllCommentsBeforeDeclaration(newComments, previousNode.prev(), nodeData, commentData.initialIndex);
+}
+
+function getAllCommentsAfterDeclaration(comments, nextNode, nodeData, currentInitialIndex) {
+	if (!nextNode || nextNode.type !== 'comment') {
+		return comments;
+	}
+
+	if (!nextNode.raws.before || nextNode.raws.before.indexOf('\n') >= 0) {
+		return comments;
+	}
+
+	currentInitialIndex = currentInitialIndex || nodeData.initialIndex;
+
+	const commentData = {
+		orderData: nodeData.orderData,
+		node: nextNode,
+	};
+
+	commentData.initialIndex = currentInitialIndex + 0.0001;
+
+	// add a marker
+	nextNode.sortProperty = true;
+
+	return getAllCommentsAfterDeclaration(comments.concat(commentData), nextNode.next(), nodeData, commentData.initialIndex);
 }
 
 function processMostNodes(node, index, order, processedNodes) {
@@ -186,6 +337,18 @@ function createExpectedOrder(input) {
 	return order;
 }
 
+function createExpectedPropertiesOrder(input) {
+	const order = {};
+
+	input.forEach((property, propertyIndex) => {
+		order[property] = {
+			propertyIndex
+		};
+	});
+
+	return order;
+}
+
 function getOrderData(expectedOrder, node) {
 	let nodeType;
 
@@ -242,6 +405,10 @@ function getOrderData(expectedOrder, node) {
 
 	// Return null if there no patterns for that node
 	return null;
+}
+
+function getPropertiesOrderData(expectedOrder, propName) {
+	return expectedOrder[propName];
 }
 
 function calcPatternPriority(pattern, node) {
