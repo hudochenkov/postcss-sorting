@@ -45,7 +45,9 @@ function plugin(css, opts) {
 	}
 
 	if (opts['properties-order']) {
-		const expectedOrder = createExpectedPropertiesOrder(opts['properties-order']);
+		const isAlphabetical = opts['properties-order'] === 'alphabetical';
+
+		const expectedOrder = isAlphabetical ? null : createExpectedPropertiesOrder(opts['properties-order']);
 
 		css.walk(function (node) {
 			// Process only rules and atrules with nodes
@@ -64,7 +66,7 @@ function plugin(css, opts) {
 						const propData = {
 							name: childNode.prop,
 							unprefixedName: unprefixedPropName,
-							orderData: getPropertiesOrderData(expectedOrder, unprefixedPropName),
+							orderData: isAlphabetical ? null : getPropertiesOrderData(expectedOrder, unprefixedPropName),
 							node: childNode,
 							initialIndex: index,
 						};
@@ -82,7 +84,11 @@ function plugin(css, opts) {
 					}
 				});
 
-				declarations.sort(sortDeclarations);
+				if (isAlphabetical) {
+					declarations.sort(sortDeclarationsAlphabetically);
+				} else {
+					declarations.sort(sortDeclarations);
+				}
 
 				let foundDeclarations = false;
 
@@ -110,8 +116,8 @@ function plugin(css, opts) {
 function sortDeclarations(a, b) {
 	// If unprefixed prop names are the same, compare the prefixed versions
 	if (
-		!_.isUndefined(a.unprefixedName) &&
-		!_.isUndefined(b.unprefixedName) &&
+		a.node.type === 'decl' &&
+		b.node.type === 'decl' &&
 		a.unprefixedName === b.unprefixedName
 	) {
 		// If first property has no prefix and second property has prefix
@@ -146,6 +152,24 @@ function sortDeclarations(a, b) {
 	return a.initialIndex - b.initialIndex;
 }
 
+function sortDeclarationsAlphabetically(a, b) {
+	if (a.unprefixedName === b.unprefixedName) {
+		if (a.node.type === 'decl' && b.node.type === 'decl') {
+			// If first property has no prefix and second property has prefix
+			if (!postcss.vendor.prefix(a.name).length && postcss.vendor.prefix(b.name).length) {
+				return 1;
+			}
+
+			// Otherwise keep original order
+			return 0;
+		}
+
+		return a.initialIndex - b.initialIndex;
+	}
+
+	return a.unprefixedName <= b.unprefixedName ? -1 : 1;
+}
+
 function getAllCommentsBeforeDeclaration(comments, previousNode, nodeData, currentInitialIndex) {
 	if (!previousNode || previousNode.type !== 'comment') {
 		return comments;
@@ -160,6 +184,7 @@ function getAllCommentsBeforeDeclaration(comments, previousNode, nodeData, curre
 	const commentData = {
 		orderData: nodeData.orderData,
 		node: previousNode,
+		unprefixedName: nodeData.unprefixedName, // related property name for alphabetical order
 	};
 
 	commentData.initialIndex = currentInitialIndex - 0.0001;
@@ -186,6 +211,7 @@ function getAllCommentsAfterDeclaration(comments, nextNode, nodeData, currentIni
 	const commentData = {
 		orderData: nodeData.orderData,
 		node: nextNode,
+		unprefixedName: nodeData.unprefixedName, // related property name for alphabetical order
 	};
 
 	commentData.initialIndex = currentInitialIndex + 0.0001;

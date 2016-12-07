@@ -361,3 +361,30 @@ test(
 		}
 	)
 );
+
+test(
+	'Should sort properties alphabetically',
+	(t) => run(t, 'properties-simple-alphabetical',
+		{
+			'properties-order': 'alphabetical',
+		}
+	)
+);
+
+test(
+	'Should sort prefixed properties before unprefixed property in alphabetical order',
+	(t) => run(t, 'prefixed-alphabetical',
+		{
+			'properties-order': 'alphabetical',
+		}
+	)
+);
+
+test(
+	'Should assign comments before and after declarations correctly (properties-order, alphabetical)',
+	(t) => run(t, 'properties-comments-alphabetical',
+		{
+			'properties-order': 'alphabetical',
+		}
+	)
+);

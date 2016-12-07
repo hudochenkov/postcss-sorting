@@ -1,0 +1,7 @@
+div {
+	-moz-box-sizing: border-box;
+	width: 100%;
+	box-sizing: border-box;
+	position: absolute;
+	-webkit-box-sizing: border-box;
+}
