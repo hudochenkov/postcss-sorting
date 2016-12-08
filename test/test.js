@@ -280,13 +280,52 @@ test(
 );
 
 test(
-	'Should place the leftovers properties in the end',
+	'Should place the leftovers properties in the end (not specified)',
 	(t) => run(t, 'leftover-properties-bottom',
 		{
 			'properties-order': [
 				'position',
 				'z-index',
 			],
+		}
+	)
+);
+
+test(
+	'Should place the leftovers properties in the end (bottom)',
+	(t) => run(t, 'leftover-properties-bottom',
+		{
+			'properties-order': [
+				'position',
+				'z-index',
+			],
+			'unspecified-properties-position': 'bottom'
+		}
+	)
+);
+
+test(
+	'Should place the leftovers properties in the beginning (top)',
+	(t) => run(t, 'leftover-properties-top',
+		{
+			'properties-order': [
+				'position',
+				'z-index',
+			],
+			'unspecified-properties-position': 'top'
+		}
+	)
+);
+
+test(
+	'Should place the leftovers properties in the end (bottomAlphabetical)',
+	(t) => run(t, 'leftover-properties-bottom-alphabetical',
+		{
+			'properties-order': [
+				'position',
+				'z-index',
+			],
+			'unspecified-properties-position': 'bottomAlphabetical'
 		}
 	)
 );

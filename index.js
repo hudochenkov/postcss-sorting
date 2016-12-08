@@ -46,8 +46,8 @@ function plugin(css, opts) {
 
 	if (opts['properties-order']) {
 		const isAlphabetical = opts['properties-order'] === 'alphabetical';
-
 		const expectedOrder = isAlphabetical ? null : createExpectedPropertiesOrder(opts['properties-order']);
+		const unspecifiedPropertiesPosition = _.get(opts, ['unspecified-properties-position'], 'bottom');
 
 		css.walk(function (node) {
 			// Process only rules and atrules with nodes
@@ -69,6 +69,7 @@ function plugin(css, opts) {
 							orderData: isAlphabetical ? null : getPropertiesOrderData(expectedOrder, unprefixedPropName),
 							node: childNode,
 							initialIndex: index,
+							unspecifiedPropertiesPosition
 						};
 
 						// add a marker
@@ -138,12 +139,34 @@ function sortDeclarations(a, b) {
 		}
 	}
 
-	if (!_.isUndefined(a.orderData) && _.isUndefined(b.orderData)) {
-		return -1;
+	if (
+		a.unspecifiedPropertiesPosition === 'bottom' ||
+		a.unspecifiedPropertiesPosition === 'bottomAlphabetical' ||
+		b.unspecifiedPropertiesPosition === 'bottomAlphabetical'
+	) {
+		if (!_.isUndefined(a.orderData) && _.isUndefined(b.orderData)) {
+			return -1;
+		}
+
+		if (_.isUndefined(a.orderData) && !_.isUndefined(b.orderData)) {
+			return 1;
+		}
 	}
 
-	if (_.isUndefined(a.orderData) && !_.isUndefined(b.orderData)) {
-		return 1;
+	if (a.unspecifiedPropertiesPosition === 'top') {
+		if (!_.isUndefined(a.orderData) && _.isUndefined(b.orderData)) {
+			return 1;
+		}
+
+		if (_.isUndefined(a.orderData) && !_.isUndefined(b.orderData)) {
+			return -1;
+		}
+	}
+
+	if (a.unspecifiedPropertiesPosition === 'bottomAlphabetical') {
+		if (_.isUndefined(a.orderData) && _.isUndefined(b.orderData)) {
+			return sortDeclarationsAlphabetically(a, b);
+		}
 	}
 
 	// If a and b have the same group index and the same property index,
@@ -185,6 +208,7 @@ function getAllCommentsBeforeDeclaration(comments, previousNode, nodeData, curre
 		orderData: nodeData.orderData,
 		node: previousNode,
 		unprefixedName: nodeData.unprefixedName, // related property name for alphabetical order
+		unspecifiedPropertiesPosition: nodeData.unspecifiedPropertiesPosition,
 	};
 
 	commentData.initialIndex = currentInitialIndex - 0.0001;
@@ -212,6 +236,7 @@ function getAllCommentsAfterDeclaration(comments, nextNode, nodeData, currentIni
 		orderData: nodeData.orderData,
 		node: nextNode,
 		unprefixedName: nodeData.unprefixedName, // related property name for alphabetical order
+		unspecifiedPropertiesPosition: nodeData.unspecifiedPropertiesPosition,
 	};
 
 	commentData.initialIndex = currentInitialIndex + 0.0001;

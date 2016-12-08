@@ -13,6 +13,7 @@ b {
 c {
 	top: 0;
 	z-index: 3;
+	content: '';
 	position: absolute;
 	leftover: yay;
 }

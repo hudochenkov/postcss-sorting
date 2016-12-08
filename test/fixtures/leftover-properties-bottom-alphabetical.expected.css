@@ -1,18 +1,19 @@
 a {
-	leftover: yay;
-	z-index: 1;
 	position: absolute;
+	z-index: 1;
 	bottom: 0;
+	leftover: yay;
 }
 b {
-	top: 0;
+	position: absolute;
 	z-index: 2;
 	leftover: yay;
-	position: absolute;
+	top: 0;
 }
 c {
-	top: 0;
-	z-index: 3;
 	position: absolute;
+	z-index: 3;
+	content: '';
 	leftover: yay;
+	top: 0;
 }
