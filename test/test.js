@@ -427,3 +427,21 @@ test(
 		}
 	)
 );
+
+test(
+	'Should remove empty lines',
+	(t) => run(t, 'empty-lines-remove',
+		{
+			'clean-empty-lines': true,
+		}
+	)
+);
+
+test(
+	`Shouldn't mess with line breaks`,
+	(t) => run(t, 'empty-lines-preserve',
+		{
+			'clean-empty-lines': true,
+		}
+	)
+);

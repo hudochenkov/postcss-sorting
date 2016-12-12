@@ -13,6 +13,7 @@ const processLastComments = require('./lib/processLastComments');
 const getPropertiesOrderData = require('./lib/getPropertiesOrderData');
 const sorting = require('./lib/sorting');
 const getComments = require('./lib/getComments');
+const cleanEmptyLines = require('./lib/cleanEmptyLines');
 
 module.exports = postcss.plugin('postcss-sorting', function (opts) {
 	return function (css) {
@@ -122,6 +123,24 @@ function plugin(css, opts) {
 
 				node.removeAll();
 				node.append(allRuleNodes);
+			}
+		});
+	}
+
+	if (opts['clean-empty-lines']) {
+		css.walk(function (node) {
+			if (isRuleWithNodes(node)) {
+				// Remove empty lines before every node
+				node.each(function (childNode) {
+					if (childNode.raws.before) {
+						childNode.raws.before = cleanEmptyLines(childNode.raws.before);
+					}
+				});
+
+				// Remove empty lines after the last node
+				if (node.raws.after) {
+					node.raws.after = cleanEmptyLines(node.raws.after);
+				}
 			}
 		});
 	}
