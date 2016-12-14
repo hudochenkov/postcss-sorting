@@ -28,6 +28,25 @@ function plugin(css, opts) {
 		return;
 	}
 
+	// Having this option before `properties-order`, because later one can add empty lines by `emptyLineBefore`
+	if (opts['clean-empty-lines']) {
+		css.walk(function (node) {
+			if (isRuleWithNodes(node)) {
+				// Remove empty lines before every node
+				node.each(function (childNode) {
+					if (childNode.raws.before) {
+						childNode.raws.before = cleanEmptyLines(childNode.raws.before);
+					}
+				});
+
+				// Remove empty lines after the last node
+				if (node.raws.after) {
+					node.raws.after = cleanEmptyLines(node.raws.after);
+				}
+			}
+		});
+	}
+
 	if (opts.order) {
 		const expectedOrder = createExpectedOrder(opts.order);
 
@@ -125,24 +144,6 @@ function plugin(css, opts) {
 
 				node.removeAll();
 				node.append(allRuleNodes);
-			}
-		});
-	}
-
-	if (opts['clean-empty-lines']) {
-		css.walk(function (node) {
-			if (isRuleWithNodes(node)) {
-				// Remove empty lines before every node
-				node.each(function (childNode) {
-					if (childNode.raws.before) {
-						childNode.raws.before = cleanEmptyLines(childNode.raws.before);
-					}
-				});
-
-				// Remove empty lines after the last node
-				if (node.raws.after) {
-					node.raws.after = cleanEmptyLines(node.raws.after);
-				}
 			}
 		});
 	}
