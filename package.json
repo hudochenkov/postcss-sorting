@@ -28,8 +28,8 @@
     "lodash": "^4.17.2"
   },
   "scripts": {
-    "test": "ava && eslint index.js test/test.js",
+    "test": "ava && eslint index.js lib/*.js test/test.js",
     "test2": "ava",
-    "lint": "eslint index.js test/test.js"
+    "lint": "eslint index.js lib/*.js test/test.js"
   }
 }
