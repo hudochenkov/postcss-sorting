@@ -16,6 +16,7 @@ const getPropertiesOrderData = require('./lib/getPropertiesOrderData');
 const sorting = require('./lib/sorting');
 const getComments = require('./lib/getComments');
 const cleanEmptyLines = require('./lib/cleanEmptyLines');
+const emptyLineBeforeGroup = require('./lib/emptyLineBeforeGroup');
 
 module.exports = postcss.plugin('postcss-sorting', function (opts) {
 	return function (css) {
@@ -125,6 +126,9 @@ function plugin(css, opts) {
 				} else {
 					declarations.sort(sorting.sortDeclarations);
 				}
+
+				// Process empty line before group
+				declarations.forEach(emptyLineBeforeGroup);
 
 				let foundDeclarations = false;
 
