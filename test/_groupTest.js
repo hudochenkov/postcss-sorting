@@ -15,8 +15,8 @@ module.exports = function (testGroups) {
 				message,
 				(t) => postcss(plugin(group.options))
 					.process(item.fixture)
-					.then(({ css }) => {
-						t.deepEqual(css, item.expected);
+					.then((root) => {
+						t.deepEqual(root.css, item.expected);
 					})
 			);
 		});
