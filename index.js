@@ -4,6 +4,7 @@ const postcss = require('postcss');
 const _ = require('lodash');
 
 const isStandardSyntaxProperty = require('./lib/isStandardSyntaxProperty');
+const isStandardSyntaxDeclaration = require('./lib/isStandardSyntaxDeclaration');
 const isCustomProperty = require('./lib/isCustomProperty');
 const isRuleWithNodes = require('./lib/isRuleWithNodes');
 
@@ -17,6 +18,9 @@ const sorting = require('./lib/sorting');
 const getComments = require('./lib/getComments');
 const cleanEmptyLines = require('./lib/cleanEmptyLines');
 const emptyLineBeforeGroup = require('./lib/emptyLineBeforeGroup');
+const isSingleLineBlock = require('./lib/isSingleLineBlock');
+const hasEmptyLine = require('./lib/hasEmptyLine');
+const createEmptyLines = require('./lib/createEmptyLines');
 
 module.exports = postcss.plugin('postcss-sorting', function (opts) {
 	return function (css) {
@@ -150,5 +154,88 @@ function plugin(css, opts) {
 				node.append(allRuleNodes);
 			}
 		});
+	}
+
+	if (!_.isUndefined(opts['custom-property-empty-line-before'])) {
+		let customPropertyEmptyLineBefore = opts['custom-property-empty-line-before'];
+
+		// Convert to common options format, e. g. `true` → `[true]`
+		if (!_.isArray(customPropertyEmptyLineBefore)) {
+			customPropertyEmptyLineBefore = [customPropertyEmptyLineBefore];
+		}
+
+		const optionName = 'custom-property-empty-line-before';
+
+		css.walkDecls(function (decl) {
+			const prop = decl.prop;
+			const parent = decl.parent;
+
+			if (!isStandardSyntaxDeclaration(decl) || !isCustomProperty(prop)) {
+				return;
+			}
+
+			// Optionally ignore the node if a comment precedes it
+			if (
+				checkOption(optionName, 'ignore', 'after-comment')
+				&& decl.prev()
+				&& decl.prev().type === 'comment'
+			) {
+				return;
+			}
+
+			// Optionally ignore nodes inside single-line blocks
+			if (
+				checkOption(optionName, 'ignore', 'inside-single-line-block')
+				&& isSingleLineBlock(parent)
+			) {
+				return;
+			}
+
+			let expectEmptyLineBefore = customPropertyEmptyLineBefore[0];
+
+			// Optionally reverse the expectation for the first nested node
+			if (
+				checkOption(optionName, 'except', 'first-nested')
+				&& decl === parent.first
+			) {
+				expectEmptyLineBefore = !expectEmptyLineBefore;
+			}
+
+			// Optionally reverse the expectation if a comment precedes this node
+			if (
+				checkOption(optionName, 'except', 'after-comment')
+				&& decl.prev()
+				&& decl.prev().type === 'comment'
+			) {
+				expectEmptyLineBefore = !expectEmptyLineBefore;
+			}
+
+			// Optionally reverse the expectation if a custom property precedes this node
+			if (
+				checkOption(optionName, 'except', 'after-custom-property')
+				&& decl.prev()
+				&& decl.prev().prop
+				&& isCustomProperty(decl.prev().prop)
+			) {
+				expectEmptyLineBefore = !expectEmptyLineBefore;
+			}
+
+			const hasEmptyLineBefore = hasEmptyLine(decl.raws.before);
+
+			// Return if the expectation is met
+			if (expectEmptyLineBefore === hasEmptyLineBefore) {
+				return;
+			}
+
+			if (expectEmptyLineBefore) {
+				decl.raws.before = createEmptyLines(1) + decl.raws.before;
+			}
+		});
+	}
+
+	function checkOption(primaryOption, secondaryOption, value) {
+		const secondaryOptionValues = _.get(opts[primaryOption][1], secondaryOption);
+
+		return _.includes(secondaryOptionValues, value);
 	}
 }
