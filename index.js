@@ -22,6 +22,7 @@ const emptyLineBeforeGroup = require('./lib/emptyLineBeforeGroup');
 const isSingleLineBlock = require('./lib/isSingleLineBlock');
 const hasEmptyLine = require('./lib/hasEmptyLine');
 const createEmptyLines = require('./lib/createEmptyLines');
+const countEmptyLines = require('./lib/countEmptyLines');
 
 module.exports = postcss.plugin('postcss-sorting', function (opts) {
 	return function (css) {
@@ -307,6 +308,104 @@ function plugin(css, opts) {
 
 			if (expectEmptyLineBefore) {
 				decl.raws.before = createEmptyLines(1) + decl.raws.before;
+			}
+		});
+	}
+
+	if (!_.isUndefined(opts['declaration-empty-line-before'])) {
+		let declarationEmptyLineBefore = opts['declaration-empty-line-before'];
+
+		// Convert to common options format, e. g. `true` → `[true]`
+		if (!_.isArray(declarationEmptyLineBefore)) {
+			declarationEmptyLineBefore = [declarationEmptyLineBefore];
+		}
+
+		const optionName = 'declaration-empty-line-before';
+
+		css.walkDecls(function (decl) {
+			debugger;
+			const prop = decl.prop;
+			const parent = decl.parent;
+
+			if (!isStandardSyntaxDeclaration(decl)) {
+			  return;
+			}
+
+			if (isCustomProperty(prop)) {
+			  return;
+			}
+
+			// Optionally ignore the node if a comment precedes it
+			if (
+				checkOption(optionName, 'ignore', 'after-comment')
+				&& decl.prev()
+				&& decl.prev().type === 'comment'
+			) {
+				return;
+			}
+
+			// Optionally ignore the node if a declaration precedes it
+			if (
+				checkOption(optionName, 'ignore', 'after-declaration')
+				&& decl.prev()
+				&& decl.prev().type === 'decl'
+			) {
+				return;
+			}
+
+			// Optionally ignore nodes inside single-line blocks
+			if (
+				checkOption(optionName, 'ignore', 'inside-single-line-block')
+				&& isSingleLineBlock(parent)
+			) {
+				return;
+			}
+
+			let expectEmptyLineBefore = declarationEmptyLineBefore[0];
+
+			// Optionally reverse the expectation for the first nested node
+			if (
+				checkOption(optionName, 'except', 'first-nested')
+				&& decl === parent.first
+			) {
+				expectEmptyLineBefore = !expectEmptyLineBefore;
+			}
+
+			// Optionally reverse the expectation if a comment precedes this node
+			if (
+				checkOption(optionName, 'except', 'after-comment')
+				&& decl.prev()
+				&& decl.prev().type === 'comment'
+			) {
+				expectEmptyLineBefore = !expectEmptyLineBefore;
+			}
+
+			// Optionally reverse the expectation if a declaration precedes this node
+			if (
+				checkOption(optionName, 'except', 'after-declaration')
+				&& decl.prev()
+				&& decl.prev().prop
+				&& isStandardSyntaxDeclaration(decl.prev())
+				&& !isCustomProperty(decl.prev().prop)
+			) {
+				expectEmptyLineBefore = !expectEmptyLineBefore;
+			}
+
+			const hasEmptyLineBefore = hasEmptyLine(decl.raws.before);
+
+			// Return if the expectation is met
+			if (expectEmptyLineBefore === hasEmptyLineBefore) {
+				return;
+			}
+
+			if (expectEmptyLineBefore) {
+				if (decl.raws.before.indexOf('\n') === -1) {
+					decl.raws.before = `\n${decl.raws.before}`;
+				}
+
+				decl.raws.before = createEmptyLines(1) + decl.raws.before;
+			} else {
+				decl.raws.before = cleanEmptyLines(decl.raws.before);
 			}
 		});
 	}
