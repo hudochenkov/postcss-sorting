@@ -6,6 +6,7 @@ const _ = require('lodash');
 const isStandardSyntaxProperty = require('./lib/isStandardSyntaxProperty');
 const isStandardSyntaxDeclaration = require('./lib/isStandardSyntaxDeclaration');
 const isCustomProperty = require('./lib/isCustomProperty');
+const isDollarVariable = require('./lib/isDollarVariable');
 const isRuleWithNodes = require('./lib/isRuleWithNodes');
 
 const validateOptions = require('./lib/validateOptions');
@@ -216,6 +217,83 @@ function plugin(css, opts) {
 				&& decl.prev()
 				&& decl.prev().prop
 				&& isCustomProperty(decl.prev().prop)
+			) {
+				expectEmptyLineBefore = !expectEmptyLineBefore;
+			}
+
+			const hasEmptyLineBefore = hasEmptyLine(decl.raws.before);
+
+			// Return if the expectation is met
+			if (expectEmptyLineBefore === hasEmptyLineBefore) {
+				return;
+			}
+
+			if (expectEmptyLineBefore) {
+				decl.raws.before = createEmptyLines(1) + decl.raws.before;
+			}
+		});
+	}
+
+	if (!_.isUndefined(opts['dollar-variable-empty-line-before'])) {
+		let dollarVariableEmptyLineBefore = opts['dollar-variable-empty-line-before'];
+
+		// Convert to common options format, e. g. `true` → `[true]`
+		if (!_.isArray(dollarVariableEmptyLineBefore)) {
+			dollarVariableEmptyLineBefore = [dollarVariableEmptyLineBefore];
+		}
+
+		const optionName = 'dollar-variable-empty-line-before';
+
+		css.walkDecls(function (decl) {
+			const prop = decl.prop;
+			const parent = decl.parent;
+
+			if (!isDollarVariable(prop)) {
+				return;
+			}
+
+			// Optionally ignore the node if a comment precedes it
+			if (
+				checkOption(optionName, 'ignore', 'after-comment')
+				&& decl.prev()
+				&& decl.prev().type === 'comment'
+			) {
+				return;
+			}
+
+			// Optionally ignore nodes inside single-line blocks
+			if (
+				checkOption(optionName, 'ignore', 'inside-single-line-block')
+				&& isSingleLineBlock(parent)
+			) {
+				return;
+			}
+
+			let expectEmptyLineBefore = dollarVariableEmptyLineBefore[0];
+
+			// Optionally reverse the expectation for the first nested node
+			if (
+				checkOption(optionName, 'except', 'first-nested')
+				&& decl === parent.first
+			) {
+				expectEmptyLineBefore = !expectEmptyLineBefore;
+			}
+
+			// Optionally reverse the expectation if a comment precedes this node
+			if (
+				checkOption(optionName, 'except', 'after-comment')
+				&& decl.prev()
+				&& decl.prev().type === 'comment'
+			) {
+				expectEmptyLineBefore = !expectEmptyLineBefore;
+			}
+
+			// Optionally reverse the expectation if a dollar variable precedes this node
+			if (
+				checkOption(optionName, 'except', 'after-dollar-variable')
+				&& decl.prev()
+				&& decl.prev().prop
+				&& isDollarVariable(decl.prev().prop)
 			) {
 				expectEmptyLineBefore = !expectEmptyLineBefore;
 			}
