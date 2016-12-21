@@ -6,9 +6,8 @@ const plugin = require('../');
 
 module.exports = function (testGroups) {
 	testGroups.forEach((group) => {
-		const message = group.message || `Should work with ${JSON.stringify(group.options)}`;
-
 		group.cases.forEach((item) => {
+			const message = item.description || group.message || `Should work with ${JSON.stringify(group.options)}`;
 			const testFn = (item.only) ? test.only : test;
 
 			testFn(

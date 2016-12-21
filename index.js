@@ -20,8 +20,10 @@ const getComments = require('./lib/getComments');
 const cleanEmptyLines = require('./lib/cleanEmptyLines');
 const emptyLineBeforeGroup = require('./lib/emptyLineBeforeGroup');
 const isSingleLineBlock = require('./lib/isSingleLineBlock');
+const isSingleLineString = require('./lib/isSingleLineString');
 const hasEmptyLine = require('./lib/hasEmptyLine');
 const createEmptyLines = require('./lib/createEmptyLines');
+const isStandardSyntaxRule = require('./lib/isStandardSyntaxRule');
 
 module.exports = postcss.plugin('postcss-sorting', function (opts) {
 	return function (css) {
@@ -416,6 +418,94 @@ function plugin(css, opts) {
 				decl.raws.before = createEmptyLines(1) + decl.raws.before;
 			} else {
 				decl.raws.before = cleanEmptyLines(decl.raws.before);
+			}
+		});
+	}
+
+	if (!_.isUndefined(opts['rule-nested-empty-line-before'])) {
+		let ruleNestedEmptyLineBefore = opts['rule-nested-empty-line-before'];
+
+		// Convert to common options format, e. g. `true` → `[true]`
+		if (!_.isArray(ruleNestedEmptyLineBefore)) {
+			ruleNestedEmptyLineBefore = [ruleNestedEmptyLineBefore];
+		}
+
+		const optionName = 'rule-nested-empty-line-before';
+
+		css.walkRules(function (rule) {
+			if (!isStandardSyntaxRule(rule)) {
+				return;
+			}
+
+			// Only attend to nested rule sets
+			if (rule.parent === css) {
+				return;
+			}
+
+			// Optionally ignore the expectation if a comment precedes this node
+			if (
+				checkOption(optionName, 'ignore', 'after-comment')
+				&& rule.prev()
+				&& rule.prev().type === 'comment'
+			) {
+				return;
+			}
+
+			// Ignore if the expectation is for multiple and the rule is single-line
+			if (
+				(
+					_.isString(ruleNestedEmptyLineBefore[0])
+					&& ruleNestedEmptyLineBefore[0].indexOf('multi-line') !== -1
+				)
+				&& isSingleLineString(rule.toString())
+			) {
+				return;
+			}
+
+			let expectEmptyLineBefore = false;
+
+			if (
+				(
+					_.isString(ruleNestedEmptyLineBefore[0])
+					&& ruleNestedEmptyLineBefore[0].indexOf('always') !== -1
+				)
+				|| ruleNestedEmptyLineBefore[0] === true
+			) {
+				expectEmptyLineBefore = true;
+			}
+
+			// Optionally reverse the expectation for the first nested node
+			if (
+				checkOption(optionName, 'except', 'first-nested')
+				&& rule === rule.parent.first
+			) {
+				expectEmptyLineBefore = !expectEmptyLineBefore;
+			}
+
+			// Optionally reverse the expectation if a rule precedes this node
+			if (
+				checkOption(optionName, 'except', 'after-rule')
+				&& rule.prev()
+				&& rule.prev().type === 'rule'
+			) {
+				expectEmptyLineBefore = !expectEmptyLineBefore;
+			}
+
+			const hasEmptyLineBefore = hasEmptyLine(rule.raws.before);
+
+			// Return if the expectation is met
+			if (expectEmptyLineBefore === hasEmptyLineBefore) {
+				return;
+			}
+
+			if (expectEmptyLineBefore) {
+				if (rule.raws.before.indexOf('\n') === -1) {
+					rule.raws.before = `\n${rule.raws.before}`;
+				}
+
+				rule.raws.before = createEmptyLines(1) + rule.raws.before;
+			} else {
+				rule.raws.before = cleanEmptyLines(rule.raws.before);
 			}
 		});
 	}
