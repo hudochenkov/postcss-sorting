@@ -24,6 +24,7 @@ const isSingleLineString = require('./lib/isSingleLineString');
 const hasEmptyLine = require('./lib/hasEmptyLine');
 const createEmptyLines = require('./lib/createEmptyLines');
 const isStandardSyntaxRule = require('./lib/isStandardSyntaxRule');
+const hasBlock = require('./lib/hasBlock');
 
 module.exports = postcss.plugin('postcss-sorting', function (opts) {
 	return function (css) {
@@ -506,6 +507,121 @@ function plugin(css, opts) {
 				rule.raws.before = createEmptyLines(1) + rule.raws.before;
 			} else {
 				rule.raws.before = cleanEmptyLines(rule.raws.before);
+			}
+		});
+	}
+
+	if (!_.isUndefined(opts['at-rule-nested-empty-line-before'])) {
+		let atRuleNestedEmptyLineBefore = opts['at-rule-nested-empty-line-before'];
+
+		// Convert to common options format, e. g. `true` → `[true]`
+		if (!_.isArray(atRuleNestedEmptyLineBefore)) {
+			atRuleNestedEmptyLineBefore = [atRuleNestedEmptyLineBefore];
+		}
+
+		const optionName = 'at-rule-nested-empty-line-before';
+
+		css.walkAtRules(function (atRule) {
+			// Only attend to nested at-rules
+			if (atRule.parent === css) {
+				return;
+			}
+
+			// Return early if at-rule is to be ignored
+			if (checkOption(optionName, 'ignoreAtRules', atRule.name)) {
+				return;
+			}
+
+			// Optionally ignore the expectation if the node is blockless
+			if (
+				checkOption(optionName, 'ignore', 'blockless-group')
+				&& !hasBlock(atRule)
+			) {
+				return;
+			}
+
+			const previousNode = atRule.prev();
+
+			// Optionally ignore the expection if the node is blockless
+			// and following another blockless at-rule with the same name
+			if (
+				checkOption(optionName, 'ignore', 'blockless-after-same-name-blockless')
+				&& isBlocklessAfterSameNameBlockless()
+			) {
+				return;
+			}
+
+			// Optionally ignore the expectation if a comment precedes this node
+			if (
+				checkOption(optionName, 'ignore', 'after-comment')
+				&& isAfterComment()
+			) {
+				return;
+			}
+
+			let expectEmptyLineBefore = atRuleNestedEmptyLineBefore[0];
+
+			// Optionally reverse the expectation if any exceptions apply
+			if (
+				checkOption(optionName, 'except', 'first-nested')
+				&& isFirstNested()
+			) {
+				expectEmptyLineBefore = !expectEmptyLineBefore;
+			}
+
+			if (
+				checkOption(optionName, 'except', 'blockless-group')
+				&& isBlocklessAfterBlockless()
+			) {
+				expectEmptyLineBefore = !expectEmptyLineBefore;
+			}
+
+			if (
+				checkOption(optionName, 'except', 'blockless-after-same-name-blockless')
+				&& isBlocklessAfterSameNameBlockless()
+			) {
+				expectEmptyLineBefore = !expectEmptyLineBefore;
+			}
+
+			const hasEmptyLineBefore = hasEmptyLine(atRule.raws.before);
+
+			// Return if the expectation is met
+			if (expectEmptyLineBefore === hasEmptyLineBefore) {
+				return;
+			}
+
+			if (expectEmptyLineBefore) {
+				if (atRule.raws.before.indexOf('\n') === -1) {
+					atRule.raws.before = `\n${atRule.raws.before}`;
+				}
+
+				atRule.raws.before = createEmptyLines(1) + atRule.raws.before;
+			} else {
+				atRule.raws.before = cleanEmptyLines(atRule.raws.before);
+			}
+
+			function isAfterComment() {
+				return previousNode
+					&& previousNode.type === 'comment';
+			}
+
+			function isBlocklessAfterBlockless() {
+				return previousNode
+					&& previousNode.type === 'atrule'
+					&& !hasBlock(previousNode)
+					&& !hasBlock(atRule);
+			}
+
+			function isBlocklessAfterSameNameBlockless() {
+				return !hasBlock(atRule)
+					&& previousNode
+					&& !hasBlock(previousNode)
+					&& previousNode.type === 'atrule'
+					&& previousNode.name === atRule.name;
+			}
+
+			function isFirstNested() {
+				return atRule === atRule.parent.first;
 			}
 		});
 	}
