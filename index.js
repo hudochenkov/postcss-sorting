@@ -312,7 +312,13 @@ function plugin(css, opts) {
 			}
 
 			if (expectEmptyLineBefore) {
+				if (decl.raws.before.indexOf('\n') === -1) {
+					decl.raws.before = `\n${decl.raws.before}`;
+				}
+
 				decl.raws.before = createEmptyLines(1) + decl.raws.before;
+			} else {
+				decl.raws.before = cleanEmptyLines(decl.raws.before);
 			}
 		});
 	}

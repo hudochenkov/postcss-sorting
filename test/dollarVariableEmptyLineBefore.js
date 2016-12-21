@@ -7,12 +7,40 @@ groupTest([
 		},
 		cases: [
 			{
-				fixture: 'a{\n $dollar-variable: value; }',
+				fixture: 'a {\n\n $dollar-variable: value;\n}',
+				expected: 'a {\n\n $dollar-variable: value;\n}',
+			},
+			{
+				fixture: 'a {\r\n\r\n $dollar-variable: value;\r\n}',
+				expected: 'a {\r\n\r\n $dollar-variable: value;\r\n}',
+			},
+			{
+				fixture: 'a{\n\n $dollar-variable: value; }',
 				expected: 'a{\n\n $dollar-variable: value; }',
 			},
 			{
-				fixture: 'a {\n $dollar-variable: value;\n}',
-				expected: 'a {\n\n $dollar-variable: value;\n}',
+				fixture: 'a{\n\n $dollar-variable: value;\r\n\r\n $dollar-variable2: value;}',
+				expected: 'a{\n\n $dollar-variable: value;\r\n\r\n $dollar-variable2: value;}',
+			},
+			{
+				fixture: 'a{\n\n $dollar-variable: value;\n\r\n $dollar-variable2: value;}',
+				expected: 'a{\n\n $dollar-variable: value;\n\r\n $dollar-variable2: value;}',
+			},
+			{
+				fixture: 'a{\n top: 10px;\n\r\n $dollar-variable: value;}',
+				expected: 'a{\n top: 10px;\n\r\n $dollar-variable: value;}',
+			},
+			{
+				fixture: 'a{\n @extends .class;\n\r\n $dollar-variable: value;}',
+				expected: 'a{\n @extends .class;\n\r\n $dollar-variable: value;}',
+			},
+			{
+				fixture: 'a{\n --custom-prop: value;\n\r\n $dollar-variable: value;}',
+				expected: 'a{\n --custom-prop: value;\n\r\n $dollar-variable: value;}',
+			},
+			{
+				fixture: 'a {\n$dollar-variable: value;\n}',
+				expected: 'a {\n\n$dollar-variable: value;\n}',
 			},
 			{
 				fixture: 'a {\r\n $dollar-variable: value;\r\n}',
@@ -46,10 +74,6 @@ groupTest([
 		},
 		cases: [
 			{
-				fixture: 'a {\n $dollar-variable: value;\n}',
-				expected: 'a {\n\n $dollar-variable: value;\n}',
-			},
-			{
 				fixture: 'a {\n/* comment */ $dollar-variable: value;\n}',
 				expected: 'a {\n/* comment */ $dollar-variable: value;\n}',
 			},
@@ -60,6 +84,10 @@ groupTest([
 			{
 				fixture: 'a {\r\n/* comment */\r\n$dollar-variable: value;\r\n}',
 				expected: 'a {\r\n/* comment */\r\n$dollar-variable: value;\r\n}',
+			},
+			{
+				fixture: 'a {\n $dollar-variable: value;\n}',
+				expected: 'a {\n\n $dollar-variable: value;\n}',
 			},
 		],
 	},
@@ -101,11 +129,11 @@ groupTest([
 			},
 			{
 				fixture: 'a {\n\n $dollar-variable: value;\n}',
-				expected: 'a {\n\n $dollar-variable: value;\n}',
+				expected: 'a {\n $dollar-variable: value;\n}',
 			},
 			{
 				fixture: 'a {\r\n\r\n $dollar-variable: value;\r\n}',
-				expected: 'a {\r\n\r\n $dollar-variable: value;\r\n}',
+				expected: 'a {\r\n $dollar-variable: value;\r\n}',
 			},
 		],
 	},
@@ -128,11 +156,11 @@ groupTest([
 			},
 			{
 				fixture: 'a {\n\n $dollar-variable: value;\n /* I am a comment */ \n\n $dollar-variable2: value;}',
-				expected: 'a {\n\n $dollar-variable: value;\n /* I am a comment */ \n\n $dollar-variable2: value;}',
+				expected: 'a {\n\n $dollar-variable: value;\n /* I am a comment */ \n $dollar-variable2: value;}',
 			},
 			{
 				fixture: 'a {\n /* I am a comment */ \r\n\r\n $dollar-variable2: value;}',
-				expected: 'a {\n /* I am a comment */ \r\n\r\n $dollar-variable2: value;}',
+				expected: 'a {\n /* I am a comment */ \r\n $dollar-variable2: value;}',
 			},
 		],
 	},
@@ -155,11 +183,11 @@ groupTest([
 			},
 			{
 				fixture: 'a {\n\n $dollar-variable:value;\n\n $dollar-variable2: value;}',
-				expected: 'a {\n\n $dollar-variable:value;\n\n $dollar-variable2: value;}',
+				expected: 'a {\n\n $dollar-variable:value;\n $dollar-variable2: value;}',
 			},
 			{
 				fixture: 'a {\n\n $dollar-variable: value;\r\n\r\n $dollar-variable2: value;}',
-				expected: 'a {\n\n $dollar-variable: value;\r\n\r\n $dollar-variable2: value;}',
+				expected: 'a {\n\n $dollar-variable: value;\r\n $dollar-variable2: value;}',
 			},
 		],
 	},
@@ -200,28 +228,28 @@ groupTest([
 				expected: 'a{\n @extends .class;\n $dollar-variable: value;}',
 			},
 			{
-				fixture: 'a{\n $var: value;\n $dollar-variable: value;}',
-				expected: 'a{\n $var: value;\n $dollar-variable: value;}',
+				fixture: 'a{\n --custom-prop: value;\n $dollar-variable: value;}',
+				expected: 'a{\n --custom-prop: value;\n $dollar-variable: value;}',
 			},
 			{
 				fixture: 'a {\n\n $dollar-variable: value;\n}',
-				expected: 'a {\n\n $dollar-variable: value;\n}',
+				expected: 'a {\n $dollar-variable: value;\n}',
 			},
 			{
 				fixture: 'a {\r\n\r\n $dollar-variable: value;\r\n}',
-				expected: 'a {\r\n\r\n $dollar-variable: value;\r\n}',
+				expected: 'a {\r\n $dollar-variable: value;\r\n}',
 			},
 			{
 				fixture: 'a{\n top: 10px;\n\n $dollar-variable: value;}',
-				expected: 'a{\n top: 10px;\n\n $dollar-variable: value;}',
+				expected: 'a{\n top: 10px;\n $dollar-variable: value;}',
 			},
 			{
 				fixture: 'a{\n @extends .class;\n\r\n $dollar-variable: value;}',
-				expected: 'a{\n @extends .class;\n\r\n $dollar-variable: value;}',
+				expected: 'a{\n @extends .class;\n $dollar-variable: value;}',
 			},
 			{
-				fixture: 'a{\n $var: value;\n\n $dollar-variable: value;}',
-				expected: 'a{\n $var: value;\n\n $dollar-variable: value;}',
+				fixture: 'a{\n --custom-prop: value;\n\n $dollar-variable: value;}',
+				expected: 'a{\n --custom-prop: value;\n $dollar-variable: value;}',
 			},
 		],
 	},
@@ -297,8 +325,8 @@ groupTest([
 				expected: 'a {\n $dollar-variable:value; \r\n\r\n $dollar-variable2: value;}',
 			},
 			{
-				fixture: 'a {\n $dollar-variable: value;\n $dollar-variable2: value;}',
-				expected: 'a {\n $dollar-variable: value;\n\n $dollar-variable2: value;}',
+				fixture: 'a {\n $dollar-variable:value;\n$dollar-variable2: value;}',
+				expected: 'a {\n $dollar-variable:value;\n\n$dollar-variable2: value;}',
 			},
 		],
 	},
