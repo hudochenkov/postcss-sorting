@@ -22,7 +22,6 @@ const emptyLineBeforeGroup = require('./lib/emptyLineBeforeGroup');
 const isSingleLineBlock = require('./lib/isSingleLineBlock');
 const hasEmptyLine = require('./lib/hasEmptyLine');
 const createEmptyLines = require('./lib/createEmptyLines');
-const countEmptyLines = require('./lib/countEmptyLines');
 
 module.exports = postcss.plugin('postcss-sorting', function (opts) {
 	return function (css) {
@@ -329,7 +328,6 @@ function plugin(css, opts) {
 		const optionName = 'declaration-empty-line-before';
 
 		css.walkDecls(function (decl) {
-			debugger;
 			const prop = decl.prop;
 			const parent = decl.parent;
 
