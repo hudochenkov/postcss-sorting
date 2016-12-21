@@ -7,12 +7,40 @@ groupTest([
 		},
 		cases: [
 			{
-				fixture: 'a{\n --custom-prop: value; }',
+				fixture: 'a {\n\n --custom-prop: value;\n}',
+				expected: 'a {\n\n --custom-prop: value;\n}',
+			},
+			{
+				fixture: 'a {\r\n\r\n --custom-prop: value;\r\n}',
+				expected: 'a {\r\n\r\n --custom-prop: value;\r\n}',
+			},
+			{
+				fixture: 'a{\n\n --custom-prop: value; }',
 				expected: 'a{\n\n --custom-prop: value; }',
 			},
 			{
-				fixture: 'a {\n --custom-prop: value;\n}',
-				expected: 'a {\n\n --custom-prop: value;\n}',
+				fixture: 'a{\n\n --custom-prop: value;\r\n\r\n --custom-prop2: value;}',
+				expected: 'a{\n\n --custom-prop: value;\r\n\r\n --custom-prop2: value;}',
+			},
+			{
+				fixture: 'a{\n\n --custom-prop: value;\n\r\n --custom-prop2: value;}',
+				expected: 'a{\n\n --custom-prop: value;\n\r\n --custom-prop2: value;}',
+			},
+			{
+				fixture: 'a{\n top: 10px;\n\r\n --custom-prop: value;}',
+				expected: 'a{\n top: 10px;\n\r\n --custom-prop: value;}',
+			},
+			{
+				fixture: 'a{\n @extends .class;\n\r\n --custom-prop: value;}',
+				expected: 'a{\n @extends .class;\n\r\n --custom-prop: value;}',
+			},
+			{
+				fixture: 'a{\n $var: value;\n\r\n --custom-prop: value;}',
+				expected: 'a{\n $var: value;\n\r\n --custom-prop: value;}',
+			},
+			{
+				fixture: 'a {\n--custom-prop: value;\n}',
+				expected: 'a {\n\n--custom-prop: value;\n}',
 			},
 			{
 				fixture: 'a {\r\n --custom-prop: value;\r\n}',
@@ -46,10 +74,6 @@ groupTest([
 		},
 		cases: [
 			{
-				fixture: 'a {\n --custom-prop: value;\n}',
-				expected: 'a {\n\n --custom-prop: value;\n}',
-			},
-			{
 				fixture: 'a {\n/* comment */ --custom-prop: value;\n}',
 				expected: 'a {\n/* comment */ --custom-prop: value;\n}',
 			},
@@ -60,6 +84,10 @@ groupTest([
 			{
 				fixture: 'a {\r\n/* comment */\r\n--custom-prop: value;\r\n}',
 				expected: 'a {\r\n/* comment */\r\n--custom-prop: value;\r\n}',
+			},
+			{
+				fixture: 'a {\n --custom-prop: value;\n}',
+				expected: 'a {\n\n --custom-prop: value;\n}',
 			},
 		],
 	},
@@ -101,11 +129,11 @@ groupTest([
 			},
 			{
 				fixture: 'a {\n\n --custom-prop: value;\n}',
-				expected: 'a {\n\n --custom-prop: value;\n}',
+				expected: 'a {\n --custom-prop: value;\n}',
 			},
 			{
 				fixture: 'a {\r\n\r\n --custom-prop: value;\r\n}',
-				expected: 'a {\r\n\r\n --custom-prop: value;\r\n}',
+				expected: 'a {\r\n --custom-prop: value;\r\n}',
 			},
 		],
 	},
@@ -128,11 +156,11 @@ groupTest([
 			},
 			{
 				fixture: 'a {\n\n --custom-prop: value;\n /* I am a comment */ \n\n --custom-prop2: value;}',
-				expected: 'a {\n\n --custom-prop: value;\n /* I am a comment */ \n\n --custom-prop2: value;}',
+				expected: 'a {\n\n --custom-prop: value;\n /* I am a comment */ \n --custom-prop2: value;}',
 			},
 			{
 				fixture: 'a {\n /* I am a comment */ \r\n\r\n --custom-prop2: value;}',
-				expected: 'a {\n /* I am a comment */ \r\n\r\n --custom-prop2: value;}',
+				expected: 'a {\n /* I am a comment */ \r\n --custom-prop2: value;}',
 			},
 		],
 	},
@@ -155,11 +183,11 @@ groupTest([
 			},
 			{
 				fixture: 'a {\n\n --custom-prop:value;\n\n --custom-prop2: value;}',
-				expected: 'a {\n\n --custom-prop:value;\n\n --custom-prop2: value;}',
+				expected: 'a {\n\n --custom-prop:value;\n --custom-prop2: value;}',
 			},
 			{
 				fixture: 'a {\n\n --custom-prop: value;\r\n\r\n --custom-prop2: value;}',
-				expected: 'a {\n\n --custom-prop: value;\r\n\r\n --custom-prop2: value;}',
+				expected: 'a {\n\n --custom-prop: value;\r\n --custom-prop2: value;}',
 			},
 		],
 	},
@@ -205,23 +233,23 @@ groupTest([
 			},
 			{
 				fixture: 'a {\n\n --custom-prop: value;\n}',
-				expected: 'a {\n\n --custom-prop: value;\n}',
+				expected: 'a {\n --custom-prop: value;\n}',
 			},
 			{
 				fixture: 'a {\r\n\r\n --custom-prop: value;\r\n}',
-				expected: 'a {\r\n\r\n --custom-prop: value;\r\n}',
+				expected: 'a {\r\n --custom-prop: value;\r\n}',
 			},
 			{
 				fixture: 'a{\n top: 10px;\n\n --custom-prop: value;}',
-				expected: 'a{\n top: 10px;\n\n --custom-prop: value;}',
+				expected: 'a{\n top: 10px;\n --custom-prop: value;}',
 			},
 			{
 				fixture: 'a{\n @extends .class;\n\r\n --custom-prop: value;}',
-				expected: 'a{\n @extends .class;\n\r\n --custom-prop: value;}',
+				expected: 'a{\n @extends .class;\n --custom-prop: value;}',
 			},
 			{
 				fixture: 'a{\n $var: value;\n\n --custom-prop: value;}',
-				expected: 'a{\n $var: value;\n\n --custom-prop: value;}',
+				expected: 'a{\n $var: value;\n --custom-prop: value;}',
 			},
 		],
 	},
@@ -297,8 +325,8 @@ groupTest([
 				expected: 'a {\n --custom-prop:value; \r\n\r\n --custom-prop2: value;}',
 			},
 			{
-				fixture: 'a {\n --custom-prop: value;\n --custom-prop2: value;}',
-				expected: 'a {\n --custom-prop: value;\n\n --custom-prop2: value;}',
+				fixture: 'a {\n --custom-prop:value;\n--custom-prop2: value;}',
+				expected: 'a {\n --custom-prop:value;\n\n--custom-prop2: value;}',
 			},
 		],
 	},
