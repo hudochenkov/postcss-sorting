@@ -626,6 +626,80 @@ function plugin(css, opts) {
 		});
 	}
 
+	if (!_.isUndefined(opts['comment-empty-line-before'])) {
+		let commentEmptyLineBefore = opts['comment-empty-line-before'];
+
+		// Convert to common options format, e. g. `true` → `[true]`
+		if (!_.isArray(commentEmptyLineBefore)) {
+			commentEmptyLineBefore = [commentEmptyLineBefore];
+		}
+
+		const optionName = 'comment-empty-line-before';
+
+		css.walk(function (node) {
+			// Process only rules and atrules with nodes
+			if (isRuleWithNodes(node)) {
+				node.walkComments((comment) => {
+					// Optionally ignore stylelint commands
+					if (
+						comment.text.indexOf('stylelint-') === 0
+						&& checkOption(optionName, 'ignore', 'stylelint-commands')
+					) {
+						return;
+					}
+
+					// Optionally ignore newlines between comments
+					const prev = comment.prev();
+
+					if (
+						prev
+						&& prev.type === 'comment'
+						&& checkOption(optionName, 'ignore', 'between-comments')
+					) {
+						return;
+					}
+
+					if (
+						comment.raws.inline
+						|| comment.inline
+					) {
+						return;
+					}
+
+					const before = comment.raws.before || '';
+
+					// Ignore shared-line comments
+					if (before.indexOf('\n') === -1) {
+						return;
+					}
+
+					const hasEmptyLineBefore = hasEmptyLine(before);
+
+					let expectEmptyLineBefore = commentEmptyLineBefore[0];
+
+					// Optionally reverse the expectation if any exceptions apply
+					if (
+						checkOption(optionName, 'except', 'first-nested')
+						&& comment === comment.parent.first
+					) {
+						expectEmptyLineBefore = !expectEmptyLineBefore;
+					}
+
+					// Return if the expectation is met
+					if (expectEmptyLineBefore === hasEmptyLineBefore) {
+						return;
+					}
+
+					if (expectEmptyLineBefore) {
+						comment.raws.before = createEmptyLines(1) + comment.raws.before;
+					} else {
+						comment.raws.before = cleanEmptyLines(comment.raws.before);
+					}
+				});
+			}
+		});
+	}
+
 	function checkOption(primaryOption, secondaryOption, value) {
 		const secondaryOptionValues = _.get(opts[primaryOption][1], secondaryOption);
 
