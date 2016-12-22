@@ -1,4 +1,4 @@
-import groupTest from './_groupTest';
+import groupTest from './_group-test';
 
 groupTest([
 	{
