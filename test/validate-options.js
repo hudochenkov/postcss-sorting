@@ -17,10 +17,25 @@ function testConfig(input) {
 	}
 
 	testFn(input.description, (t) => {
-		// t.pass();
-		t.is(validateOptions(input.config), input.valid);
+		if (input.valid) {
+			t.true(validateOptions(input.config));
+		} else {
+			t.truthy(validateOptions(input.config).length);
+		}
 	});
 }
+
+testConfig({
+	description: 'config should be an object',
+	valid: true,
+	config: {},
+});
+
+testConfig({
+	description: 'config should be an object',
+	valid: false,
+	config: 'nope',
+});
 
 testConfig({
 	description: 'should be an array',

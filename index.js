@@ -33,7 +33,13 @@ module.exports = postcss.plugin('postcss-sorting', function (opts) {
 });
 
 function plugin(css, opts) {
-	if (!validateOptions(opts)) {
+	const validatedOptions = validateOptions(opts);
+
+	if (validatedOptions !== true) {
+		if (console && console.warn) { // eslint-disable-line no-console
+			console.warn(validatedOptions); // eslint-disable-line no-console
+		}
+
 		return;
 	}
 
