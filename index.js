@@ -449,11 +449,13 @@ function plugin(css, opts) {
 				return;
 			}
 
-			// Optionally ignore the expectation if a comment precedes this node
+			// Optionally ignore the expectation if a non-shared comment precedes this node
 			if (
 				checkOption(optionName, 'ignore', 'after-comment')
 				&& rule.prev()
 				&& rule.prev().type === 'comment'
+				&& rule.prev().raws.before
+				&& (/[\n\r]/).test(rule.prev().raws.before)
 			) {
 				return;
 			}

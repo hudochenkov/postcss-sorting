@@ -250,6 +250,16 @@ groupTest([
 				expected: '@media {\n  /* foo */\n\n  a {}\n}',
 			},
 			{
+				fixture: '@media { /* foo */\n\n  a {}\n}',
+				expected: '@media { /* foo */\n\n  a {}\n}',
+				description: 'non-shared comment',
+			},
+			{
+				fixture: '@media { /* foo */\n  a {}\n}',
+				expected: '@media { /* foo */\n\n  a {}\n}',
+				description: 'non-shared comment',
+			},
+			{
 				fixture: '@media {\r\n  /* foo */\r\n\r\n  a {}\r\n}',
 				expected: '@media {\r\n  /* foo */\r\n\r\n  a {}\r\n}',
 				description: 'CRLF',
@@ -364,6 +374,16 @@ groupTest([
 				fixture: '@media {\r\n  /* foo */\r\n\r\n  a {}\r\n}',
 				expected: '@media {\r\n  /* foo */\r\n\r\n  a {}\r\n}',
 				description: 'CRLF',
+			},
+			{
+				fixture: '@media { /* foo */\n\n  a {}\n}',
+				expected: '@media { /* foo */\n  a {}\n}',
+				description: 'non-shared comment',
+			},
+			{
+				fixture: '@media { /* foo */\n  a {}\n}',
+				expected: '@media { /* foo */\n  a {}\n}',
+				description: 'non-shared comment',
 			},
 			{
 				fixture: '@media {\n  a{}\n\n  b {}\n}',
