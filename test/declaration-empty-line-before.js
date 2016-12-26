@@ -104,6 +104,22 @@ groupTest([
 				expected: 'a {\n\n top: 15px;\n bottom: 5px;\n}',
 			},
 			{
+				fixture: 'a {\n\n top: 15px; /* comment */\n bottom: 5px;\n}',
+				expected: 'a {\n\n top: 15px; /* comment */\n bottom: 5px;\n}',
+			},
+			{
+				fixture: 'a {\n\n top: 15px; /* comment */\n\n bottom: 5px;\n}',
+				expected: 'a {\n\n top: 15px; /* comment */\n\n bottom: 5px;\n}',
+			},
+			{
+				fixture: 'a {\n\n top: 15px;\n/* comment */\n bottom: 5px;\n}',
+				expected: 'a {\n\n top: 15px;\n/* comment */\n\n bottom: 5px;\n}',
+			},
+			{
+				fixture: 'a {\n\n top: 15px;\n/* comment */\n\n bottom: 5px;\n}',
+				expected: 'a {\n\n top: 15px;\n/* comment */\n\n bottom: 5px;\n}',
+			},
+			{
 				fixture: 'a {\r\n\r\n top: 15px;\r\n bottom: 5px;\r\n}',
 				expected: 'a {\r\n\r\n top: 15px;\r\n bottom: 5px;\r\n}',
 			},
@@ -227,6 +243,22 @@ groupTest([
 			{
 				fixture: 'a {\n\n top: 15px;\r\n\r\n bottom: 5px;}',
 				expected: 'a {\n\n top: 15px;\r\n bottom: 5px;}',
+			},
+			{
+				fixture: 'a {\n\n top: 15px; /* comment */\n bottom: 5px;\n}',
+				expected: 'a {\n\n top: 15px; /* comment */\n bottom: 5px;\n}',
+			},
+			{
+				fixture: 'a {\n\n top: 15px; /* comment */\n\n bottom: 5px;\n}',
+				expected: 'a {\n\n top: 15px; /* comment */\n bottom: 5px;\n}',
+			},
+			{
+				fixture: 'a {\n\n top: 15px;\n/* comment */\n bottom: 5px;\n}',
+				expected: 'a {\n\n top: 15px;\n/* comment */\n\n bottom: 5px;\n}',
+			},
+			{
+				fixture: 'a {\n\n top: 15px;\n/* comment */\n\n bottom: 5px;\n}',
+				expected: 'a {\n\n top: 15px;\n/* comment */\n\n bottom: 5px;\n}',
 			},
 		],
 	},
@@ -398,6 +430,22 @@ groupTest([
 			{
 				fixture: 'a {\n top: 15px;\n bottom: 5px;}',
 				expected: 'a {\n top: 15px;\n\n bottom: 5px;}',
+			},
+			{
+				fixture: 'a {\n top: 15px; /* comment */\n bottom: 5px;\n}',
+				expected: 'a {\n top: 15px; /* comment */\n\n bottom: 5px;\n}',
+			},
+			{
+				fixture: 'a {\n top: 15px; /* comment */\n\n bottom: 5px;\n}',
+				expected: 'a {\n top: 15px; /* comment */\n\n bottom: 5px;\n}',
+			},
+			{
+				fixture: 'a {\n top: 15px;\n/* comment */\n bottom: 5px;\n}',
+				expected: 'a {\n top: 15px;\n/* comment */\n bottom: 5px;\n}',
+			},
+			{
+				fixture: 'a {\n top: 15px;\n/* comment */\n\n bottom: 5px;\n}',
+				expected: 'a {\n top: 15px;\n/* comment */\n bottom: 5px;\n}',
 			},
 		],
 	},

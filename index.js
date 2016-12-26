@@ -26,6 +26,7 @@ const createEmptyLines = require('./lib/createEmptyLines');
 const isStandardSyntaxRule = require('./lib/isStandardSyntaxRule');
 const hasBlock = require('./lib/hasBlock');
 const hasNonSharedCommentBefore = require('./lib/hasNonSharedCommentBefore');
+const hasSharedCommentBefore = require('./lib/hasSharedCommentBefore');
 
 module.exports = postcss.plugin('postcss-sorting', function (opts) {
 	return function (css) {
@@ -362,8 +363,17 @@ function plugin(css, opts) {
 			// Optionally ignore the node if a declaration precedes it
 			if (
 				checkOption(optionName, 'ignore', 'after-declaration')
-				&& decl.prev()
-				&& decl.prev().type === 'decl'
+				&& (
+					(
+						decl.prev()
+						&& decl.prev().type === 'decl'
+					)
+					|| (
+						hasSharedCommentBefore(decl)
+						&& decl.prev().prev()
+						&& decl.prev().prev().type === 'decl'
+					)
+				)
 			) {
 				return;
 			}
@@ -397,10 +407,13 @@ function plugin(css, opts) {
 			// Optionally reverse the expectation if a declaration precedes this node
 			if (
 				checkOption(optionName, 'except', 'after-declaration')
-				&& decl.prev()
-				&& decl.prev().prop
-				&& isStandardSyntaxDeclaration(decl.prev())
-				&& !isCustomProperty(decl.prev().prop)
+				&& (
+					isDeclarationBefore(decl.prev())
+					|| (
+						hasSharedCommentBefore(decl)
+						&& isDeclarationBefore(decl.prev().prev())
+					)
+				)
 			) {
 				expectEmptyLineBefore = !expectEmptyLineBefore;
 			}
@@ -420,6 +433,13 @@ function plugin(css, opts) {
 				decl.raws.before = createEmptyLines(1) + decl.raws.before;
 			} else {
 				decl.raws.before = cleanEmptyLines(decl.raws.before);
+			}
+
+			function isDeclarationBefore(targetDeclaration) {
+				return targetDeclaration
+					&& targetDeclaration.prop
+					&& isStandardSyntaxDeclaration(targetDeclaration)
+					&& !isCustomProperty(targetDeclaration.prop);
 			}
 		});
 	}
