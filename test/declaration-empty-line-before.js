@@ -69,6 +69,14 @@ groupTest([
 				expected: 'a {\n/* comment */\ntop: 15px;\n}',
 			},
 			{
+				fixture: 'a {\nbottom: 10px; /* comment */\ntop: 15px;\n}',
+				expected: 'a {\n\nbottom: 10px; /* comment */\n\ntop: 15px;\n}',
+			},
+			{
+				fixture: 'a {\nbottom: 10px; /* comment */\n\ntop: 15px;\n}',
+				expected: 'a {\n\nbottom: 10px; /* comment */\n\ntop: 15px;\n}',
+			},
+			{
 				fixture: 'a {\r\n/* comment */\r\ntop: 15px;\r\n}',
 				expected: 'a {\r\n/* comment */\r\ntop: 15px;\r\n}',
 			},
@@ -172,6 +180,14 @@ groupTest([
 			{
 				fixture: 'a {/* I am a comment */ \n bottom: 5px;}',
 				expected: 'a {/* I am a comment */\n \n bottom: 5px;}',
+			},
+			{
+				fixture: 'a {\n\ntop: 10px; /* I am a comment */ \n bottom: 5px;}',
+				expected: 'a {\n\ntop: 10px; /* I am a comment */\n \n bottom: 5px;}',
+			},
+			{
+				fixture: 'a {\n\ntop: 10px; /* I am a comment */\n\n bottom: 5px;}',
+				expected: 'a {\n\ntop: 10px; /* I am a comment */\n\n bottom: 5px;}',
 			},
 			{
 				fixture: 'a {/* I am a comment */ \r\n bottom: 5px;}',
