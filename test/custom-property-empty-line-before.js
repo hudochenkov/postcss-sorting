@@ -148,11 +148,11 @@ groupTest([
 			},
 			{
 				fixture: 'a {/* I am a comment */ \n --custom-prop2: value;}',
-				expected: 'a {/* I am a comment */ \n --custom-prop2: value;}',
+				expected: 'a {/* I am a comment */\n \n --custom-prop2: value;}',
 			},
 			{
 				fixture: 'a {/* I am a comment */ \r\n --custom-prop2: value;}',
-				expected: 'a {/* I am a comment */ \r\n --custom-prop2: value;}',
+				expected: 'a {/* I am a comment */\n \r\n --custom-prop2: value;}',
 			},
 			{
 				fixture: 'a {\n\n --custom-prop: value;\n /* I am a comment */ \n\n --custom-prop2: value;}',
@@ -291,11 +291,11 @@ groupTest([
 			},
 			{
 				fixture: 'a {/* I am a comment */ \n\n --custom-prop2: value;}',
-				expected: 'a {/* I am a comment */ \n\n --custom-prop2: value;}',
+				expected: 'a {/* I am a comment */ \n --custom-prop2: value;}',
 			},
 			{
 				fixture: 'a {/* I am a comment */ \r\n\r\n --custom-prop2: value;}',
-				expected: 'a {/* I am a comment */ \r\n\r\n --custom-prop2: value;}',
+				expected: 'a {/* I am a comment */ \r\n --custom-prop2: value;}',
 			},
 			{
 				fixture: 'a {\n --custom-prop: value;\n /* I am a comment */ \n --custom-prop2: value;}',

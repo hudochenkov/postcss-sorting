@@ -171,11 +171,11 @@ groupTest([
 			},
 			{
 				fixture: 'a {/* I am a comment */ \n bottom: 5px;}',
-				expected: 'a {/* I am a comment */ \n bottom: 5px;}',
+				expected: 'a {/* I am a comment */\n \n bottom: 5px;}',
 			},
 			{
 				fixture: 'a {/* I am a comment */ \r\n bottom: 5px;}',
-				expected: 'a {/* I am a comment */ \r\n bottom: 5px;}',
+				expected: 'a {/* I am a comment */\n \r\n bottom: 5px;}',
 			},
 			{
 				fixture: 'a {\n\n top: 15px;\n /* I am a comment */ \n\n bottom: 5px;}',
@@ -334,11 +334,11 @@ groupTest([
 			},
 			{
 				fixture: 'a {/* I am a comment */ \n\n bottom: 5px;}',
-				expected: 'a {/* I am a comment */ \n\n bottom: 5px;}',
+				expected: 'a {/* I am a comment */ \n bottom: 5px;}',
 			},
 			{
 				fixture: 'a {/* I am a comment */ \r\n\r\n bottom: 5px;}',
-				expected: 'a {/* I am a comment */ \r\n\r\n bottom: 5px;}',
+				expected: 'a {/* I am a comment */ \r\n bottom: 5px;}',
 			},
 			{
 				fixture: 'a {\n/* I am a comment */ \n\n bottom: 5px;\n\ntop: 15px;}',

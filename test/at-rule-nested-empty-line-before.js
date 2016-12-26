@@ -204,7 +204,7 @@ groupTest([
 		cases: [
 			{
 				fixture: 'z{/* foo */\n@media {}}',
-				expected: 'z{/* foo */\n@media {}}',
+				expected: 'z{/* foo */\n\n@media {}}',
 			},
 			{
 				fixture: 'z{/* foo */\n\n@media{}}',
@@ -357,7 +357,7 @@ groupTest([
 			},
 			{
 				fixture: 'z{/* foo */\n\n@media {}}',
-				expected: 'z{/* foo */\n\n@media {}}',
+				expected: 'z{/* foo */\n@media {}}',
 			},
 			{
 				fixture: 'z{b {}\n\n@media {}}',

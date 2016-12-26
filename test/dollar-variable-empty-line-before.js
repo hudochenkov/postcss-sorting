@@ -148,11 +148,11 @@ groupTest([
 			},
 			{
 				fixture: 'a {/* I am a comment */ \n $dollar-variable2: value;}',
-				expected: 'a {/* I am a comment */ \n $dollar-variable2: value;}',
+				expected: 'a {/* I am a comment */\n \n $dollar-variable2: value;}',
 			},
 			{
 				fixture: 'a {/* I am a comment */ \r\n $dollar-variable2: value;}',
-				expected: 'a {/* I am a comment */ \r\n $dollar-variable2: value;}',
+				expected: 'a {/* I am a comment */\n \r\n $dollar-variable2: value;}',
 			},
 			{
 				fixture: 'a {\n\n $dollar-variable: value;\n /* I am a comment */ \n\n $dollar-variable2: value;}',
@@ -291,11 +291,11 @@ groupTest([
 			},
 			{
 				fixture: 'a {/* I am a comment */ \n\n $dollar-variable2: value;}',
-				expected: 'a {/* I am a comment */ \n\n $dollar-variable2: value;}',
+				expected: 'a {/* I am a comment */ \n $dollar-variable2: value;}',
 			},
 			{
 				fixture: 'a {/* I am a comment */ \r\n\r\n $dollar-variable2: value;}',
-				expected: 'a {/* I am a comment */ \r\n\r\n $dollar-variable2: value;}',
+				expected: 'a {/* I am a comment */ \r\n $dollar-variable2: value;}',
 			},
 			{
 				fixture: 'a {\n $dollar-variable: value;\n /* I am a comment */ \n $dollar-variable2: value;}',
