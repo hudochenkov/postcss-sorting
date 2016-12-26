@@ -680,6 +680,78 @@ groupTest([
 	},
 	{
 		options: {
+			'at-rule-nested-empty-line-before': [true, { except: ['after-same-name'] }]
+		},
+		cases: [
+			{
+				fixture: `z{
+
+					@charset "UTF-8";
+
+					@media (width: 100px) {}
+					@media (width: 200px) {}}`,
+				expected: `z{
+
+					@charset "UTF-8";
+
+					@media (width: 100px) {}
+					@media (width: 200px) {}}`,
+			},
+			{
+				fixture: `
+					z {
+
+						@extends .foo {}
+						@extends .bar {}
+
+						@include loop {}
+						@include doo {}
+					}`,
+				expected: `
+					z {
+
+						@extends .foo {}
+						@extends .bar {}
+
+						@include loop {}
+						@include doo {}
+					}`,
+			},
+			{
+				fixture: `z{
+					@charset "UTF-8";
+					@import url(x.css) {}
+					@import url(y.css) {}}`,
+				expected: `z{
+
+					@charset "UTF-8";
+
+					@import url(x.css) {}
+					@import url(y.css) {}}`,
+			},
+			{
+				fixture: `
+					z {
+
+						@extends .foo {}
+						@extends .bar {}
+						@include loop {}
+						@include doo {}
+					}`,
+				expected: `
+					z {
+
+						@extends .foo {}
+						@extends .bar {}
+
+						@include loop {}
+						@include doo {}
+					}`,
+			},
+		],
+	},
+	{
+		options: {
 			'at-rule-nested-empty-line-before': [false, { except: ['blockless-after-same-name-blockless'] }]
 		},
 		cases: [
@@ -739,6 +811,71 @@ groupTest([
 						@include loop;
 
 						@include doo;
+					}`,
+			},
+		],
+	},
+	{
+		options: {
+			'at-rule-nested-empty-line-before': [false, { except: ['after-same-name'] }]
+		},
+		cases: [
+			{
+				fixture: `z{
+					@charset "UTF-8";
+					@import url(x.css) {}
+
+					@import url(y.css) {}}`,
+				expected: `z{
+					@charset "UTF-8";
+					@import url(x.css) {}
+
+					@import url(y.css) {}}`,
+			},
+			{
+				fixture: `
+					z {
+						@extends .foo {}
+
+						@extends .bar {}
+						@include loop {}
+
+						@include doo {}
+					}`,
+				expected: `
+					z {
+						@extends .foo {}
+
+						@extends .bar {}
+						@include loop {}
+
+						@include doo {}
+					}`,
+			},
+			{
+				fixture: `z{
+					@charset "UTF-8";
+					@import url(x.css) {}
+					@import url(y.css) {}}`,
+				expected: `z{
+					@charset "UTF-8";
+					@import url(x.css) {}
+
+					@import url(y.css) {}}`,
+			},
+			{
+				fixture: `
+					a {
+						@extends .bar {}
+						@include loop {}
+						@include doo {}
+					}`,
+				expected: `
+					a {
+						@extends .bar {}
+						@include loop {}
+
+						@include doo {}
 					}`,
 			},
 		],

@@ -583,6 +583,13 @@ function plugin(css, opts) {
 				expectEmptyLineBefore = !expectEmptyLineBefore;
 			}
 
+			if (
+				checkOption(optionName, 'except', 'after-same-name')
+				&& isAfterSameName()
+			) {
+				expectEmptyLineBefore = !expectEmptyLineBefore;
+			}
+
 			const hasEmptyLineBefore = hasEmptyLine(atRule.raws.before);
 
 			// Return if the expectation is met
@@ -611,6 +618,12 @@ function plugin(css, opts) {
 				return !hasBlock(atRule)
 					&& previousNode
 					&& !hasBlock(previousNode)
+					&& previousNode.type === 'atrule'
+					&& previousNode.name === atRule.name;
+			}
+
+			function isAfterSameName() {
+				return previousNode
 					&& previousNode.type === 'atrule'
 					&& previousNode.name === atRule.name;
 			}
