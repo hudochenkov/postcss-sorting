@@ -25,8 +25,8 @@ const hasEmptyLine = require('./lib/hasEmptyLine');
 const createEmptyLines = require('./lib/createEmptyLines');
 const isStandardSyntaxRule = require('./lib/isStandardSyntaxRule');
 const hasBlock = require('./lib/hasBlock');
-const hasNonSharedCommentBefore = require('./lib/hasNonSharedCommentBefore');
-const hasSharedCommentBefore = require('./lib/hasSharedCommentBefore');
+const hasNonSharedLineCommentBefore = require('./lib/hasNonSharedLineCommentBefore');
+const hasSharedLineCommentBefore = require('./lib/hasSharedLineCommentBefore');
 
 module.exports = postcss.plugin('postcss-sorting', function (opts) {
 	return function (css) {
@@ -189,7 +189,7 @@ function plugin(css, opts) {
 			// Optionally ignore the node if a comment precedes it
 			if (
 				checkOption(optionName, 'ignore', 'after-comment')
-				&& hasNonSharedCommentBefore(decl)
+				&& hasNonSharedLineCommentBefore(decl)
 			) {
 				return;
 			}
@@ -215,7 +215,7 @@ function plugin(css, opts) {
 			// Optionally reverse the expectation if a comment precedes this node
 			if (
 				checkOption(optionName, 'except', 'after-comment')
-				&& hasNonSharedCommentBefore(decl)
+				&& hasNonSharedLineCommentBefore(decl)
 			) {
 				expectEmptyLineBefore = !expectEmptyLineBefore;
 			}
@@ -270,7 +270,7 @@ function plugin(css, opts) {
 			// Optionally ignore the node if a comment precedes it
 			if (
 				checkOption(optionName, 'ignore', 'after-comment')
-				&& hasNonSharedCommentBefore(decl)
+				&& hasNonSharedLineCommentBefore(decl)
 			) {
 				return;
 			}
@@ -296,7 +296,7 @@ function plugin(css, opts) {
 			// Optionally reverse the expectation if a comment precedes this node
 			if (
 				checkOption(optionName, 'except', 'after-comment')
-				&& hasNonSharedCommentBefore(decl)
+				&& hasNonSharedLineCommentBefore(decl)
 			) {
 				expectEmptyLineBefore = !expectEmptyLineBefore;
 			}
@@ -355,7 +355,7 @@ function plugin(css, opts) {
 			// Optionally ignore the node if a comment precedes it
 			if (
 				checkOption(optionName, 'ignore', 'after-comment')
-				&& hasNonSharedCommentBefore(decl)
+				&& hasNonSharedLineCommentBefore(decl)
 			) {
 				return;
 			}
@@ -369,7 +369,7 @@ function plugin(css, opts) {
 						&& decl.prev().type === 'decl'
 					)
 					|| (
-						hasSharedCommentBefore(decl)
+						hasSharedLineCommentBefore(decl)
 						&& decl.prev().prev()
 						&& decl.prev().prev().type === 'decl'
 					)
@@ -399,7 +399,7 @@ function plugin(css, opts) {
 			// Optionally reverse the expectation if a comment precedes this node
 			if (
 				checkOption(optionName, 'except', 'after-comment')
-				&& hasNonSharedCommentBefore(decl)
+				&& hasNonSharedLineCommentBefore(decl)
 			) {
 				expectEmptyLineBefore = !expectEmptyLineBefore;
 			}
@@ -410,7 +410,7 @@ function plugin(css, opts) {
 				&& (
 					isDeclarationBefore(decl.prev())
 					|| (
-						hasSharedCommentBefore(decl)
+						hasSharedLineCommentBefore(decl)
 						&& isDeclarationBefore(decl.prev().prev())
 					)
 				)
@@ -464,10 +464,10 @@ function plugin(css, opts) {
 				return;
 			}
 
-			// Optionally ignore the expectation if a non-shared comment precedes this node
+			// Optionally ignore the expectation if a non-shared-line comment precedes this node
 			if (
 				checkOption(optionName, 'ignore', 'after-comment')
-				&& hasNonSharedCommentBefore(rule)
+				&& hasNonSharedLineCommentBefore(rule)
 			) {
 				return;
 			}
@@ -574,7 +574,7 @@ function plugin(css, opts) {
 			// Optionally ignore the expectation if a comment precedes this node
 			if (
 				checkOption(optionName, 'ignore', 'after-comment')
-				&& hasNonSharedCommentBefore(atRule)
+				&& hasNonSharedLineCommentBefore(atRule)
 			) {
 				return;
 			}
