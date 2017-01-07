@@ -224,8 +224,18 @@ function plugin(css, opts) {
 			if (
 				checkOption(optionName, 'except', 'after-custom-property')
 				&& decl.prev()
-				&& decl.prev().prop
-				&& isCustomProperty(decl.prev().prop)
+				&& (
+					(
+						decl.prev().prop
+						&& isCustomProperty(decl.prev().prop)
+					)
+					|| (
+						hasSharedLineCommentBefore(decl)
+						&& decl.prev().prev()
+						&& decl.prev().prev().prop
+						&& isCustomProperty(decl.prev().prev().prop)
+					)
+				)
 			) {
 				expectEmptyLineBefore = !expectEmptyLineBefore;
 			}
@@ -363,11 +373,9 @@ function plugin(css, opts) {
 			// Optionally ignore the node if a declaration precedes it
 			if (
 				checkOption(optionName, 'ignore', 'after-declaration')
+				&& decl.prev()
 				&& (
-					(
-						decl.prev()
-						&& decl.prev().type === 'decl'
-					)
+					decl.prev().type === 'decl'
 					|| (
 						hasSharedLineCommentBefore(decl)
 						&& decl.prev().prev()
@@ -407,6 +415,7 @@ function plugin(css, opts) {
 			// Optionally reverse the expectation if a declaration precedes this node
 			if (
 				checkOption(optionName, 'except', 'after-declaration')
+				&& decl.prev()
 				&& (
 					isDeclarationBefore(decl.prev())
 					|| (
@@ -507,7 +516,14 @@ function plugin(css, opts) {
 			if (
 				checkOption(optionName, 'except', 'after-rule')
 				&& rule.prev()
-				&& rule.prev().type === 'rule'
+				&& (
+					rule.prev().type === 'rule'
+					|| (
+						hasSharedLineCommentBefore(rule)
+						&& rule.prev().prev()
+						&& rule.prev().prev().type === 'rule'
+					)
+				)
 			) {
 				expectEmptyLineBefore = !expectEmptyLineBefore;
 			}
@@ -628,24 +644,56 @@ function plugin(css, opts) {
 			}
 
 			function isBlocklessAfterBlockless() {
-				return previousNode
-					&& previousNode.type === 'atrule'
-					&& !hasBlock(previousNode)
-					&& !hasBlock(atRule);
+				return !hasBlock(atRule)
+					&& previousNode
+					&& (
+						(
+							previousNode.type === 'atrule'
+							&& !hasBlock(previousNode)
+							&& !hasBlock(atRule)
+						)
+						|| (
+							hasSharedLineCommentBefore(atRule)
+							&& previousNode.prev()
+							&& previousNode.prev().type === 'atrule'
+							&& !hasBlock(previousNode.prev())
+						)
+					);
 			}
 
 			function isBlocklessAfterSameNameBlockless() {
 				return !hasBlock(atRule)
 					&& previousNode
-					&& !hasBlock(previousNode)
-					&& previousNode.type === 'atrule'
-					&& previousNode.name === atRule.name;
+					&& (
+						(
+							previousNode.type === 'atrule'
+							&& previousNode.name === atRule.name
+							&& !hasBlock(previousNode)
+						)
+						|| (
+							hasSharedLineCommentBefore(atRule)
+							&& previousNode.prev()
+							&& previousNode.prev().type === 'atrule'
+							&& previousNode.prev().name === atRule.name
+							&& !hasBlock(previousNode.prev())
+						)
+					);
 			}
 
 			function isAfterSameName() {
 				return previousNode
-					&& previousNode.type === 'atrule'
-					&& previousNode.name === atRule.name;
+					&& (
+						(
+							previousNode.type === 'atrule'
+							&& previousNode.name === atRule.name
+						)
+						|| (
+							hasSharedLineCommentBefore(atRule)
+							&& previousNode.prev()
+							&& previousNode.prev().type === 'atrule'
+							&& previousNode.prev().name === atRule.name
+						)
+					);
 			}
 
 			function isFirstNested() {
