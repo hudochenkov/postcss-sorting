@@ -375,11 +375,10 @@ function plugin(css, opts) {
 				checkOption(optionName, 'ignore', 'after-declaration')
 				&& decl.prev()
 				&& (
-					decl.prev().type === 'decl'
+					isDeclarationBefore(decl.prev())
 					|| (
 						hasSharedLineCommentBefore(decl)
-						&& decl.prev().prev()
-						&& decl.prev().prev().type === 'decl'
+						&& isDeclarationBefore(decl.prev().prev())
 					)
 				)
 			) {
