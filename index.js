@@ -579,7 +579,7 @@ function plugin(css, opts) {
 
 			// Optionally ignore the expectation if the node is blockless
 			if (
-				checkOption(optionName, 'ignore', 'blockless-group')
+				checkOption(optionName, 'ignore', 'blockless-after-blockless')
 				&& isBlocklessAfterBlockless()
 			) {
 				return;
@@ -615,7 +615,7 @@ function plugin(css, opts) {
 			}
 
 			if (
-				checkOption(optionName, 'except', 'blockless-group')
+				checkOption(optionName, 'except', 'blockless-after-blockless')
 				&& isBlocklessAfterBlockless()
 			) {
 				expectEmptyLineBefore = !expectEmptyLineBefore;
@@ -728,7 +728,7 @@ function plugin(css, opts) {
 					// Optionally ignore stylelint commands
 					if (
 						comment.text.indexOf('stylelint-') === 0
-						&& checkOption(optionName, 'ignore', 'stylelint-commands')
+						&& checkOption(optionName, 'ignore', 'stylelint-command')
 					) {
 						return;
 					}
@@ -739,7 +739,7 @@ function plugin(css, opts) {
 					if (
 						prev
 						&& prev.type === 'comment'
-						&& checkOption(optionName, 'ignore', 'between-comments')
+						&& checkOption(optionName, 'ignore', 'after-comment')
 					) {
 						return;
 					}

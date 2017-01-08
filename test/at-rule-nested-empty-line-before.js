@@ -146,7 +146,7 @@ groupTest([
 	},
 	{
 		options: {
-			'at-rule-nested-empty-line-before': [true, { except: ['blockless-group'] }]
+			'at-rule-nested-empty-line-before': [true, { except: ['blockless-after-blockless'] }]
 		},
 		cases: mergeTestCases(sharedAlwaysTests, [
 			{
@@ -188,7 +188,7 @@ groupTest([
 	},
 	{
 		options: {
-			'at-rule-nested-empty-line-before': [true, { ignore: ['blockless-group'] }]
+			'at-rule-nested-empty-line-before': [true, { ignore: ['blockless-after-blockless'] }]
 		},
 		cases: mergeTestCases(sharedAlwaysTests, [
 			{
@@ -268,7 +268,7 @@ groupTest([
 	},
 	{
 		options: {
-			'at-rule-nested-empty-line-before': [false, { except: ['blockless-group'] }]
+			'at-rule-nested-empty-line-before': [false, { except: ['blockless-after-blockless'] }]
 		},
 		cases: mergeTestCases(sharedNeverTests, [
 			{
@@ -326,7 +326,7 @@ groupTest([
 	},
 	{
 		options: {
-			'at-rule-nested-empty-line-before': [false, { ignore: ['blockless-group'] }]
+			'at-rule-nested-empty-line-before': [false, { ignore: ['blockless-after-blockless'] }]
 		},
 		cases: [
 			{

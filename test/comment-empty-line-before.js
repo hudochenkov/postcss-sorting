@@ -84,7 +84,7 @@ groupTest([
 	},
 	{
 		options: {
-			'comment-empty-line-before': [true, { ignore: ['stylelint-commands'] }]
+			'comment-empty-line-before': [true, { ignore: ['stylelint-command'] }]
 		},
 		cases: mergeTestCases(sharedAlwaysTests, [
 			{
@@ -96,7 +96,7 @@ groupTest([
 	},
 	{
 		options: {
-			'comment-empty-line-before': [true, { ignore: ['between-comments'] }]
+			'comment-empty-line-before': [true, { ignore: ['after-comment'] }]
 		},
 		cases: [
 			{

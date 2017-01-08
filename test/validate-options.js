@@ -831,7 +831,7 @@ testConfig({
 	config: {
 		'at-rule-nested-empty-line-before': [
 			{
-				except: ['blockless-group'],
+				except: ['blockless-after-blockless'],
 			},
 		],
 	},
@@ -844,7 +844,7 @@ testConfig({
 		'at-rule-nested-empty-line-before': [
 			false,
 			{
-				except: ['blockless-group'],
+				except: ['blockless-after-blockless'],
 			},
 		],
 	},
@@ -857,7 +857,7 @@ testConfig({
 		'at-rule-nested-empty-line-before': [
 			true,
 			{
-				except: ['blockless-group-sdfsffsd'],
+				except: ['blockless-after-blockless-sdfsffsd'],
 			},
 		],
 	},
