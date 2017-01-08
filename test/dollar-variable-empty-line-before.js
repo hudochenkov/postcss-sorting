@@ -189,6 +189,14 @@ groupTest([
 				fixture: 'a {\n\n $dollar-variable: value;\r\n\r\n $dollar-variable2: value;}',
 				expected: 'a {\n\n $dollar-variable: value;\r\n $dollar-variable2: value;}',
 			},
+			{
+				fixture: 'a {\n\n $dollar-variable:value; /* comment */\n $dollar-variable2: value;}',
+				expected: 'a {\n\n $dollar-variable:value; /* comment */\n $dollar-variable2: value;}',
+			},
+			{
+				fixture: 'a {\n\n $dollar-variable:value;\n/* comment */\n $dollar-variable2: value;}',
+				expected: 'a {\n\n $dollar-variable:value;\n/* comment */\n\n $dollar-variable2: value;}',
+			},
 		],
 	},
 	{

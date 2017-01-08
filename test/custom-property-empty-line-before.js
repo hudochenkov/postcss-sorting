@@ -189,6 +189,14 @@ groupTest([
 				fixture: 'a {\n\n --custom-prop: value;\r\n\r\n --custom-prop2: value;}',
 				expected: 'a {\n\n --custom-prop: value;\r\n --custom-prop2: value;}',
 			},
+			{
+				fixture: 'a {\n\n --custom-prop:value; /* comment */\n --custom-prop2: value;}',
+				expected: 'a {\n\n --custom-prop:value; /* comment */\n --custom-prop2: value;}',
+			},
+			{
+				fixture: 'a {\n\n --custom-prop:value;\n/* comment */\n --custom-prop2: value;}',
+				expected: 'a {\n\n --custom-prop:value;\n/* comment */\n\n --custom-prop2: value;}',
+			},
 		],
 	},
 	{

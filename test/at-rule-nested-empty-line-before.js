@@ -176,6 +176,14 @@ groupTest([
 				fixture: `z{@import 'x.css';\n\n@import 'y.css'}`,
 				expected: `z{\n\n@import 'x.css';\n@import 'y.css'}`,
 			},
+			{
+				fixture: `z{@import 'x.css';\n/* comment */\n@import 'y.css';}`,
+				expected: `z{\n\n@import 'x.css';\n/* comment */\n\n@import 'y.css';}`,
+			},
+			{
+				fixture: `z{@import 'x.css'; /* comment */\n\n@import 'y.css';}`,
+				expected: `z{\n\n@import 'x.css'; /* comment */\n@import 'y.css';}`,
+			},
 		]),
 	},
 	{
@@ -194,6 +202,14 @@ groupTest([
 			{
 				fixture: `z{@import 'test'; @include mixin(1) { @content; }}`,
 				expected: `z{\n\n@import 'test';\n\n @include mixin(1) {\n\n @content; }}`,
+			},
+			{
+				fixture: `z{@import 'x.css';\n/* comment */\n@import 'y.css';}`,
+				expected: `z{\n\n@import 'x.css';\n/* comment */\n\n@import 'y.css';}`,
+			},
+			{
+				fixture: `z{@import 'x.css'; /* comment */\n@import 'y.css';}`,
+				expected: `z{\n\n@import 'x.css'; /* comment */\n@import 'y.css';}`,
 			},
 		]),
 	},
@@ -279,6 +295,14 @@ groupTest([
 				fixture: `z{@import 'x.css';\n@import 'y.css'}`,
 				expected: `z{@import 'x.css';\n\n@import 'y.css'}`,
 			},
+			{
+				fixture: `z{@import 'x.css';\n/* comment */\n\n@import 'y.css';}`,
+				expected: `z{@import 'x.css';\n/* comment */\n@import 'y.css';}`,
+			},
+			{
+				fixture: `z{\n\n@import 'x.css'; /* comment */\n@import 'y.css';}`,
+				expected: `z{\n@import 'x.css'; /* comment */\n\n@import 'y.css';}`,
+			},
 		]),
 	},
 	{
@@ -338,6 +362,14 @@ groupTest([
 					@import 'x.css';
 					@media {};
 				}`,
+			},
+			{
+				fixture: `z{@import 'x.css';\n/* comment */\n\n@import 'y.css';}`,
+				expected: `z{@import 'x.css';\n/* comment */\n@import 'y.css';}`,
+			},
+			{
+				fixture: `z{\n\n@import 'x.css'; /* comment */\n@import 'y.css';}`,
+				expected: `z{\n@import 'x.css'; /* comment */\n@import 'y.css';}`,
 			},
 		],
 	},
@@ -589,6 +621,7 @@ groupTest([
 					z {
 
 						@extends .foo;
+
 						@extends .bar;
 						@include loop;
 						@include doo;
@@ -597,9 +630,57 @@ groupTest([
 					z {
 
 						@extends .foo;
+
 						@extends .bar;
 
 						@include loop;
+						@include doo;
+					}`,
+			},
+			{
+				fixture: `
+					z {
+
+						@extends .foo;
+
+						@extends .bar; /* comment */
+						@include loop; /* comment */
+						@include doo;
+					}`,
+				expected: `
+					z {
+
+						@extends .foo;
+
+						@extends .bar; /* comment */
+
+						@include loop; /* comment */
+						@include doo;
+					}`,
+			},
+			{
+				fixture: `
+					z {
+
+						@extends .foo;
+
+						@extends .bar;
+						/* comment */
+						@include loop;
+						/* comment */
+						@include doo;
+					}`,
+				expected: `
+					z {
+
+						@extends .foo;
+
+						@extends .bar;
+						/* comment */
+
+						@include loop;
+						/* comment */
+
 						@include doo;
 					}`,
 			},
@@ -675,6 +756,51 @@ groupTest([
 						@include doo;
 					}`,
 			},
+			{
+				fixture: `
+					z {
+
+						@extends .foo;
+
+						@extends .bar; /* comment */
+						@include loop; /* comment */
+						@include doo;
+					}`,
+				expected: `
+					z {
+
+						@extends .foo;
+						@extends .bar; /* comment */
+
+						@include loop; /* comment */
+						@include doo;
+					}`,
+			},
+			{
+				fixture: `
+					z {
+
+						@extends .foo;
+
+						@extends .bar;
+						/* comment */
+						@include loop;
+						/* comment */
+						@include doo;
+					}`,
+				expected: `
+					z {
+
+						@extends .foo;
+						@extends .bar;
+						/* comment */
+
+						@include loop;
+						/* comment */
+
+						@include doo;
+					}`,
+			},
 		],
 	},
 	{
@@ -747,6 +873,49 @@ groupTest([
 						@include doo {}
 					}`,
 			},
+			{
+				fixture: `
+					z {
+
+						@extends .foo {}
+						@extends .bar {} /* comment */
+						@include loop {} /* comment */
+						@include doo {}
+					}`,
+				expected: `
+					z {
+
+						@extends .foo {}
+						@extends .bar {} /* comment */
+
+						@include loop {} /* comment */
+						@include doo {}
+					}`,
+			},
+			{
+				fixture: `
+					z {
+
+						@extends .foo {}
+						@extends .bar {}
+						/* comment */
+						@include loop {}
+						/* comment */
+						@include doo {}
+					}`,
+				expected: `
+					z {
+
+						@extends .foo {}
+						@extends .bar {}
+						/* comment */
+
+						@include loop {}
+						/* comment */
+
+						@include doo {}
+					}`,
+			},
 		],
 	},
 	{
@@ -812,6 +981,49 @@ groupTest([
 						@include doo;
 					}`,
 			},
+			{
+				fixture: `
+					z {
+
+						@extends .foo;
+
+						@extends .bar; /* comment */
+						@include loop; /* comment */
+						@include doo;
+					}`,
+				expected: `
+					z {
+						@extends .foo;
+
+						@extends .bar; /* comment */
+						@include loop; /* comment */
+
+						@include doo;
+					}`,
+			},
+			{
+				fixture: `
+					z {
+
+						@extends .foo;
+
+						@extends .bar;
+						/* comment */
+						@include loop;
+						/* comment */
+						@include doo;
+					}`,
+				expected: `
+					z {
+						@extends .foo;
+
+						@extends .bar;
+						/* comment */
+						@include loop;
+						/* comment */
+						@include doo;
+					}`,
+			},
 		],
 	},
 	{
@@ -874,6 +1086,45 @@ groupTest([
 						@extends .bar {}
 						@include loop {}
 
+						@include doo {}
+					}`,
+			},
+			{
+				fixture: `
+					z {
+						@extends .foo {}
+						@extends .bar {} /* comment */
+						@include loop {} /* comment */
+						@include doo {}
+					}`,
+				expected: `
+					z {
+						@extends .foo {}
+
+						@extends .bar {} /* comment */
+						@include loop {} /* comment */
+
+						@include doo {}
+					}`,
+			},
+			{
+				fixture: `
+					z {
+						@extends .foo {}
+						@extends .bar {}
+						/* comment */
+						@include loop {}
+						/* comment */
+						@include doo {}
+					}`,
+				expected: `
+					z {
+						@extends .foo {}
+
+						@extends .bar {}
+						/* comment */
+						@include loop {}
+						/* comment */
 						@include doo {}
 					}`,
 			},

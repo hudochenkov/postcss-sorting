@@ -229,6 +229,14 @@ groupTest([
 				expected: 'a {\r\n color: pink;\n\r\n b {\r\ncolor: red; \r\n}\r\n c {\r\ncolor: blue; \r\n}\r\n}',
 				description: 'CRLF',
 			},
+			{
+				fixture: 'a {\n color: pink;\n b {color: red; } /* comment */\n c {color: blue; }\n}',
+				expected: 'a {\n color: pink;\n\n b {color: red; } /* comment */\n c {color: blue; }\n}',
+			},
+			{
+				fixture: 'a {\n color: pink;\n b {color: red; }\n /* comment */\n c {color: blue; }\n}',
+				expected: 'a {\n color: pink;\n\n b {color: red; }\n /* comment */\n\n c {color: blue; }\n}',
+			},
 		],
 	},
 	{
