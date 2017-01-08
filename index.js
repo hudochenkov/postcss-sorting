@@ -571,7 +571,7 @@ function plugin(css, opts) {
 			// Optionally ignore the expectation if the node is blockless
 			if (
 				checkOption(optionName, 'ignore', 'blockless-group')
-				&& !hasBlock(atRule)
+				&& isBlocklessAfterBlockless()
 			) {
 				return;
 			}
@@ -645,18 +645,18 @@ function plugin(css, opts) {
 
 			function isBlocklessAfterBlockless() {
 				return !hasBlock(atRule)
-					&& previousNode
+					&& atRule.prev()
 					&& (
 						(
-							previousNode.type === 'atrule'
-							&& !hasBlock(previousNode)
+							atRule.prev().type === 'atrule'
+							&& !hasBlock(atRule.prev())
 							&& !hasBlock(atRule)
 						)
 						|| (
 							hasSharedLineCommentBefore(atRule)
-							&& previousNode.prev()
-							&& previousNode.prev().type === 'atrule'
-							&& !hasBlock(previousNode.prev())
+							&& atRule.prev().prev()
+							&& atRule.prev().prev().type === 'atrule'
+							&& !hasBlock(atRule.prev().prev())
 						)
 					);
 			}

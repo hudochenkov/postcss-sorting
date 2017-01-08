@@ -184,16 +184,16 @@ groupTest([
 		},
 		cases: mergeTestCases(sharedAlwaysTests, [
 			{
-				fixture: `z{\n\n@media {}; @import 'x.css';}`,
-				expected: `z{\n\n@media {}; @import 'x.css';}`,
+				fixture: `z{\n\n@media {} @import 'x.css';}`,
+				expected: `z{\n\n@media {}\n\n @import 'x.css';}`,
 			},
 			{
-				fixture: `z{@import 'x.css'; @media {};}`,
-				expected: `z{@import 'x.css';\n\n @media {};}`,
+				fixture: `z{@import 'x.css';\n\n @media {}}`,
+				expected: `z{\n\n@import 'x.css';\n\n @media {}}`,
 			},
 			{
-				fixture: `z{@import 'test'; @include mixin(1) { @content; };}`,
-				expected: `z{@import 'test';\n\n @include mixin(1) { @content; };}`,
+				fixture: `z{@import 'test'; @include mixin(1) { @content; }}`,
+				expected: `z{\n\n@import 'test';\n\n @include mixin(1) {\n\n @content; }}`,
 			},
 		]),
 	},
@@ -313,7 +313,6 @@ groupTest([
 				}`,
 				expected: `z{
 					@media {};
-
 					@import 'x.css';
 				}`,
 			},
