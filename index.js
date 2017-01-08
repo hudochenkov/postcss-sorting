@@ -315,8 +315,18 @@ function plugin(css, opts) {
 			if (
 				checkOption(optionName, 'except', 'after-dollar-variable')
 				&& decl.prev()
-				&& decl.prev().prop
-				&& isDollarVariable(decl.prev().prop)
+				&& (
+					(
+						decl.prev().prop
+						&& isDollarVariable(decl.prev().prop)
+					)
+					|| (
+						hasSharedLineCommentBefore(decl)
+						&& decl.prev().prev()
+						&& decl.prev().prev().prop
+						&& isDollarVariable(decl.prev().prev().prop)
+					)
+				)
 			) {
 				expectEmptyLineBefore = !expectEmptyLineBefore;
 			}
