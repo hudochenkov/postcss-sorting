@@ -3,7 +3,7 @@ import groupTest from './_group-test';
 groupTest([
 	{
 		options: {
-			'rule-nested-empty-line-before': true
+			'rule-nested-empty-line-before': true,
 		},
 		cases: [
 			{
@@ -91,7 +91,7 @@ groupTest([
 	},
 	{
 		options: {
-			'rule-nested-empty-line-before': [true, { except: ['first-nested'] }]
+			'rule-nested-empty-line-before': [true, { except: ['first-nested'] }],
 		},
 		cases: [
 			{
@@ -169,7 +169,7 @@ groupTest([
 	},
 	{
 		options: {
-			'rule-nested-empty-line-before': [true, { except: ['after-rule'] }]
+			'rule-nested-empty-line-before': [true, { except: ['after-rule'] }],
 		},
 		cases: [
 			{
@@ -241,7 +241,7 @@ groupTest([
 	},
 	{
 		options: {
-			'rule-nested-empty-line-before': [true, { ignore: ['after-comment'] }]
+			'rule-nested-empty-line-before': [true, { ignore: ['after-comment'] }],
 		},
 		cases: [
 			{
@@ -285,7 +285,7 @@ groupTest([
 	},
 	{
 		options: {
-			'rule-nested-empty-line-before': false
+			'rule-nested-empty-line-before': false,
 		},
 		cases: [
 			{
@@ -367,7 +367,7 @@ groupTest([
 	},
 	{
 		options: {
-			'rule-nested-empty-line-before': [false, { ignore: ['after-comment'] }]
+			'rule-nested-empty-line-before': [false, { ignore: ['after-comment'] }],
 		},
 		cases: [
 			{
@@ -406,7 +406,7 @@ groupTest([
 	},
 	{
 		options: {
-			'rule-nested-empty-line-before': [false, { except: ['after-rule'] }]
+			'rule-nested-empty-line-before': [false, { except: ['after-rule'] }],
 		},
 		cases: [
 			{
@@ -466,7 +466,7 @@ groupTest([
 	},
 	{
 		options: {
-			'rule-nested-empty-line-before': 'always-multi-line'
+			'rule-nested-empty-line-before': 'always-multi-line',
 		},
 		cases: [
 			{
@@ -540,7 +540,7 @@ groupTest([
 	},
 	{
 		options: {
-			'rule-nested-empty-line-before': ['always-multi-line', { except: ['first-nested'] }]
+			'rule-nested-empty-line-before': ['always-multi-line', { except: ['first-nested'] }],
 		},
 		cases: [
 			{
@@ -605,7 +605,7 @@ groupTest([
 	},
 	{
 		options: {
-			'rule-nested-empty-line-before': ['never-multi-line']
+			'rule-nested-empty-line-before': ['never-multi-line'],
 		},
 		cases: [
 			{

@@ -3,7 +3,7 @@ import groupTest from './_group-test';
 groupTest([
 	{
 		options: {
-			'custom-property-empty-line-before': true
+			'custom-property-empty-line-before': true,
 		},
 		cases: [
 			{
@@ -70,7 +70,7 @@ groupTest([
 	},
 	{
 		options: {
-			'custom-property-empty-line-before': [true, { ignore: ['after-comment'] }]
+			'custom-property-empty-line-before': [true, { ignore: ['after-comment'] }],
 		},
 		cases: [
 			{
@@ -93,7 +93,7 @@ groupTest([
 	},
 	{
 		options: {
-			'custom-property-empty-line-before': [true, { ignore: ['inside-single-line-block'] }]
+			'custom-property-empty-line-before': [true, { ignore: ['inside-single-line-block'] }],
 		},
 		cases: [
 			{
@@ -112,7 +112,7 @@ groupTest([
 	},
 	{
 		options: {
-			'custom-property-empty-line-before': [true, { except: ['first-nested'] }]
+			'custom-property-empty-line-before': [true, { except: ['first-nested'] }],
 		},
 		cases: [
 			{
@@ -139,7 +139,7 @@ groupTest([
 	},
 	{
 		options: {
-			'custom-property-empty-line-before': [true, { except: ['after-comment'] }]
+			'custom-property-empty-line-before': [true, { except: ['after-comment'] }],
 		},
 		cases: [
 			{
@@ -166,7 +166,7 @@ groupTest([
 	},
 	{
 		options: {
-			'custom-property-empty-line-before': [true, { except: ['after-custom-property'] }]
+			'custom-property-empty-line-before': [true, { except: ['after-custom-property'] }],
 		},
 		cases: [
 			{
@@ -201,7 +201,7 @@ groupTest([
 	},
 	{
 		options: {
-			'custom-property-empty-line-before': [true, { except: ['first-nested', 'after-comment', 'after-custom-property'] }]
+			'custom-property-empty-line-before': [true, { except: ['first-nested', 'after-comment', 'after-custom-property'] }],
 		},
 		cases: [
 			{
@@ -212,7 +212,7 @@ groupTest([
 	},
 	{
 		options: {
-			'custom-property-empty-line-before': [false]
+			'custom-property-empty-line-before': [false],
 		},
 		cases: [
 			{
@@ -263,7 +263,7 @@ groupTest([
 	},
 	{
 		options: {
-			'custom-property-empty-line-before': [false, { except: ['first-nested'] }]
+			'custom-property-empty-line-before': [false, { except: ['first-nested'] }],
 		},
 		cases: [
 			{
@@ -290,7 +290,7 @@ groupTest([
 	},
 	{
 		options: {
-			'custom-property-empty-line-before': [false, { except: ['after-comment'] }]
+			'custom-property-empty-line-before': [false, { except: ['after-comment'] }],
 		},
 		cases: [
 			{
@@ -317,7 +317,7 @@ groupTest([
 	},
 	{
 		options: {
-			'custom-property-empty-line-before': [false, { except: ['after-custom-property'] }]
+			'custom-property-empty-line-before': [false, { except: ['after-custom-property'] }],
 		},
 		cases: [
 			{
@@ -340,7 +340,7 @@ groupTest([
 	},
 	{
 		options: {
-			'custom-property-empty-line-before': [false, { except: ['first-nested', 'after-comment', 'after-custom-property'] }]
+			'custom-property-empty-line-before': [false, { except: ['first-nested', 'after-comment', 'after-custom-property'] }],
 		},
 		cases: [
 			{

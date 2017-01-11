@@ -83,7 +83,7 @@ testConfig({
 			},
 			{
 				type: 'at-rule',
-			}
+			},
 		],
 	},
 });
@@ -315,7 +315,7 @@ testConfig({
 	config: {
 		'properties-order': [
 			{
-				emptyLineBefore: true
+				emptyLineBefore: true,
 			},
 		],
 	},

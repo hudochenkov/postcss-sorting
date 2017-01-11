@@ -50,7 +50,7 @@ const sharedAlwaysTests = [
 groupTest([
 	{
 		options: {
-			'comment-empty-line-before': true
+			'comment-empty-line-before': true,
 		},
 		cases: mergeTestCases(sharedAlwaysTests, [
 			{
@@ -67,7 +67,7 @@ groupTest([
 	},
 	{
 		options: {
-			'comment-empty-line-before': [true, { except: ['first-nested'] }]
+			'comment-empty-line-before': [true, { except: ['first-nested'] }],
 		},
 		cases: mergeTestCases(sharedAlwaysTests, [
 			{
@@ -84,7 +84,7 @@ groupTest([
 	},
 	{
 		options: {
-			'comment-empty-line-before': [true, { ignore: ['stylelint-command'] }]
+			'comment-empty-line-before': [true, { ignore: ['stylelint-command'] }],
 		},
 		cases: mergeTestCases(sharedAlwaysTests, [
 			{
@@ -96,7 +96,7 @@ groupTest([
 	},
 	{
 		options: {
-			'comment-empty-line-before': [true, { ignore: ['after-comment'] }]
+			'comment-empty-line-before': [true, { ignore: ['after-comment'] }],
 		},
 		cases: [
 			{
@@ -117,7 +117,7 @@ groupTest([
 	},
 	{
 		options: {
-			'comment-empty-line-before': [false]
+			'comment-empty-line-before': [false],
 		},
 		cases: [
 			{

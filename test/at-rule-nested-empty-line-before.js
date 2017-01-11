@@ -135,7 +135,7 @@ const sharedNeverTests = [
 groupTest([
 	{
 		options: {
-			'at-rule-nested-empty-line-before': true
+			'at-rule-nested-empty-line-before': true,
 		},
 		cases: mergeTestCases(sharedAlwaysTests, [
 			{
@@ -146,7 +146,7 @@ groupTest([
 	},
 	{
 		options: {
-			'at-rule-nested-empty-line-before': [true, { except: ['blockless-after-blockless'] }]
+			'at-rule-nested-empty-line-before': [true, { except: ['blockless-after-blockless'] }],
 		},
 		cases: mergeTestCases(sharedAlwaysTests, [
 			{
@@ -188,7 +188,7 @@ groupTest([
 	},
 	{
 		options: {
-			'at-rule-nested-empty-line-before': [true, { ignore: ['blockless-after-blockless'] }]
+			'at-rule-nested-empty-line-before': [true, { ignore: ['blockless-after-blockless'] }],
 		},
 		cases: mergeTestCases(sharedAlwaysTests, [
 			{
@@ -215,7 +215,7 @@ groupTest([
 	},
 	{
 		options: {
-			'at-rule-nested-empty-line-before': [true, { ignore: ['after-comment'] }]
+			'at-rule-nested-empty-line-before': [true, { ignore: ['after-comment'] }],
 		},
 		cases: [
 			{
@@ -238,7 +238,7 @@ groupTest([
 	},
 	{
 		options: {
-			'at-rule-nested-empty-line-before': [true, { except: ['first-nested'] }]
+			'at-rule-nested-empty-line-before': [true, { except: ['first-nested'] }],
 		},
 		cases: [
 			{
@@ -257,7 +257,7 @@ groupTest([
 	},
 	{
 		options: {
-			'at-rule-nested-empty-line-before': false
+			'at-rule-nested-empty-line-before': false,
 		},
 		cases: mergeTestCases(sharedNeverTests, [
 			{
@@ -268,7 +268,7 @@ groupTest([
 	},
 	{
 		options: {
-			'at-rule-nested-empty-line-before': [false, { except: ['blockless-after-blockless'] }]
+			'at-rule-nested-empty-line-before': [false, { except: ['blockless-after-blockless'] }],
 		},
 		cases: mergeTestCases(sharedNeverTests, [
 			{
@@ -307,7 +307,7 @@ groupTest([
 	},
 	{
 		options: {
-			'at-rule-nested-empty-line-before': [false, { except: ['first-nested'] }]
+			'at-rule-nested-empty-line-before': [false, { except: ['first-nested'] }],
 		},
 		cases: [
 			{
@@ -326,7 +326,7 @@ groupTest([
 	},
 	{
 		options: {
-			'at-rule-nested-empty-line-before': [false, { ignore: ['blockless-after-blockless'] }]
+			'at-rule-nested-empty-line-before': [false, { ignore: ['blockless-after-blockless'] }],
 		},
 		cases: [
 			{
@@ -375,7 +375,7 @@ groupTest([
 	},
 	{
 		options: {
-			'at-rule-nested-empty-line-before': [false, { ignore: ['after-comment'] }]
+			'at-rule-nested-empty-line-before': [false, { ignore: ['after-comment'] }],
 		},
 		cases: [
 			{
@@ -402,7 +402,7 @@ groupTest([
 	},
 	{
 		options: {
-			'at-rule-nested-empty-line-before': [true, { ignoreAtRules: ['else'] }]
+			'at-rule-nested-empty-line-before': [true, { ignoreAtRules: ['else'] }],
 		},
 		cases: [
 			{
@@ -488,7 +488,7 @@ groupTest([
 	},
 	{
 		options: {
-			'at-rule-nested-empty-line-before': [false, { ignoreAtRules: ['else'] }]
+			'at-rule-nested-empty-line-before': [false, { ignoreAtRules: ['else'] }],
 		},
 		cases: [
 			{
@@ -567,7 +567,7 @@ groupTest([
 	},
 	{
 		options: {
-			'at-rule-nested-empty-line-before': [true, { ignore: ['blockless-after-same-name-blockless'] }]
+			'at-rule-nested-empty-line-before': [true, { ignore: ['blockless-after-same-name-blockless'] }],
 		},
 		cases: [
 			{
@@ -688,7 +688,7 @@ groupTest([
 	},
 	{
 		options: {
-			'at-rule-nested-empty-line-before': [true, { except: ['blockless-after-same-name-blockless'] }]
+			'at-rule-nested-empty-line-before': [true, { except: ['blockless-after-same-name-blockless'] }],
 		},
 		cases: [
 			{
@@ -805,7 +805,7 @@ groupTest([
 	},
 	{
 		options: {
-			'at-rule-nested-empty-line-before': [true, { except: ['after-same-name'] }]
+			'at-rule-nested-empty-line-before': [true, { except: ['after-same-name'] }],
 		},
 		cases: [
 			{
@@ -920,7 +920,7 @@ groupTest([
 	},
 	{
 		options: {
-			'at-rule-nested-empty-line-before': [false, { except: ['blockless-after-same-name-blockless'] }]
+			'at-rule-nested-empty-line-before': [false, { except: ['blockless-after-same-name-blockless'] }],
 		},
 		cases: [
 			{
@@ -1028,7 +1028,7 @@ groupTest([
 	},
 	{
 		options: {
-			'at-rule-nested-empty-line-before': [false, { except: ['after-same-name'] }]
+			'at-rule-nested-empty-line-before': [false, { except: ['after-same-name'] }],
 		},
 		cases: [
 			{

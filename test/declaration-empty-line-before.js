@@ -3,7 +3,7 @@ import groupTest from './_group-test';
 groupTest([
 	{
 		options: {
-			'declaration-empty-line-before': true
+			'declaration-empty-line-before': true,
 		},
 		cases: [
 			{
@@ -42,7 +42,7 @@ groupTest([
 	},
 	{
 		options: {
-			'declaration-empty-line-before': [true, { ignore: ['inside-single-line-block'] }]
+			'declaration-empty-line-before': [true, { ignore: ['inside-single-line-block'] }],
 		},
 		cases: [
 			{
@@ -57,7 +57,7 @@ groupTest([
 	},
 	{
 		options: {
-			'declaration-empty-line-before': [true, { ignore: ['after-comment'] }]
+			'declaration-empty-line-before': [true, { ignore: ['after-comment'] }],
 		},
 		cases: [
 			{
@@ -88,7 +88,7 @@ groupTest([
 	},
 	{
 		options: {
-			'declaration-empty-line-before': [true, { ignore: ['after-declaration'] }]
+			'declaration-empty-line-before': [true, { ignore: ['after-declaration'] }],
 		},
 		cases: [
 			{
@@ -159,7 +159,7 @@ groupTest([
 	},
 	{
 		options: {
-			'declaration-empty-line-before': [true, { except: ['first-nested'] }]
+			'declaration-empty-line-before': [true, { except: ['first-nested'] }],
 		},
 		cases: [
 			{
@@ -186,7 +186,7 @@ groupTest([
 	},
 	{
 		options: {
-			'declaration-empty-line-before': [true, { except: ['after-comment'] }]
+			'declaration-empty-line-before': [true, { except: ['after-comment'] }],
 		},
 		cases: [
 			{
@@ -221,7 +221,7 @@ groupTest([
 	},
 	{
 		options: {
-			'declaration-empty-line-before': [true, { except: ['after-declaration'] }]
+			'declaration-empty-line-before': [true, { except: ['after-declaration'] }],
 		},
 		cases: [
 			{
@@ -264,7 +264,7 @@ groupTest([
 	},
 	{
 		options: {
-			'declaration-empty-line-before': [true, { except: ['first-nested', 'after-comment', 'after-declaration'] }]
+			'declaration-empty-line-before': [true, { except: ['first-nested', 'after-comment', 'after-declaration'] }],
 		},
 		cases: [
 			{
@@ -275,7 +275,7 @@ groupTest([
 	},
 	{
 		options: {
-			'declaration-empty-line-before': [false]
+			'declaration-empty-line-before': [false],
 		},
 		cases: [
 			{
@@ -342,7 +342,7 @@ groupTest([
 	},
 	{
 		options: {
-			'declaration-empty-line-before': [false, { except: ['first-nested'] }]
+			'declaration-empty-line-before': [false, { except: ['first-nested'] }],
 		},
 		cases: [
 			{
@@ -373,7 +373,7 @@ groupTest([
 	},
 	{
 		options: {
-			'declaration-empty-line-before': [false, { except: ['after-comment'] }]
+			'declaration-empty-line-before': [false, { except: ['after-comment'] }],
 		},
 		cases: [
 			{
@@ -404,7 +404,7 @@ groupTest([
 	},
 	{
 		options: {
-			'declaration-empty-line-before': [false, { except: ['after-declaration'] }]
+			'declaration-empty-line-before': [false, { except: ['after-declaration'] }],
 		},
 		cases: [
 			{
@@ -451,7 +451,7 @@ groupTest([
 	},
 	{
 		options: {
-			'declaration-empty-line-before': [false, { except: ['first-nested', 'after-comment', 'after-declaration'] }]
+			'declaration-empty-line-before': [false, { except: ['first-nested', 'after-comment', 'after-declaration'] }],
 		},
 		cases: [
 			{

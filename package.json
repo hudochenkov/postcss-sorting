@@ -25,7 +25,7 @@
   },
   "devDependencies": {
     "ava": "^0.16.0",
-    "eslint": "^3.8.1"
+    "eslint": "^3.13.1"
   },
   "scripts": {
     "test": "ava && eslint index.js lib/*.js test/*.js",

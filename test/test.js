@@ -109,17 +109,17 @@ test(
 					type: 'at-rule',
 					name: 'include',
 					parameter: 'media',
-					hasBlock: true
+					hasBlock: true,
 				},
 				{
 					type: 'at-rule',
 					name: 'include',
-					parameter: 'media'
+					parameter: 'media',
 				},
 				{
 					type: 'at-rule',
 					name: 'include',
-					hasBlock: true
+					hasBlock: true,
 				},
 				{
 					type: 'at-rule',
@@ -127,7 +127,7 @@ test(
 				},
 				{
 					type: 'at-rule',
-					hasBlock: true
+					hasBlock: true,
 				},
 				{
 					type: 'at-rule',
@@ -145,7 +145,7 @@ test(
 				{
 					type: 'at-rule',
 					name: 'include',
-					hasBlock: true
+					hasBlock: true,
 				},
 				{
 					type: 'at-rule',
@@ -153,18 +153,18 @@ test(
 				},
 				{
 					type: 'at-rule',
-					hasBlock: true
-				},
-				{
-					type: 'at-rule',
-					name: 'include',
-					parameter: 'media'
+					hasBlock: true,
 				},
 				{
 					type: 'at-rule',
 					name: 'include',
 					parameter: 'media',
-					hasBlock: true
+				},
+				{
+					type: 'at-rule',
+					name: 'include',
+					parameter: 'media',
+					hasBlock: true,
 				},
 			],
 		}
@@ -245,13 +245,13 @@ test(
 					properties: [
 						'position',
 						'top',
-					]
+					],
 				},
 				{
 					properties: [
 						'display',
 						'z-index',
-					]
+					],
 				},
 			],
 		}
@@ -304,7 +304,7 @@ test(
 				'position',
 				'z-index',
 			],
-			'unspecified-properties-position': 'bottom'
+			'unspecified-properties-position': 'bottom',
 		}
 	)
 );
@@ -317,7 +317,7 @@ test(
 				'position',
 				'z-index',
 			],
-			'unspecified-properties-position': 'top'
+			'unspecified-properties-position': 'top',
 		}
 	)
 );
@@ -330,7 +330,7 @@ test(
 				'position',
 				'z-index',
 			],
-			'unspecified-properties-position': 'bottomAlphabetical'
+			'unspecified-properties-position': 'bottomAlphabetical',
 		}
 	)
 );
@@ -461,14 +461,14 @@ test(
 					properties: [
 						'position',
 						'top',
-					]
+					],
 				},
 				{
 					emptyLineBefore: true,
 					properties: [
 						'display',
 						'z-index',
-					]
+					],
 				},
 			],
 		}
@@ -484,13 +484,13 @@ test(
 					properties: [
 						'position',
 						'top',
-					]
+					],
 				},
 				{
 					properties: [
 						'display',
 						'z-index',
-					]
+					],
 				},
 			],
 		}
@@ -507,14 +507,14 @@ test(
 					properties: [
 						'position',
 						'top',
-					]
+					],
 				},
 				{
 					emptyLineBefore: false,
 					properties: [
 						'display',
 						'z-index',
-					]
+					],
 				},
 			],
 		}

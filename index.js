@@ -121,7 +121,7 @@ function plugin(css, opts) {
 							orderData: isAlphabetical ? null : getPropertiesOrderData(expectedOrder, unprefixedPropName),
 							node: childNode,
 							initialIndex: index,
-							unspecifiedPropertiesPosition
+							unspecifiedPropertiesPosition,
 						};
 
 						// add a marker
