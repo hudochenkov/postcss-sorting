@@ -4,7 +4,7 @@ import fs from 'fs';
 import path from 'path';
 import plugin from '../';
 
-function run(t, input, opts = {}) {
+function run(t, input, opts) {
 	const dir = './fixtures/';
 	const inputSplitted = input.split('.');
 	let inputName = input;
@@ -44,6 +44,11 @@ function run(t, input, opts = {}) {
 			t.deepEqual(result.warnings().length, 0);
 		});
 }
+
+test(
+	`Should do nothing if config is undefined`,
+	(t) => run(t, 'empty-lines-preserve')
+);
 
 const config = {
 	order: [

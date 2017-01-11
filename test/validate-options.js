@@ -25,6 +25,10 @@ function testConfig(input) {
 	});
 }
 
+test('do nothing if config is missing', (t) => {
+	t.false(validateOptions());
+});
+
 testConfig({
 	description: 'config should be an object',
 	valid: true,
