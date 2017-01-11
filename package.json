@@ -1,7 +1,7 @@
 {
   "name": "postcss-sorting",
   "version": "1.7.0",
-  "description": "PostCSS plugin to sort rules content with specified order.",
+  "description": "PostCSS plugin to keep rules and at-rules content in order.",
   "keywords": [
     "postcss",
     "css",

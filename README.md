@@ -1,6 +1,6 @@
 # PostCSS Sorting [![Build Status][ci-img]][ci]
 
-[PostCSS] plugin to sort rules and at-rules content with specified order.
+[PostCSS] plugin to keep rules and at-rules content in order.
 
 Also available as [Sublime Text plugin], [Atom plugin], and [VS Code plugin].
 
