@@ -41,6 +41,49 @@ Plugin has no default options. Everything is disabled by default.
 - [`dollar-variable-empty-line-before`](./docs/dollar-variable-empty-line-before.md): Specify an empty line before `$`-variable declarations.
 - [`comment-empty-line-before`](./docs/comment-empty-line-before.md): Specify an empty line before comments.
 
+## Handling comments
+
+Shared-line comments is comments which is located after a node and on the same line as node.
+
+```css
+a {
+	/* regular comment */
+	color: pink; /* shared-line comment */
+}
+```
+
+Shared-line comments are always ignored in all “empty lines before” options. Plugin looks always “through” these comments. For example:
+
+```js
+{
+	"declaration-empty-line-before": [true, {
+		except: "after-declaration"
+	}]
+}
+```
+
+Technically there is a comment before `bottom`. But it's a shared line comment, so plugin looks before this comment and sees `top`:
+
+```css
+a {
+	--prop: pink;
+
+	top: 5px; /* shared-line comment */
+	bottom: 15px;
+}
+```
+
+For “order” options comments that are before node and on a separate line connected to that node. Shared-line comments also connected to that node.
+
+```css
+a {
+	top: 5px; /* shared-line comment belongs to `top` */
+	/* comment belongs to `bottom` */
+	/* comment belongs to `bottom` */
+	bottom: 15px; /* shared-line comment belongs to `bottom` */
+}
+```
+
 ## Usage
 
 See [PostCSS] docs for examples for your environment.
