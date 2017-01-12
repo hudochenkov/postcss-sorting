@@ -84,6 +84,92 @@ a {
 }
 ```
 
+## Migration from `1.x`
+
+If you have been using [predefined configs], you can look at [migrated predefined configs].
+
+`sort-order` was splitted into [`order`](./docs/order.md) and [`properties-order`](./docs/properties-order.md).
+
+`properties-order` now uses array of objects for grouping.
+
+`sort-order` keywords to new config conversion:
+
+| `1.x` | `2.x` |
+| --- | --- |
+| `@atrule` | `{ order: ["at-rules"] }`  or `{ order: [{ type: "at-rule" }] }` |
+| `@atrulename` | `{ order: [{ type: "at-rule", name: "atrulename" }] }` |
+| `@atrulename parameter` | `{ order: [{ type: "at-rule", name: "atrulename", parameter: "parameter" }] }` |
+| `>child` | `{ order: ["rules"] }` |
+| `$variable` | `{ order: ["custom-properties", "dollar-variables"] }` |
+| “leftovers” token `...` | `{ "unspecified-properties-position": "bottom" }` |
+
+Config for `1.x`:
+
+```js
+{
+	"sort-order": [
+		[
+			"$variable"
+		],
+		[
+			"margin",
+			"padding"
+		],
+		[
+			"border",
+			"background"
+		],
+		[
+			'...',
+			"at-rule",
+			"@include",
+			"@include media",
+			">child"
+		]
+	]
+}
+```
+
+Config for `2.x`:
+
+```js
+{
+	"order": [
+		"custom-properties",
+		"dollar-variables",
+		"declarations",
+		"at-rules",
+		{
+			"type": "at-rule",
+			"name": "include"
+		},
+		{
+			"type": "at-rule",
+			"name": "include",
+			"parameter": "icon"
+		},
+		"rules"
+	],
+	"properties-order": [
+		{
+			"emptyLineBefore": true,
+			"properties": [
+				"margin",
+				"padding"
+			]
+		},
+		{
+			"emptyLineBefore": true,
+			"properties": [
+				"border",
+				"background"
+			]
+		}
+	],
+	"unspecified-properties-position": "bottom"
+}
+```
+
 ## Usage
 
 See [PostCSS] docs for examples for your environment.
@@ -160,6 +246,8 @@ This plugin is heavily inspired by [stylelint]. Some code logic, tests, and docu
 [Sublime Text plugin]: https://github.com/hudochenkov/sublime-postcss-sorting
 [Atom plugin]: https://github.com/lysyi3m/atom-postcss-sorting
 [VS Code plugin]: https://github.com/mrmlnc/vscode-postcss-sorting
+[predefined configs]: https://github.com/hudochenkov/postcss-sorting/tree/ee71c3b61eea8fa11bc3aa2d26dd99a832df6d54/configs
+[migrated predefined configs]: https://gist.github.com/hudochenkov/b7127590d3013a5982ed90ad63a85306
 
 [Gulp PostCSS]: https://github.com/postcss/gulp-postcss
 [Grunt PostCSS]: https://github.com/nDmitry/grunt-postcss
