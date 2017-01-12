@@ -24,7 +24,7 @@ This release completely incompatible with the previous API. There is a lot new o
 ### Changed
 * By default all options are disabled, and the plugin does nothing.
 * Empty lines don't delete anymore if only “order” options are enabled.
-* Droped support for Node <4.
+* Dropped support for Node <4.
 
 ### Removed
 * Predefined configs.
