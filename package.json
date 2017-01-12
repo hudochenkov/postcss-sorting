@@ -17,8 +17,13 @@
   },
   "homepage": "https://github.com/hudochenkov/postcss-sorting",
   "files": [
+    "docs",
+    "lib",
     "index.js"
   ],
+  "engines": {
+    "node": ">=4.0.0"
+  },
   "dependencies": {
     "lodash": "^4.17.4",
     "postcss": "^5.2.10"
@@ -29,7 +34,7 @@
   },
   "scripts": {
     "test": "ava && eslint index.js lib/*.js test/*.js",
-    "test2": "ava",
+    "ava": "ava",
     "lint": "eslint index.js lib/*.js test/*.js"
   }
 }
