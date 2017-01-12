@@ -2,6 +2,39 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 2.0.0
+This release completely incompatible with the previous API. There is a lot new options. Please read the documentation.
+
+[A migration guide](https://github.com/hudochenkov/postcss-sorting#migration-from-1x) is available.
+
+### Added
+* `sort-order` split into `order` and `properties-order`.
+* Alphabetical order.
+* At-rules can be checked if they have a block. E.g., `@include icon;` has no block.
+* Custom properties and $-variables can be grouped separately.
+* Empty lines for different node types:
+	* `rule-nested-empty-line-before`
+	* `at-rule-nested-empty-line-before`
+	* `declaration-empty-line-before`
+	* `custom-property-empty-line-before`
+	* `dollar-variable-empty-line-before`
+	* `comment-empty-line-before`
+* `clean-empty-lines`: Remove all empty lines.
+
+### Changed
+* By default all options are disabled, and the plugin does nothing.
+* Empty lines don't delete anymore if only “order” options are enabled.
+* Droped support for Node <4.
+
+### Removed
+* Predefined configs.
+* Command comments `/* postcss-sorting: on/off */`
+* `preserve-empty-lines-between-children-rules`
+* `empty-lines-between-children-rules`
+* `empty-lines-between-media-rules`
+* `empty-lines-before-comment`
+* `empty-lines-after-comment`
+
 ## 1.7.0
 * Added `smacss` and `alphabetical` predefined configs.
 * Under the hood refactoring.
