@@ -4,7 +4,7 @@
 
 Also available as [Sublime Text plugin], [Atom plugin], and [VS Code plugin].
 
-[stylelint-order] is order linter.
+Lint style sheets order with [stylelint-order].
 
 ## Features
 
