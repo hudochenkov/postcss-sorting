@@ -20,11 +20,11 @@
     "index.js"
   ],
   "dependencies": {
-    "lodash": "^4.17.2",
-    "postcss": "^5.2.5"
+    "lodash": "^4.17.4",
+    "postcss": "^5.2.10"
   },
   "devDependencies": {
-    "ava": "^0.16.0",
+    "ava": "^0.17.0",
     "eslint": "^3.13.1"
   },
   "scripts": {

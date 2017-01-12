@@ -5,7 +5,7 @@ import path from 'path';
 import plugin from '../';
 
 function run(t, input, opts) {
-	const dir = './fixtures/';
+	const dir = path.join(__dirname, './fixtures/');
 	const inputSplitted = input.split('.');
 	let inputName = input;
 	let inputExt = 'css';
