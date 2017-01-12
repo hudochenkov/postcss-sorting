@@ -46,7 +46,7 @@ function plugin(css, opts) {
 	}
 
 	// Having this option before `properties-order`, because later one can add empty lines by `emptyLineBefore`
-	if (opts['clean-empty-lines']) {
+	if (opts['clean-empty-lines'] === true) {
 		css.walk(function (node) {
 			if (isRuleWithNodes(node)) {
 				// Remove empty lines before every node
@@ -64,7 +64,10 @@ function plugin(css, opts) {
 		});
 	}
 
-	if (opts.order) {
+	if (
+		!_.isUndefined(opts.order)
+		&& !_.isNull(opts.order)
+	) {
 		const expectedOrder = createExpectedOrder(opts.order);
 
 		css.walk(function (node) {
@@ -96,10 +99,20 @@ function plugin(css, opts) {
 		});
 	}
 
-	if (opts['properties-order']) {
+	if (
+		!_.isUndefined(opts['properties-order'])
+		&& !_.isNull(opts['properties-order'])
+	) {
 		const isAlphabetical = opts['properties-order'] === 'alphabetical';
 		const expectedOrder = isAlphabetical ? null : createExpectedPropertiesOrder(opts['properties-order']);
-		const unspecifiedPropertiesPosition = _.get(opts, ['unspecified-properties-position'], 'bottom');
+		let unspecifiedPropertiesPosition = opts['unspecified-properties-position'];
+
+		if (
+			_.isUndefined(unspecifiedPropertiesPosition)
+			|| _.isNull(unspecifiedPropertiesPosition)
+		) {
+			unspecifiedPropertiesPosition = 'bottom';
+		}
 
 		css.walk(function (node) {
 			// Process only rules and atrules with nodes
@@ -168,7 +181,10 @@ function plugin(css, opts) {
 		});
 	}
 
-	if (!_.isUndefined(opts['custom-property-empty-line-before'])) {
+	if (
+		!_.isUndefined(opts['custom-property-empty-line-before'])
+		&& !_.isNull(opts['custom-property-empty-line-before'])
+	) {
 		let customPropertyEmptyLineBefore = opts['custom-property-empty-line-before'];
 
 		// Convert to common options format, e. g. `true` → `[true]`
@@ -259,7 +275,10 @@ function plugin(css, opts) {
 		});
 	}
 
-	if (!_.isUndefined(opts['dollar-variable-empty-line-before'])) {
+	if (
+		!_.isUndefined(opts['dollar-variable-empty-line-before'])
+		&& !_.isNull(opts['dollar-variable-empty-line-before'])
+	) {
 		let dollarVariableEmptyLineBefore = opts['dollar-variable-empty-line-before'];
 
 		// Convert to common options format, e. g. `true` → `[true]`
@@ -350,7 +369,10 @@ function plugin(css, opts) {
 		});
 	}
 
-	if (!_.isUndefined(opts['declaration-empty-line-before'])) {
+	if (
+		!_.isUndefined(opts['declaration-empty-line-before'])
+		&& !_.isNull(opts['declaration-empty-line-before'])
+	) {
 		let declarationEmptyLineBefore = opts['declaration-empty-line-before'];
 
 		// Convert to common options format, e. g. `true` → `[true]`
@@ -462,7 +484,10 @@ function plugin(css, opts) {
 		});
 	}
 
-	if (!_.isUndefined(opts['rule-nested-empty-line-before'])) {
+	if (
+		!_.isUndefined(opts['rule-nested-empty-line-before'])
+		&& !_.isNull(opts['rule-nested-empty-line-before'])
+	) {
 		let ruleNestedEmptyLineBefore = opts['rule-nested-empty-line-before'];
 
 		// Convert to common options format, e. g. `true` → `[true]`
@@ -556,7 +581,10 @@ function plugin(css, opts) {
 		});
 	}
 
-	if (!_.isUndefined(opts['at-rule-nested-empty-line-before'])) {
+	if (
+		!_.isUndefined(opts['at-rule-nested-empty-line-before'])
+		&& !_.isNull(opts['at-rule-nested-empty-line-before'])
+	) {
 		let atRuleNestedEmptyLineBefore = opts['at-rule-nested-empty-line-before'];
 
 		// Convert to common options format, e. g. `true` → `[true]`
@@ -711,7 +739,10 @@ function plugin(css, opts) {
 		});
 	}
 
-	if (!_.isUndefined(opts['comment-empty-line-before'])) {
+	if (
+		!_.isUndefined(opts['comment-empty-line-before'])
+		&& !_.isNull(opts['comment-empty-line-before'])
+	) {
 		let commentEmptyLineBefore = opts['comment-empty-line-before'];
 
 		// Convert to common options format, e. g. `true` → `[true]`
