@@ -23,7 +23,7 @@ $ npm install postcss-sorting
 
 ## Options
 
-Plugin has no default options. Everything is disabled by default.
+The plugin has no default options. Everything is disabled by default.
 
 ### Order
 
@@ -43,7 +43,7 @@ Plugin has no default options. Everything is disabled by default.
 
 ## Handling comments
 
-Shared-line comments is comments which is located after a node and on the same line as node.
+Shared-line comments are comments which are located after a node and on the same line as a node.
 
 ```css
 a {
@@ -52,7 +52,7 @@ a {
 }
 ```
 
-Shared-line comments are always ignored in all “empty lines before” options. Plugin looks always “through” these comments. For example:
+Shared-line comments are always ignored in all “empty lines before” options. The plugin always looks “through” these comments. For example:
 
 ```js
 {
@@ -73,7 +73,7 @@ a {
 }
 ```
 
-For “order” options comments that are before node and on a separate line connected to that node. Shared-line comments also connected to that node.
+For “order” options comments that are before node and on a separate line linked to that node. Shared-line comments are also linked to that node.
 
 ```css
 a {
@@ -88,9 +88,9 @@ a {
 
 If you have been using [predefined configs], you can look at [migrated predefined configs].
 
-`sort-order` was splitted into [`order`](./docs/order.md) and [`properties-order`](./docs/properties-order.md).
+`sort-order` was split into [`order`](./docs/order.md) and [`properties-order`](./docs/properties-order.md).
 
-`properties-order` now uses array of objects for grouping.
+`properties-order` now uses an array of objects for grouping.
 
 `sort-order` keywords to new config conversion:
 
