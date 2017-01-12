@@ -174,11 +174,11 @@ Config for `2.x`:
 
 See [PostCSS] docs for examples for your environment.
 
-#### Text editor
+### Text editor
 
 This plugin available as [Sublime Text plugin], [Atom plugin], and [VS Code plugin].
 
-#### Gulp
+### Gulp
 
 Add [Gulp PostCSS] and PostCSS Sorting to your build tool:
 
@@ -203,7 +203,7 @@ gulp.task('css', function () {
 });
 ```
 
-#### Grunt
+### Grunt
 
 Add [Grunt PostCSS] and PostCSS Sorting to your build tool:
 
