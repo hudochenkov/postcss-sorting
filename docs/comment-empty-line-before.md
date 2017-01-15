@@ -61,7 +61,7 @@ a {
 	"<primary option>",
 	{
 		except: ["first-nested"],
-		ignore: ["after-comment", "inside-single-line-block"]
+		ignore: ["after-comment", "stylelint-command"]
 	}
 ]
 ```
