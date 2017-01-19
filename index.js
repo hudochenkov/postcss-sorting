@@ -28,6 +28,7 @@ const hasBlock = require('./lib/hasBlock');
 const hasNonSharedLineCommentBefore = require('./lib/hasNonSharedLineCommentBefore');
 const hasSharedLineCommentBefore = require('./lib/hasSharedLineCommentBefore');
 const normalizeOptions = require('./lib/normalizeOptions');
+const isSet = require('./lib/isSet');
 
 module.exports = postcss.plugin('postcss-sorting', function (opts) {
 	return function (css) {
@@ -67,10 +68,7 @@ function plugin(css, opts) {
 		});
 	}
 
-	if (
-		!_.isUndefined(opts.order)
-		&& !_.isNull(opts.order)
-	) {
+	if (isSet(opts.order)) {
 		const expectedOrder = createExpectedOrder(opts.order);
 
 		css.walk(function (node) {
@@ -102,18 +100,12 @@ function plugin(css, opts) {
 		});
 	}
 
-	if (
-		!_.isUndefined(opts['properties-order'])
-		&& !_.isNull(opts['properties-order'])
-	) {
+	if (isSet(opts['properties-order'])) {
 		const isAlphabetical = opts['properties-order'] === 'alphabetical';
 		const expectedOrder = isAlphabetical ? null : createExpectedPropertiesOrder(opts['properties-order']);
 		let unspecifiedPropertiesPosition = opts['unspecified-properties-position'];
 
-		if (
-			_.isUndefined(unspecifiedPropertiesPosition)
-			|| _.isNull(unspecifiedPropertiesPosition)
-		) {
+		if (!isSet(unspecifiedPropertiesPosition)) {
 			unspecifiedPropertiesPosition = 'bottom';
 		}
 
@@ -184,10 +176,7 @@ function plugin(css, opts) {
 		});
 	}
 
-	if (
-		!_.isUndefined(opts['custom-property-empty-line-before'])
-		&& !_.isNull(opts['custom-property-empty-line-before'])
-	) {
+	if (isSet(opts['custom-property-empty-line-before'])) {
 		const optionName = 'custom-property-empty-line-before';
 
 		css.walkDecls(function (decl) {
@@ -271,10 +260,7 @@ function plugin(css, opts) {
 		});
 	}
 
-	if (
-		!_.isUndefined(opts['dollar-variable-empty-line-before'])
-		&& !_.isNull(opts['dollar-variable-empty-line-before'])
-	) {
+	if (isSet(opts['dollar-variable-empty-line-before'])) {
 		const optionName = 'dollar-variable-empty-line-before';
 
 		css.walkDecls(function (decl) {
@@ -358,10 +344,7 @@ function plugin(css, opts) {
 		});
 	}
 
-	if (
-		!_.isUndefined(opts['declaration-empty-line-before'])
-		&& !_.isNull(opts['declaration-empty-line-before'])
-	) {
+	if (isSet(opts['declaration-empty-line-before'])) {
 		const optionName = 'declaration-empty-line-before';
 
 		css.walkDecls(function (decl) {
@@ -466,10 +449,7 @@ function plugin(css, opts) {
 		});
 	}
 
-	if (
-		!_.isUndefined(opts['rule-nested-empty-line-before'])
-		&& !_.isNull(opts['rule-nested-empty-line-before'])
-	) {
+	if (isSet(opts['rule-nested-empty-line-before'])) {
 		const ruleNestedEmptyLineBefore = opts['rule-nested-empty-line-before'];
 		const optionName = 'rule-nested-empty-line-before';
 
@@ -557,10 +537,7 @@ function plugin(css, opts) {
 		});
 	}
 
-	if (
-		!_.isUndefined(opts['at-rule-nested-empty-line-before'])
-		&& !_.isNull(opts['at-rule-nested-empty-line-before'])
-	) {
+	if (isSet(opts['at-rule-nested-empty-line-before'])) {
 		const optionName = 'at-rule-nested-empty-line-before';
 
 		css.walkAtRules(function (atRule) {
@@ -708,10 +685,7 @@ function plugin(css, opts) {
 		});
 	}
 
-	if (
-		!_.isUndefined(opts['comment-empty-line-before'])
-		&& !_.isNull(opts['comment-empty-line-before'])
-	) {
+	if (isSet(opts['comment-empty-line-before'])) {
 		const optionName = 'comment-empty-line-before';
 
 		css.walk(function (node) {
