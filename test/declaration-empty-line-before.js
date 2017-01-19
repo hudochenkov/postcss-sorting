@@ -62,11 +62,15 @@ groupTest([
 		cases: [
 			{
 				fixture: 'a {\n/* comment */ top: 15px;\n}',
-				expected: 'a {\n/* comment */ top: 15px;\n}',
+				expected: 'a {\n/* comment */\n\n top: 15px;\n}',
 			},
 			{
 				fixture: 'a {\n/* comment */\ntop: 15px;\n}',
 				expected: 'a {\n/* comment */\ntop: 15px;\n}',
+			},
+			{
+				fixture: 'a {\n/* comment */\n\ntop: 15px;\n}',
+				expected: 'a {\n/* comment */\n\ntop: 15px;\n}',
 			},
 			{
 				fixture: 'a {\nbottom: 10px; /* comment */\ntop: 15px;\n}',

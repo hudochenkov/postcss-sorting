@@ -75,7 +75,7 @@ groupTest([
 		cases: [
 			{
 				fixture: 'a {\n/* comment */ $dollar-variable: value;\n}',
-				expected: 'a {\n/* comment */ $dollar-variable: value;\n}',
+				expected: 'a {\n/* comment */\n\n $dollar-variable: value;\n}',
 			},
 			{
 				fixture: 'a {\n/* comment */\n$dollar-variable: value;\n}',

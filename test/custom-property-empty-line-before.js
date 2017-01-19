@@ -75,7 +75,7 @@ groupTest([
 		cases: [
 			{
 				fixture: 'a {\n/* comment */ --custom-prop: value;\n}',
-				expected: 'a {\n/* comment */ --custom-prop: value;\n}',
+				expected: 'a {\n/* comment */\n\n --custom-prop: value;\n}',
 			},
 			{
 				fixture: 'a {\n/* comment */\n--custom-prop: value;\n}',
