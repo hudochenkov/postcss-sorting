@@ -27,6 +27,7 @@ const isStandardSyntaxRule = require('./lib/isStandardSyntaxRule');
 const hasBlock = require('./lib/hasBlock');
 const hasNonSharedLineCommentBefore = require('./lib/hasNonSharedLineCommentBefore');
 const hasSharedLineCommentBefore = require('./lib/hasSharedLineCommentBefore');
+const normalizeOptions = require('./lib/normalizeOptions');
 
 module.exports = postcss.plugin('postcss-sorting', function (opts) {
 	return function (css) {
@@ -44,6 +45,8 @@ function plugin(css, opts) {
 
 		return;
 	}
+
+	opts = normalizeOptions(opts);
 
 	// Having this option before `properties-order`, because later one can add empty lines by `emptyLineBefore`
 	if (opts['clean-empty-lines'] === true) {
@@ -185,13 +188,6 @@ function plugin(css, opts) {
 		!_.isUndefined(opts['custom-property-empty-line-before'])
 		&& !_.isNull(opts['custom-property-empty-line-before'])
 	) {
-		let customPropertyEmptyLineBefore = opts['custom-property-empty-line-before'];
-
-		// Convert to common options format, e. g. `true` → `[true]`
-		if (!_.isArray(customPropertyEmptyLineBefore)) {
-			customPropertyEmptyLineBefore = [customPropertyEmptyLineBefore];
-		}
-
 		const optionName = 'custom-property-empty-line-before';
 
 		css.walkDecls(function (decl) {
@@ -218,7 +214,7 @@ function plugin(css, opts) {
 				return;
 			}
 
-			let expectEmptyLineBefore = customPropertyEmptyLineBefore[0];
+			let expectEmptyLineBefore = opts['custom-property-empty-line-before'][0];
 
 			// Optionally reverse the expectation for the first nested node
 			if (
@@ -279,13 +275,6 @@ function plugin(css, opts) {
 		!_.isUndefined(opts['dollar-variable-empty-line-before'])
 		&& !_.isNull(opts['dollar-variable-empty-line-before'])
 	) {
-		let dollarVariableEmptyLineBefore = opts['dollar-variable-empty-line-before'];
-
-		// Convert to common options format, e. g. `true` → `[true]`
-		if (!_.isArray(dollarVariableEmptyLineBefore)) {
-			dollarVariableEmptyLineBefore = [dollarVariableEmptyLineBefore];
-		}
-
 		const optionName = 'dollar-variable-empty-line-before';
 
 		css.walkDecls(function (decl) {
@@ -312,7 +301,7 @@ function plugin(css, opts) {
 				return;
 			}
 
-			let expectEmptyLineBefore = dollarVariableEmptyLineBefore[0];
+			let expectEmptyLineBefore = opts['dollar-variable-empty-line-before'][0];
 
 			// Optionally reverse the expectation for the first nested node
 			if (
@@ -373,13 +362,6 @@ function plugin(css, opts) {
 		!_.isUndefined(opts['declaration-empty-line-before'])
 		&& !_.isNull(opts['declaration-empty-line-before'])
 	) {
-		let declarationEmptyLineBefore = opts['declaration-empty-line-before'];
-
-		// Convert to common options format, e. g. `true` → `[true]`
-		if (!_.isArray(declarationEmptyLineBefore)) {
-			declarationEmptyLineBefore = [declarationEmptyLineBefore];
-		}
-
 		const optionName = 'declaration-empty-line-before';
 
 		css.walkDecls(function (decl) {
@@ -425,7 +407,7 @@ function plugin(css, opts) {
 				return;
 			}
 
-			let expectEmptyLineBefore = declarationEmptyLineBefore[0];
+			let expectEmptyLineBefore = opts['declaration-empty-line-before'][0];
 
 			// Optionally reverse the expectation for the first nested node
 			if (
@@ -488,13 +470,7 @@ function plugin(css, opts) {
 		!_.isUndefined(opts['rule-nested-empty-line-before'])
 		&& !_.isNull(opts['rule-nested-empty-line-before'])
 	) {
-		let ruleNestedEmptyLineBefore = opts['rule-nested-empty-line-before'];
-
-		// Convert to common options format, e. g. `true` → `[true]`
-		if (!_.isArray(ruleNestedEmptyLineBefore)) {
-			ruleNestedEmptyLineBefore = [ruleNestedEmptyLineBefore];
-		}
-
+		const ruleNestedEmptyLineBefore = opts['rule-nested-empty-line-before'];
 		const optionName = 'rule-nested-empty-line-before';
 
 		css.walkRules(function (rule) {
@@ -585,13 +561,6 @@ function plugin(css, opts) {
 		!_.isUndefined(opts['at-rule-nested-empty-line-before'])
 		&& !_.isNull(opts['at-rule-nested-empty-line-before'])
 	) {
-		let atRuleNestedEmptyLineBefore = opts['at-rule-nested-empty-line-before'];
-
-		// Convert to common options format, e. g. `true` → `[true]`
-		if (!_.isArray(atRuleNestedEmptyLineBefore)) {
-			atRuleNestedEmptyLineBefore = [atRuleNestedEmptyLineBefore];
-		}
-
 		const optionName = 'at-rule-nested-empty-line-before';
 
 		css.walkAtRules(function (atRule) {
@@ -632,7 +601,7 @@ function plugin(css, opts) {
 				return;
 			}
 
-			let expectEmptyLineBefore = atRuleNestedEmptyLineBefore[0];
+			let expectEmptyLineBefore = opts['at-rule-nested-empty-line-before'][0];
 
 			// Optionally reverse the expectation if any exceptions apply
 			if (
@@ -743,13 +712,6 @@ function plugin(css, opts) {
 		!_.isUndefined(opts['comment-empty-line-before'])
 		&& !_.isNull(opts['comment-empty-line-before'])
 	) {
-		let commentEmptyLineBefore = opts['comment-empty-line-before'];
-
-		// Convert to common options format, e. g. `true` → `[true]`
-		if (!_.isArray(commentEmptyLineBefore)) {
-			commentEmptyLineBefore = [commentEmptyLineBefore];
-		}
-
 		const optionName = 'comment-empty-line-before';
 
 		css.walk(function (node) {
@@ -791,7 +753,7 @@ function plugin(css, opts) {
 
 					const hasEmptyLineBefore = hasEmptyLine(before);
 
-					let expectEmptyLineBefore = commentEmptyLineBefore[0];
+					let expectEmptyLineBefore = opts['comment-empty-line-before'][0];
 
 					// Optionally reverse the expectation if any exceptions apply
 					if (
