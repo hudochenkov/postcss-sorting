@@ -24,12 +24,15 @@ const isSingleLineString = require('./lib/isSingleLineString');
 const hasEmptyLine = require('./lib/hasEmptyLine');
 const createEmptyLines = require('./lib/createEmptyLines');
 const isStandardSyntaxRule = require('./lib/isStandardSyntaxRule');
-const hasBlock = require('./lib/hasBlock');
-const hasSharedLineCommentBefore = require('./lib/hasSharedLineCommentBefore');
 const normalizeOptions = require('./lib/normalizeOptions');
 const isSet = require('./lib/isSet');
 const isAfterCommentLine = require('./lib/isAfterCommentLine');
 const isFirstNested = require('./lib/isFirstNested');
+const getPreviousNonSharedLineCommentNode = require('./lib/getPreviousNonSharedLineCommentNode');
+const isAfterStandardPropertyDeclaration = require('./lib/isAfterStandardPropertyDeclaration');
+const isBlocklessAtRuleAfterBlocklessAtRule = require('./lib/isBlocklessAtRuleAfterBlocklessAtRule');
+const isBlocklessAtRuleAfterSameNameBlocklessAtRule = require('./lib/isBlocklessAtRuleAfterSameNameBlocklessAtRule');
+const isAtRuleAfterSameNameAtRule = require('./lib/isAtRuleAfterSameNameAtRule');
 
 module.exports = postcss.plugin('postcss-sorting', function (opts) {
 	return function (css) {
@@ -223,21 +226,13 @@ function plugin(css, opts) {
 			}
 
 			// Optionally reverse the expectation if a custom property precedes this node
+			const prevNode = getPreviousNonSharedLineCommentNode(decl);
+
 			if (
 				checkOption(optionName, 'except', 'after-custom-property')
-				&& decl.prev()
-				&& (
-					(
-						decl.prev().prop
-						&& isCustomProperty(decl.prev().prop)
-					)
-					|| (
-						hasSharedLineCommentBefore(decl)
-						&& decl.prev().prev()
-						&& decl.prev().prev().prop
-						&& isCustomProperty(decl.prev().prev().prop)
-					)
-				)
+				&& prevNode
+				&& prevNode.prop
+				&& isCustomProperty(prevNode.prop)
 			) {
 				expectEmptyLineBefore = !expectEmptyLineBefore;
 			}
@@ -307,21 +302,13 @@ function plugin(css, opts) {
 			}
 
 			// Optionally reverse the expectation if a dollar variable precedes this node
+			const prevNode = getPreviousNonSharedLineCommentNode(decl);
+
 			if (
 				checkOption(optionName, 'except', 'after-dollar-variable')
-				&& decl.prev()
-				&& (
-					(
-						decl.prev().prop
-						&& isDollarVariable(decl.prev().prop)
-					)
-					|| (
-						hasSharedLineCommentBefore(decl)
-						&& decl.prev().prev()
-						&& decl.prev().prev().prop
-						&& isDollarVariable(decl.prev().prev().prop)
-					)
-				)
+				&& prevNode
+				&& prevNode.prop
+				&& isDollarVariable(prevNode.prop)
 			) {
 				expectEmptyLineBefore = !expectEmptyLineBefore;
 			}
@@ -371,14 +358,7 @@ function plugin(css, opts) {
 			// Optionally ignore the node if a declaration precedes it
 			if (
 				checkOption(optionName, 'ignore', 'after-declaration')
-				&& decl.prev()
-				&& (
-					isDeclarationBefore(decl.prev())
-					|| (
-						hasSharedLineCommentBefore(decl)
-						&& isDeclarationBefore(decl.prev().prev())
-					)
-				)
+				&& isAfterStandardPropertyDeclaration(decl)
 			) {
 				return;
 			}
@@ -412,14 +392,7 @@ function plugin(css, opts) {
 			// Optionally reverse the expectation if a declaration precedes this node
 			if (
 				checkOption(optionName, 'except', 'after-declaration')
-				&& decl.prev()
-				&& (
-					isDeclarationBefore(decl.prev())
-					|| (
-						hasSharedLineCommentBefore(decl)
-						&& isDeclarationBefore(decl.prev().prev())
-					)
-				)
+				&& isAfterStandardPropertyDeclaration(decl)
 			) {
 				expectEmptyLineBefore = !expectEmptyLineBefore;
 			}
@@ -439,13 +412,6 @@ function plugin(css, opts) {
 				decl.raws.before = createEmptyLines(1) + decl.raws.before;
 			} else {
 				decl.raws.before = cleanEmptyLines(decl.raws.before);
-			}
-
-			function isDeclarationBefore(targetDeclaration) {
-				return targetDeclaration
-					&& targetDeclaration.prop
-					&& isStandardSyntaxDeclaration(targetDeclaration)
-					&& !isCustomProperty(targetDeclaration.prop);
 			}
 		});
 	}
@@ -506,15 +472,7 @@ function plugin(css, opts) {
 			// Optionally reverse the expectation if a rule precedes this node
 			if (
 				checkOption(optionName, 'except', 'after-rule')
-				&& rule.prev()
-				&& (
-					rule.prev().type === 'rule'
-					|| (
-						hasSharedLineCommentBefore(rule)
-						&& rule.prev().prev()
-						&& rule.prev().prev().type === 'rule'
-					)
-				)
+				&& _.get(getPreviousNonSharedLineCommentNode(rule), 'type') === 'rule'
 			) {
 				expectEmptyLineBefore = !expectEmptyLineBefore;
 			}
@@ -555,18 +513,16 @@ function plugin(css, opts) {
 			// Optionally ignore the expectation if the node is blockless
 			if (
 				checkOption(optionName, 'ignore', 'blockless-after-blockless')
-				&& isBlocklessAfterBlockless()
+				&& isBlocklessAtRuleAfterBlocklessAtRule(atRule)
 			) {
 				return;
 			}
-
-			const previousNode = atRule.prev();
 
 			// Optionally ignore the expection if the node is blockless
 			// and following another blockless at-rule with the same name
 			if (
 				checkOption(optionName, 'ignore', 'blockless-after-same-name-blockless')
-				&& isBlocklessAfterSameNameBlockless()
+				&& isBlocklessAtRuleAfterSameNameBlocklessAtRule(atRule)
 			) {
 				return;
 			}
@@ -591,21 +547,21 @@ function plugin(css, opts) {
 
 			if (
 				checkOption(optionName, 'except', 'blockless-after-blockless')
-				&& isBlocklessAfterBlockless()
+				&& isBlocklessAtRuleAfterBlocklessAtRule(atRule)
 			) {
 				expectEmptyLineBefore = !expectEmptyLineBefore;
 			}
 
 			if (
 				checkOption(optionName, 'except', 'blockless-after-same-name-blockless')
-				&& isBlocklessAfterSameNameBlockless()
+				&& isBlocklessAtRuleAfterSameNameBlocklessAtRule(atRule)
 			) {
 				expectEmptyLineBefore = !expectEmptyLineBefore;
 			}
 
 			if (
 				checkOption(optionName, 'except', 'after-same-name')
-				&& isAfterSameName()
+				&& isAtRuleAfterSameNameAtRule(atRule)
 			) {
 				expectEmptyLineBefore = !expectEmptyLineBefore;
 			}
@@ -626,59 +582,6 @@ function plugin(css, opts) {
 			} else {
 				atRule.raws.before = cleanEmptyLines(atRule.raws.before);
 			}
-
-			function isBlocklessAfterBlockless() {
-				return !hasBlock(atRule)
-					&& atRule.prev()
-					&& (
-						(
-							atRule.prev().type === 'atrule'
-							&& !hasBlock(atRule.prev())
-							&& !hasBlock(atRule)
-						)
-						|| (
-							hasSharedLineCommentBefore(atRule)
-							&& atRule.prev().prev()
-							&& atRule.prev().prev().type === 'atrule'
-							&& !hasBlock(atRule.prev().prev())
-						)
-					);
-			}
-
-			function isBlocklessAfterSameNameBlockless() {
-				return !hasBlock(atRule)
-					&& previousNode
-					&& (
-						(
-							previousNode.type === 'atrule'
-							&& previousNode.name === atRule.name
-							&& !hasBlock(previousNode)
-						)
-						|| (
-							hasSharedLineCommentBefore(atRule)
-							&& previousNode.prev()
-							&& previousNode.prev().type === 'atrule'
-							&& previousNode.prev().name === atRule.name
-							&& !hasBlock(previousNode.prev())
-						)
-					);
-			}
-
-			function isAfterSameName() {
-				return previousNode
-					&& (
-						(
-							previousNode.type === 'atrule'
-							&& previousNode.name === atRule.name
-						)
-						|| (
-							hasSharedLineCommentBefore(atRule)
-							&& previousNode.prev()
-							&& previousNode.prev().type === 'atrule'
-							&& previousNode.prev().name === atRule.name
-						)
-					);
-			}
 		});
 	}
 
@@ -691,8 +594,8 @@ function plugin(css, opts) {
 				node.walkComments((comment) => {
 					// Optionally ignore stylelint commands
 					if (
-						comment.text.indexOf('stylelint-') === 0
-						&& checkOption(optionName, 'ignore', 'stylelint-command')
+						checkOption(optionName, 'ignore', 'stylelint-command')
+						&& comment.text.indexOf('stylelint-') === 0
 					) {
 						return;
 					}
@@ -704,6 +607,7 @@ function plugin(css, opts) {
 						return;
 					}
 
+					// Ignore inline comments in custom syntaxes
 					if (
 						comment.raws.inline
 						|| comment.inline
