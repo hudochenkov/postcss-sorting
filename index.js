@@ -29,6 +29,7 @@ const hasSharedLineCommentBefore = require('./lib/hasSharedLineCommentBefore');
 const normalizeOptions = require('./lib/normalizeOptions');
 const isSet = require('./lib/isSet');
 const isAfterCommentLine = require('./lib/isAfterCommentLine');
+const isFirstNested = require('./lib/isFirstNested');
 
 module.exports = postcss.plugin('postcss-sorting', function (opts) {
 	return function (css) {
@@ -208,7 +209,7 @@ function plugin(css, opts) {
 			// Optionally reverse the expectation for the first nested node
 			if (
 				checkOption(optionName, 'except', 'first-nested')
-				&& decl === parent.first
+				&& isFirstNested(decl)
 			) {
 				expectEmptyLineBefore = !expectEmptyLineBefore;
 			}
@@ -292,7 +293,7 @@ function plugin(css, opts) {
 			// Optionally reverse the expectation for the first nested node
 			if (
 				checkOption(optionName, 'except', 'first-nested')
-				&& decl === parent.first
+				&& isFirstNested(decl)
 			) {
 				expectEmptyLineBefore = !expectEmptyLineBefore;
 			}
@@ -395,7 +396,7 @@ function plugin(css, opts) {
 			// Optionally reverse the expectation for the first nested node
 			if (
 				checkOption(optionName, 'except', 'first-nested')
-				&& decl === parent.first
+				&& isFirstNested(decl)
 			) {
 				expectEmptyLineBefore = !expectEmptyLineBefore;
 			}
@@ -497,7 +498,7 @@ function plugin(css, opts) {
 			// Optionally reverse the expectation for the first nested node
 			if (
 				checkOption(optionName, 'except', 'first-nested')
-				&& rule === rule.parent.first
+				&& isFirstNested(rule)
 			) {
 				expectEmptyLineBefore = !expectEmptyLineBefore;
 			}
@@ -583,7 +584,7 @@ function plugin(css, opts) {
 			// Optionally reverse the expectation if any exceptions apply
 			if (
 				checkOption(optionName, 'except', 'first-nested')
-				&& isFirstNested()
+				&& isFirstNested(atRule)
 			) {
 				expectEmptyLineBefore = !expectEmptyLineBefore;
 			}
@@ -677,10 +678,6 @@ function plugin(css, opts) {
 							&& previousNode.prev().name === atRule.name
 						)
 					);
-			}
-
-			function isFirstNested() {
-				return atRule === atRule.parent.first;
 			}
 		});
 	}
