@@ -1,4 +1,4 @@
-import groupTest from './_group-test';
+const groupTest = require('./_group-test');
 
 groupTest([
 	{

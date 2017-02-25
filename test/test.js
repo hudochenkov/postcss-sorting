@@ -1,8 +1,8 @@
-import postcss from 'postcss';
-import test from 'ava';
-import fs from 'fs';
-import path from 'path';
-import plugin from '../';
+const postcss = require('postcss');
+const test = require('ava');
+const fs = require('fs');
+const path = require('path');
+const plugin = require('../');
 
 function run(t, input, opts) {
 	const dir = path.join(__dirname, './fixtures/');
