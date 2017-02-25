@@ -30,11 +30,13 @@
   },
   "devDependencies": {
     "ava": "^0.18.2",
-    "eslint": "^3.16.1"
+    "eslint": "^3.16.1",
+    "jest": "^19.0.2"
   },
   "scripts": {
     "test": "ava && npm run lint",
     "ava": "ava",
+    "jest": "jest",
     "watch": "ava --watch",
     "lint": "eslint index.js lib/*.js test/*.js"
   },
