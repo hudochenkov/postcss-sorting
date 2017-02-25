@@ -30,6 +30,7 @@
   },
   "devDependencies": {
     "eslint": "^3.16.1",
+    "eslint-config-hudochenkov": "^1.1.0",
     "jest": "^19.0.2"
   },
   "scripts": {
