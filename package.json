@@ -45,8 +45,6 @@
       "./jest-setup.js"
     ],
     "testEnvironment": "node",
-    "roots": [
-      "__tests__"
-    ]
+    "testRegex": "__tests__/.*\\.js$"
   }
 }
