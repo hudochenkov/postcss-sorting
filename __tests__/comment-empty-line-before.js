@@ -1,5 +1,3 @@
-const groupTest = require('./_group-test');
-
 function mergeTestCases(first, second) {
 	return first.concat(second);
 }

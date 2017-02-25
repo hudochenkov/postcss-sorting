@@ -1,6 +1,5 @@
 'use strict';
 
-const test = require('ava');
 const validateOptions = require('../lib/validateOptions');
 
 function testConfig(input) {
@@ -10,23 +9,21 @@ function testConfig(input) {
 		testFn = test.only;
 	} else if (input.skip) {
 		testFn = test.skip;
-	} else if (input.failing) {
-		testFn = test.failing;
 	} else {
 		testFn = test;
 	}
 
-	testFn(input.description, (t) => {
+	testFn(input.description, () => {
 		if (input.valid) {
-			t.true(validateOptions(input.config));
+			expect(validateOptions(input.config)).toBe(true);
 		} else {
-			t.truthy(validateOptions(input.config).length);
+			expect(validateOptions(input.config).length).toBeTruthy();
 		}
 	});
 }
 
-test('do nothing if config is missing', (t) => {
-	t.false(validateOptions());
+test('do nothing if config is missing', () => {
+	expect(validateOptions()).toBe(false);
 });
 
 testConfig({

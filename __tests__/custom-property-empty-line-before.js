@@ -1,5 +1,3 @@
-const groupTest = require('./_group-test');
-
 groupTest([
 	{
 		options: {

@@ -1,10 +1,9 @@
 const postcss = require('postcss');
-const test = require('ava');
 const fs = require('fs');
 const path = require('path');
 const plugin = require('../');
 
-function run(t, input, opts) {
+function run(input, opts) {
 	const dir = path.join(__dirname, './fixtures/');
 	const inputSplitted = input.split('.');
 	let inputName = input;
@@ -40,14 +39,14 @@ function run(t, input, opts) {
 
 			fs.writeFileSync(actualPath, actualCSS);
 
-			t.deepEqual(result.css, expectCSS);
-			t.deepEqual(result.warnings().length, 0);
+			expect(result.css).toEqual(expectCSS);
+			expect(result.warnings().length).toEqual(0);
 		});
 }
 
 test(
 	`Should do nothing if config is undefined`,
-	(t) => run(t, 'empty-lines-preserve')
+	() => run('empty-lines-preserve')
 );
 
 const config = {
@@ -59,22 +58,22 @@ const config = {
 
 test(
 	'Should not remove comments in rules if they are only children',
-	(t) => run(t, 'rules-with-comments-only', config)
+	() => run('rules-with-comments-only', config)
 );
 
 test(
 	`Should not remove first comment in the rule if it's not on separate line (order)`,
-	(t) => run(t, 'first-comment-in-the-rule', config)
+	() => run('first-comment-in-the-rule', config)
 );
 
 test(
 	'Should not remove last comments in the rule',
-	(t) => run(t, 'last-comments', config)
+	() => run('last-comments', config)
 );
 
 test(
 	'Should assign comments before and after nodes correctly (order)',
-	(t) => run(t, 'nodes-comments.css',
+	() => run('nodes-comments.css',
 		{
 			order: [
 				'custom-properties',
@@ -87,7 +86,7 @@ test(
 
 test(
 	'Should sort by keywords',
-	(t) => run(t, 'keywords',
+	() => run('keywords',
 		{
 			order: [
 				'custom-properties',
@@ -102,7 +101,7 @@ test(
 
 test(
 	'At-rules combination from most specified to least specified',
-	(t) => run(t, 'at-rules',
+	() => run('at-rules',
 		{
 			order: [
 				{
@@ -139,7 +138,7 @@ test(
 
 test(
 	'At-rules mixed combination',
-	(t) => run(t, 'at-rules-mixed',
+	() => run('at-rules-mixed',
 		{
 			order: [
 				{
@@ -173,7 +172,7 @@ test(
 
 test(
 	'Should sort inside nested rules',
-	(t) => run(t, 'nested-rule',
+	() => run('nested-rule',
 		{
 			order: [
 				'custom-properties',
@@ -186,7 +185,7 @@ test(
 
 test(
 	'Should sort inside nested at-rules',
-	(t) => run(t, 'nested-at-rule',
+	() => run('nested-at-rule',
 		{
 			order: [
 				'custom-properties',
@@ -199,7 +198,7 @@ test(
 
 test(
 	'Should move unspecified nodes to the bottom',
-	(t) => run(t, 'unspecified-nodes',
+	() => run('unspecified-nodes',
 		{
 			order: [
 				'custom-properties',
@@ -211,7 +210,7 @@ test(
 
 test(
 	'Should preserve indentation',
-	(t) => run(t, 'indent',
+	() => run('indent',
 		{
 			order: [
 				'declarations',
@@ -224,7 +223,7 @@ test(
 
 test(
 	'Should sort properties (array config)',
-	(t) => run(t, 'properties-simple',
+	() => run('properties-simple',
 		{
 			'properties-order': [
 				'position',
@@ -238,7 +237,7 @@ test(
 
 test(
 	'Should sort properties (array of objects config)',
-	(t) => run(t, 'properties-simple',
+	() => run('properties-simple',
 		{
 			'properties-order': [
 				{
@@ -260,7 +259,7 @@ test(
 
 test(
 	'Should sort prefixed properties before unprefixed property',
-	(t) => run(t, 'prefixed',
+	() => run('prefixed',
 		{
 			'properties-order': [
 				'position',
@@ -274,7 +273,7 @@ test(
 
 test(
 	'Should assign comments before and after declarations correctly (properties-order)',
-	(t) => run(t, 'properties-comments',
+	() => run('properties-comments',
 		{
 			'properties-order': [
 				'border-bottom',
@@ -286,7 +285,7 @@ test(
 
 test(
 	'Should place the leftovers properties in the end (not specified)',
-	(t) => run(t, 'leftover-properties-bottom',
+	() => run('leftover-properties-bottom',
 		{
 			'properties-order': [
 				'position',
@@ -298,7 +297,7 @@ test(
 
 test(
 	'Should place the leftovers properties in the end (bottom)',
-	(t) => run(t, 'leftover-properties-bottom',
+	() => run('leftover-properties-bottom',
 		{
 			'properties-order': [
 				'position',
@@ -311,7 +310,7 @@ test(
 
 test(
 	'Should place the leftovers properties in the beginning (top)',
-	(t) => run(t, 'leftover-properties-top',
+	() => run('leftover-properties-top',
 		{
 			'properties-order': [
 				'position',
@@ -324,7 +323,7 @@ test(
 
 test(
 	'Should place the leftovers properties in the end (bottomAlphabetical)',
-	(t) => run(t, 'leftover-properties-bottom-alphabetical',
+	() => run('leftover-properties-bottom-alphabetical',
 		{
 			'properties-order': [
 				'position',
@@ -337,7 +336,7 @@ test(
 
 test(
 	'Should preserve order if properties have same name',
-	(t) => run(t, 'properties-have-same-name',
+	() => run('properties-have-same-name',
 		{
 			'properties-order': [
 				'position',
@@ -349,7 +348,7 @@ test(
 
 test(
 	`Should not remove first comment in the rule if it's not on separate line (properties-order)`,
-	(t) => run(t, 'first-comment-in-the-rule',
+	() => run('first-comment-in-the-rule',
 		{
 			'properties-order': [
 				'display',
@@ -360,7 +359,7 @@ test(
 
 test(
 	`Should sort declarations grouped together between not declarations (without comments)`,
-	(t) => run(t, 'properties-grouped-together',
+	() => run('properties-grouped-together',
 		{
 			'properties-order': [
 				'display',
@@ -372,7 +371,7 @@ test(
 
 test(
 	`Should sort declarations grouped together between not declarations (with comments)`,
-	(t) => run(t, 'properties-grouped-together-comments',
+	() => run('properties-grouped-together-comments',
 		{
 			'properties-order': [
 				'display',
@@ -384,7 +383,7 @@ test(
 
 test(
 	`Should sort declarations scattered everywhere (without comments)`,
-	(t) => run(t, 'properties-scattered',
+	() => run('properties-scattered',
 		{
 			'properties-order': [
 				'display',
@@ -396,7 +395,7 @@ test(
 
 test(
 	`Should sort declarations scattered everywhere (with comments)`,
-	(t) => run(t, 'properties-scattered-comments',
+	() => run('properties-scattered-comments',
 		{
 			'properties-order': [
 				'display',
@@ -408,7 +407,7 @@ test(
 
 test(
 	'Should sort properties alphabetically',
-	(t) => run(t, 'properties-simple-alphabetical',
+	() => run('properties-simple-alphabetical',
 		{
 			'properties-order': 'alphabetical',
 		}
@@ -417,7 +416,7 @@ test(
 
 test(
 	'Should sort prefixed properties before unprefixed property in alphabetical order',
-	(t) => run(t, 'prefixed-alphabetical',
+	() => run('prefixed-alphabetical',
 		{
 			'properties-order': 'alphabetical',
 		}
@@ -426,7 +425,7 @@ test(
 
 test(
 	'Should assign comments before and after declarations correctly (properties-order, alphabetical)',
-	(t) => run(t, 'properties-comments-alphabetical',
+	() => run('properties-comments-alphabetical',
 		{
 			'properties-order': 'alphabetical',
 		}
@@ -435,7 +434,7 @@ test(
 
 test(
 	'Should remove empty lines',
-	(t) => run(t, 'empty-lines-remove',
+	() => run('empty-lines-remove',
 		{
 			'clean-empty-lines': true,
 		}
@@ -444,7 +443,7 @@ test(
 
 test(
 	`Shouldn't mess with line breaks`,
-	(t) => run(t, 'empty-lines-preserve',
+	() => run('empty-lines-preserve',
 		{
 			'clean-empty-lines': true,
 		}
@@ -453,7 +452,7 @@ test(
 
 test(
 	'Should add empty lines between declaration groups',
-	(t) => run(t, 'properties-groups-empty-line',
+	() => run('properties-groups-empty-line',
 		{
 			'properties-order': [
 				{
@@ -477,7 +476,7 @@ test(
 
 test(
 	`Shouldn't add empty lines between declaration groups`,
-	(t) => run(t, 'properties-groups-preserve-empty-line',
+	() => run('properties-groups-preserve-empty-line',
 		{
 			'properties-order': [
 				{
@@ -499,7 +498,7 @@ test(
 
 test(
 	`Shouldn't add empty lines between declaration groups`,
-	(t) => run(t, 'properties-groups-remove-empty-line',
+	() => run('properties-groups-remove-empty-line',
 		{
 			'properties-order': [
 				{

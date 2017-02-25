@@ -45,5 +45,14 @@
       "**/*.{js,css}",
       "!**/*.actual.css"
     ]
+  },
+  "jest": {
+    "setupFiles": [
+      "./jest-setup.js"
+    ],
+    "testEnvironment": "node",
+    "roots": [
+      "__tests__"
+    ]
   }
 }
