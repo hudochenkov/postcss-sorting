@@ -1,3 +1,5 @@
+'use strict';
+
 function mergeTestCases(first, second) {
 	return first.concat(second);
 }

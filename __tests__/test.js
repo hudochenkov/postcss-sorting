@@ -1,3 +1,5 @@
+'use strict';
+
 const postcss = require('postcss');
 const fs = require('fs');
 const path = require('path');
