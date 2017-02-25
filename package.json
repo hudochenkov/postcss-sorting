@@ -29,22 +29,14 @@
     "postcss": "^5.2.15"
   },
   "devDependencies": {
-    "ava": "^0.18.2",
     "eslint": "^3.16.1",
     "jest": "^19.0.2"
   },
   "scripts": {
-    "test": "ava && npm run lint",
-    "ava": "ava",
+    "test": "jest && npm run lint",
     "jest": "jest",
-    "watch": "ava --watch",
+    "watch": "jest --watch",
     "lint": "eslint index.js lib/*.js test/*.js"
-  },
-  "ava": {
-    "source": [
-      "**/*.{js,css}",
-      "!**/*.actual.css"
-    ]
   },
   "jest": {
     "setupFiles": [
