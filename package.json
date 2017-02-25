@@ -36,6 +36,7 @@
     "test": "jest && npm run lint",
     "jest": "jest",
     "watch": "jest --watch",
+    "coverage": "jest --coverage",
     "lint": "eslint index.js lib/*.js test/*.js"
   },
   "jest": {
