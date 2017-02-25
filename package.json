@@ -33,8 +33,15 @@
     "eslint": "^3.16.1"
   },
   "scripts": {
-    "test": "ava && eslint index.js lib/*.js test/*.js",
+    "test": "ava && npm run lint",
     "ava": "ava",
+    "watch": "ava --watch",
     "lint": "eslint index.js lib/*.js test/*.js"
+  },
+  "ava": {
+    "source": [
+      "**/*.{js,css}",
+      "!**/*.actual.css"
+    ]
   }
 }
