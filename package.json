@@ -26,11 +26,11 @@
   },
   "dependencies": {
     "lodash": "^4.17.4",
-    "postcss": "^5.2.10"
+    "postcss": "^5.2.15"
   },
   "devDependencies": {
-    "ava": "^0.17.0",
-    "eslint": "^3.13.1"
+    "ava": "^0.18.2",
+    "eslint": "^3.16.1"
   },
   "scripts": {
     "test": "ava && eslint index.js lib/*.js test/*.js",
