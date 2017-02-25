@@ -1,0 +1,18 @@
+a {
+	position: absolute;
+	z-index: 1;
+	leftover: yay;
+	bottom: 0;
+}
+b {
+	position: absolute;
+	z-index: 2;
+	top: 0;
+	leftover: yay;
+}
+c {
+	position: absolute;
+	z-index: 3;
+	top: 0;
+	leftover: yay;
+}

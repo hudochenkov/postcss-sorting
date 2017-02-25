@@ -1,0 +1,9 @@
+div {
+	--width: 10px;
+	$height: 20px;
+	display: none;
+	position: absolute;
+	top: 0;
+	@media (min-width: 100px) {}
+	@mixin nope;
+}

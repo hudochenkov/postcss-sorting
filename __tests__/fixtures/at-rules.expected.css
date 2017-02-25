@@ -1,0 +1,56 @@
+a {
+	@include media('palm') {
+		display: block;
+	}
+	@include media('desk');
+	@include hello {
+		display: block;
+	}
+	@include hello;
+	@mixin hiya {
+		display: none;
+	}
+	@extend .something;
+}
+
+a {
+	@include hello {
+		display: block;
+	}
+	@include hello;
+}
+
+a {
+	@include hello {
+		display: block;
+	}
+	@mixin hiya {
+		display: none;
+	}
+}
+
+a {
+	@include media('palm') {
+		display: block;
+	}
+	@mixin hiya {
+		display: none;
+	}
+}
+
+a {
+	@mixin hiya {
+		display: none;
+	}
+	@extend .something;
+}
+
+a {
+	@include hello;
+	@extend .something;
+}
+
+a {
+	@mixin yeap;
+	@mixin nope {}
+}
