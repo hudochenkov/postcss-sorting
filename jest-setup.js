@@ -1,7 +1,9 @@
 'use strict';
 
-const postcss = require('postcss');
+const fs = require('fs');
+const path = require('path');
 const plugin = require('./');
+const postcss = require('postcss');
 
 global.groupTest = function (testGroups) {
 	testGroups.forEach((group) => {
@@ -19,4 +21,45 @@ global.groupTest = function (testGroups) {
 			);
 		});
 	});
+};
+
+global.runTest = function (input, opts) {
+	const dir = path.join(__dirname, './__tests__/fixtures/');
+	const inputSplitted = input.split('.');
+	let inputName = input;
+	let inputExt = 'css';
+
+	if (inputSplitted.length > 1) {
+		inputName = inputSplitted[0];
+		inputExt = inputSplitted[1];
+	}
+
+	const inputPath = path.resolve(`${dir + inputName}.${inputExt}`);
+	const expectPath = path.resolve(`${dir + inputName}.expected.${inputExt}`);
+	const actualPath = path.resolve(`${dir + inputName}.actual.${inputExt}`);
+
+	let inputCSS = '';
+	let expectCSS = '';
+
+	try {
+		inputCSS = fs.readFileSync(inputPath, 'utf8');
+	} catch (error) {
+		fs.writeFileSync(inputPath, inputCSS);
+	}
+
+	try {
+		expectCSS = fs.readFileSync(expectPath, 'utf8');
+	} catch (error) {
+		fs.writeFileSync(expectPath, expectCSS);
+	}
+
+	return postcss([plugin(opts)]).process(inputCSS)
+		.then((result) => {
+			const actualCSS = result.css;
+
+			fs.writeFileSync(actualPath, actualCSS);
+
+			expect(result.css).toEqual(expectCSS);
+			expect(result.warnings().length).toEqual(0);
+		});
 };
