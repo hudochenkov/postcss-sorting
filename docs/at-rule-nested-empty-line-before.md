@@ -314,19 +314,20 @@ Ignore specified at-rules.
 Given:
 
 ```js
-[true, { ignoreAtRules: ["import"] }]
+[true, { ignoreAtRules: ["else"] }]
 ```
+
+Before:
 
 ```css
 a {
-
 	@if (true) {
-	}
-
-	@else {
+	} @else {
 	}
 }
 ```
+
+After:
 
 ```css
 a {
