@@ -1,4 +1,4 @@
-# PostCSS Sorting [![Build Status][ci-img]][ci]
+# PostCSS Sorting [![Build Status][ci-img]][ci] [![npm version][npm-version-img]][npm] [![npm downloads last month][npm-downloads-img]][npm] [![Dependency status][dependencies-img]][dependencies-status]
 
 [PostCSS] plugin to keep rules and at-rules content in order.
 
@@ -240,9 +240,15 @@ If you want format style sheets, use [perfectionist] or [stylefmt], also a PostC
 
 This plugin is heavily inspired by [stylelint]. Some code logic, tests, and documentation parts are taken from this tool.
 
-[PostCSS]: https://github.com/postcss/postcss
 [ci-img]: https://travis-ci.org/hudochenkov/postcss-sorting.svg
 [ci]: https://travis-ci.org/hudochenkov/postcss-sorting
+[npm-version-img]: https://img.shields.io/npm/v/postcss-sorting.svg
+[npm-downloads-img]: https://img.shields.io/npm/dm/postcss-sorting.svg
+[dependencies-img]: https://img.shields.io/gemnasium/hudochenkov/postcss-sorting.svg
+[dependencies-status]: https://gemnasium.com/github.com/hudochenkov/postcss-sorting
+[npm]: https://www.npmjs.com/package/postcss-sorting
+
+[PostCSS]: https://github.com/postcss/postcss
 [Sublime Text plugin]: https://github.com/hudochenkov/sublime-postcss-sorting
 [Atom plugin]: https://github.com/lysyi3m/atom-postcss-sorting
 [VS Code plugin]: https://github.com/mrmlnc/vscode-postcss-sorting
