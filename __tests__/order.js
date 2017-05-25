@@ -171,3 +171,290 @@ test(
 		}
 	)
 );
+
+groupTest([
+	{
+		options: {
+			order: [
+				{
+					type: 'rule',
+					selector: '^a',
+				},
+				{
+					type: 'rule',
+					selector: /^&/,
+				},
+				{
+					type: 'rule',
+				},
+			],
+		},
+		cases: [
+			{
+				description: `doesn't change`,
+				fixture: `
+					a {
+						a {}
+						abbr {}
+						&:hover {}
+						span {}
+					}
+				`,
+				expected: `
+					a {
+						a {}
+						abbr {}
+						&:hover {}
+						span {}
+					}
+				`,
+			},
+			{
+				description: `doesn't change`,
+				fixture: `
+					a {
+						abbr {}
+						a {}
+						&:hover {}
+						span {}
+					}
+				`,
+				expected: `
+					a {
+						abbr {}
+						a {}
+						&:hover {}
+						span {}
+					}
+				`,
+			},
+			{
+				description: `doesn't change`,
+				fixture: `
+					a {
+						a {}
+						span {}
+					}
+				`,
+				expected: `
+					a {
+						a {}
+						span {}
+					}
+				`,
+			},
+			{
+				fixture: `
+					a {
+						a {}
+						&:hover {}
+						abbr {}
+						span {}
+					}
+				`,
+				expected: `
+					a {
+						a {}
+						abbr {}
+						&:hover {}
+						span {}
+					}
+				`,
+			},
+			{
+				fixture: `
+					a {
+						span {}
+						&:hover {}
+					}
+				`,
+				expected: `
+					a {
+						&:hover {}
+						span {}
+					}
+				`,
+			},
+			{
+				fixture: `
+					a {
+						span {}
+						abbr {}
+					}
+				`,
+				expected: `
+					a {
+						abbr {}
+						span {}
+					}
+				`,
+			},
+		],
+	},
+	{
+		options: {
+			order: [
+				{
+					type: 'rule',
+					selector: /^&/,
+				},
+				{
+					type: 'rule',
+					selector: /^&:\w/,
+				},
+				{
+					type: 'rule',
+				},
+			],
+		},
+		cases: [
+			{
+				description: `doesn't change`,
+				fixture: `
+					a {
+						&:hover {}
+						& b {}
+						b & {}
+					}
+				`,
+				expected: `
+					a {
+						&:hover {}
+						& b {}
+						b & {}
+					}
+				`,
+			},
+			{
+				description: `doesn't change`,
+				fixture: `
+					a {
+						& b {}
+						&:hover {}
+						b & {}
+					}
+				`,
+				expected: `
+					a {
+						& b {}
+						&:hover {}
+						b & {}
+					}
+				`,
+			},
+			{
+				fixture: `
+					a {
+						& b {}
+						b & {}
+						&:hover {}
+					}
+				`,
+				expected: `
+					a {
+						& b {}
+						&:hover {}
+						b & {}
+					}
+				`,
+			},
+			{
+				fixture: `
+					a {
+						&:hover {}
+						b & {}
+						& b {}
+					}
+				`,
+				expected: `
+					a {
+						&:hover {}
+						& b {}
+						b & {}
+					}
+				`,
+			},
+		],
+	},
+	{
+		options: {
+			order: [
+				{
+					type: 'rule',
+				},
+				{
+					type: 'rule',
+					selector: /^&:\w/,
+				},
+				{
+					type: 'rule',
+					selector: /^&/,
+				},
+			],
+		},
+		cases: [
+			{
+				description: `doesn't change`,
+				fixture: `
+					a {
+						b & {}
+						&:hover {}
+						& b {}
+					}
+				`,
+				expected: `
+					a {
+						b & {}
+						&:hover {}
+						& b {}
+					}
+				`,
+			},
+			{
+				description: `doesn't change`,
+				fixture: `
+					a {
+						b & {}
+						& b {}
+					}
+				`,
+				expected: `
+					a {
+						b & {}
+						& b {}
+					}
+				`,
+			},
+			{
+				fixture: `
+					a {
+						b & {}
+						& b {}
+						&:hover {}
+					}
+				`,
+				expected: `
+					a {
+						b & {}
+						&:hover {}
+						& b {}
+					}
+				`,
+			},
+			{
+				fixture: `
+					a {
+						&:hover {}
+						b & {}
+					}
+				`,
+				expected: `
+					a {
+						b & {}
+						&:hover {}
+					}
+				`,
+			},
+		],
+	},
+]);

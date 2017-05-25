@@ -86,6 +86,26 @@ testConfig({
 });
 
 testConfig({
+	description: 'valid rules variants',
+	valid: true,
+	config: {
+		order: [
+			{
+				type: 'rule',
+				selector: /^&:\w/,
+			},
+			{
+				type: 'rule',
+				selector: '^&:\\w',
+			},
+			{
+				type: 'rule',
+			},
+		],
+	},
+});
+
+testConfig({
 	description: 'valid keyword with at-rule variant (keyword last)',
 	valid: true,
 	config: {
@@ -224,6 +244,58 @@ testConfig({
 			{
 				type: 'at-rule',
 				parameter: 'media',
+			},
+		],
+	},
+});
+
+testConfig({
+	description: 'valid selector (string)',
+	valid: true,
+	config: {
+		order: [
+			{
+				type: 'rule',
+				selector: '^&:hover',
+			},
+		],
+	},
+});
+
+testConfig({
+	description: 'valid selector (RegExp)',
+	valid: true,
+	config: {
+		order: [
+			{
+				type: 'rule',
+				selector: /^&:\w/,
+			},
+		],
+	},
+});
+
+testConfig({
+	description: 'invalid. selector is empty',
+	valid: false,
+	config: {
+		order: [
+			{
+				type: 'rule',
+				selector: '',
+			},
+		],
+	},
+});
+
+testConfig({
+	description: 'invalid. selector is not a string',
+	valid: false,
+	config: {
+		order: [
+			{
+				type: 'rule',
+				selector: null,
 			},
 		],
 	},
