@@ -458,3 +458,113 @@ groupTest([
 		],
 	},
 ]);
+
+groupTest([
+	{
+		options: {
+			order: [
+				{
+					type: 'at-rule',
+					hasBlock: false,
+				},
+				'declarations',
+			],
+		},
+		cases: [
+			{
+				description: `doesn't change`,
+				fixture: `
+					a {
+						@include hello;
+						display: none;
+						@include hello {
+							display: block;
+						}
+					}
+				`,
+				expected: `
+					a {
+						@include hello;
+						display: none;
+						@include hello {
+							display: block;
+						}
+					}
+				`,
+			},
+			{
+				description: `doesn't change`,
+				fixture: `
+					a {
+						display: none;
+						@include hello {
+							display: block;
+						}
+					}
+				`,
+				expected: `
+					a {
+						display: none;
+						@include hello {
+							display: block;
+						}
+					}
+				`,
+			},
+			{
+				fixture: `
+					a {
+						display: none;
+						@include hello;
+					}
+				`,
+				expected: `
+					a {
+						@include hello;
+						display: none;
+					}
+				`,
+			},
+			{
+				fixture: `
+					a {
+						@include hello;
+						@include hello {
+							display: block;
+						}
+						display: none;
+					}
+				`,
+				expected: `
+					a {
+						@include hello;
+						display: none;
+						@include hello {
+							display: block;
+						}
+					}
+				`,
+			},
+			{
+				fixture: `
+					a {
+						@include hello {
+							display: block;
+						}
+						@include hello;
+						display: none;
+					}
+				`,
+				expected: `
+					a {
+						@include hello;
+						display: none;
+						@include hello {
+							display: block;
+						}
+					}
+				`,
+			},
+		],
+	},
+]);
