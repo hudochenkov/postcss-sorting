@@ -2,6 +2,11 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 2.1.0
+* Added: `order` supports new `rule` extended object, which has new `selector` option. Rules in `order` can be specified by their selector.
+* Fixed: Inconsistency with shared line comments.
+* Fixed: Incorrect behaviour if `hasBlock` was set to `false` in extended at-rule object in `order`.
+
 ## 2.0.1
 * Accept `null` for all options.
 
