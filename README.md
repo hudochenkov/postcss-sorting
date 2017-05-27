@@ -12,7 +12,6 @@ Lint style sheets order with [stylelint-order].
 * Sorts properties.
 * Sorts at-rules by different options.
 * Groups properties, custom properties, dollar variables, nested rules, nested at-rules.
-* Adds empty lines before different types of nodes.
 * Supports CSS, SCSS (if [postcss-scss] parser is used), [PreCSS] and most likely any other syntax added by other PostCSS plugins.
 
 ## Installation
@@ -25,55 +24,13 @@ $ npm install postcss-sorting
 
 The plugin has no default options. Everything is disabled by default.
 
-### Order
-
 - [`order`](./docs/order.md): Specify the order of content within declaration blocks.
 - [`properties-order`](./docs/properties-order.md): Specify the order of properties within declaration blocks. Can specify empty line before property groups.
 - [`unspecified-properties-position`](./docs/unspecified-properties-position.md): Specify position for properties not specified in `properties-order`.
 
-### Empty lines
-
-- [`clean-empty-lines`](./docs/clean-empty-lines.md): Remove all empty lines. Runs before all other rules.
-- [`rule-nested-empty-line-before`](./docs/rule-nested-empty-line-before.md): Specify an empty line before nested rules.
-- [`at-rule-nested-empty-line-before`](./docs/at-rule-nested-empty-line-before.md): Specify an empty line before nested at-rules.
-- [`declaration-empty-line-before`](./docs/declaration-empty-line-before.md): Specify an empty line before declarations.
-- [`custom-property-empty-line-before`](./docs/custom-property-empty-line-before.md): Specify an empty line before custom properties.
-- [`dollar-variable-empty-line-before`](./docs/dollar-variable-empty-line-before.md): Specify an empty line before `$`-variable declarations.
-- [`comment-empty-line-before`](./docs/comment-empty-line-before.md): Specify an empty line before comments.
-
 ## Handling comments
 
-Shared-line comments are comments which are located after a node and on the same line as a node.
-
-```css
-a {
-	/* regular comment */
-	color: pink; /* shared-line comment */
-}
-```
-
-Shared-line comments are always ignored in all “empty lines before” options. The plugin always looks “through” these comments. For example:
-
-```js
-{
-	"declaration-empty-line-before": [true, {
-		except: "after-declaration"
-	}]
-}
-```
-
-Technically there is a comment before `bottom`. But it's a shared line comment, so plugin looks before this comment and sees `top`:
-
-```css
-a {
-	--prop: pink;
-
-	top: 5px; /* shared-line comment */
-	bottom: 15px;
-}
-```
-
-For “order” options comments that are before node and on a separate line linked to that node. Shared-line comments are also linked to that node.
+Comments that are before node and on a separate line linked to that node. Shared-line comments are also linked to that node. Shared-line comments are comments which are located after a node and on the same line as a node.
 
 ```css
 a {
