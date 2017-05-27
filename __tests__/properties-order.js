@@ -212,32 +212,8 @@ test(
 );
 
 test(
-	'Should add empty lines between declaration groups',
-	() => runTest('properties-groups-empty-line',
-		{
-			'properties-order': [
-				{
-					emptyLineBefore: true,
-					properties: [
-						'position',
-						'top',
-					],
-				},
-				{
-					emptyLineBefore: true,
-					properties: [
-						'display',
-						'z-index',
-					],
-				},
-			],
-		}
-	)
-);
-
-test(
-	`Shouldn't add empty lines between declaration groups`,
-	() => runTest('properties-groups-preserve-empty-line',
+	`Preserve-empty-lines-between properties`,
+	() => runTest('properties-preserve-empty-line',
 		{
 			'properties-order': [
 				{
@@ -247,30 +223,6 @@ test(
 					],
 				},
 				{
-					properties: [
-						'display',
-						'z-index',
-					],
-				},
-			],
-		}
-	)
-);
-
-test(
-	`Shouldn't add empty lines between declaration groups`,
-	() => runTest('properties-groups-remove-empty-line',
-		{
-			'properties-order': [
-				{
-					emptyLineBefore: false,
-					properties: [
-						'position',
-						'top',
-					],
-				},
-				{
-					emptyLineBefore: false,
 					properties: [
 						'display',
 						'z-index',

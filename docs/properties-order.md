@@ -1,6 +1,6 @@
 # properties-order
 
-Specify the order of properties within declaration blocks. Can specify empty line before property groups.
+Specify the order of properties within declaration blocks.
 
 Prefixed properties *will always* precede the unprefixed version.
 
@@ -49,7 +49,6 @@ Within an order array, you can include:
 - unprefixed property names
 - group objects with these properties:
     - `properties (array of strings)`: The properties in this group.
-    - `emptyLineBefore (true|false)`: By default it's disabled and doesn't affect anything. If `true`, this group will be separated from other properties by an empty newline. If `false`, the group will have no empty lines separating it from other properties.
 
 **By default, unlisted properties will be placed after all listed properties.** So if you specify an array and do not include `display`, that means that the `display` property can be included before or after all specified properties. *This can be changed with the [`unspecified-properties-position`](./unspecified-properties-position.md) option*.
 
@@ -137,95 +136,3 @@ a {
 ```
 
 Note: Empty line before `position` is preserved.
-
----
-
-Given:
-
-```js
-[
-	{
-		emptyLineBefore: true,
-		properties: [
-			"position",
-			"top"
-		]
-	},
-	{
-		emptyLineBefore: true,
-		properties: [
-			"display",
-			"z-index"
-		]
-	}
-]
-```
-
-Before:
-
-```css
-a {
-	position: absolute;
-	top: 0;
-	display: block;
-	z-index: 2;
-}
-```
-
-After:
-
-```css
-a {
-	position: absolute;
-	top: 0;
-
-	display: block;
-	z-index: 2;
-}
-```
-
----
-
-Given:
-
-```js
-[
-	{
-		emptyLineBefore: false,
-		properties: [
-			"position",
-			"top"
-		]
-	},
-	{
-		emptyLineBefore: false,
-		properties: [
-			"display",
-			"z-index"
-		]
-	}
-]
-```
-
-Before:
-
-```css
-a {
-	position: absolute;
-	top: 0;
-
-	display: block;
-	z-index: 2;
-}
-```
-
-After:
-
-```css
-a {
-	position: absolute;
-	top: 0;
-	display: block;
-	z-index: 2;
-}
-```

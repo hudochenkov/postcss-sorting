@@ -25,7 +25,7 @@ $ npm install postcss-sorting
 The plugin has no default options. Everything is disabled by default.
 
 - [`order`](./docs/order.md): Specify the order of content within declaration blocks.
-- [`properties-order`](./docs/properties-order.md): Specify the order of properties within declaration blocks. Can specify empty line before property groups.
+- [`properties-order`](./docs/properties-order.md): Specify the order of properties within declaration blocks.
 - [`unspecified-properties-position`](./docs/unspecified-properties-position.md): Specify position for properties not specified in `properties-order`.
 
 ## Handling comments
