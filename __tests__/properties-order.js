@@ -15,28 +15,6 @@ test(
 );
 
 test(
-	'Should sort properties (array of objects config)',
-	() => runTest('properties-simple',
-		{
-			'properties-order': [
-				{
-					properties: [
-						'position',
-						'top',
-					],
-				},
-				{
-					properties: [
-						'display',
-						'z-index',
-					],
-				},
-			],
-		}
-	)
-);
-
-test(
 	'Should sort prefixed properties before unprefixed property',
 	() => runTest('prefixed',
 		{
@@ -216,18 +194,10 @@ test(
 	() => runTest('properties-preserve-empty-line',
 		{
 			'properties-order': [
-				{
-					properties: [
-						'position',
-						'top',
-					],
-				},
-				{
-					properties: [
-						'display',
-						'z-index',
-					],
-				},
+				'position',
+				'top',
+				'display',
+				'z-index',
 			],
 		}
 	)

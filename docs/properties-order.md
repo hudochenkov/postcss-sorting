@@ -6,7 +6,7 @@ Prefixed properties *will always* precede the unprefixed version.
 
 This rule ignores variables (`$sass`, `@less`, `--custom-property`).
 
-`string|array`: `"alphabetical"|["array", "of", "unprefixed", "property", "names"]|["array", "of", "group", "objects"]`
+`string|array`: `"alphabetical"|["array", "of", "unprefixed", "property", "names"]`
 
 ## `"alphabetical"`
 
@@ -42,13 +42,9 @@ a {
 }
 ```
 
-## `["array", "of", "unprefixed", "property", "names"]|["array", "of", "group", "objects"]`
+## `["array", "of", "unprefixed", "property", "names"]`
 
-Within an order array, you can include:
-
-- unprefixed property names
-- group objects with these properties:
-    - `properties (array of strings)`: The properties in this group.
+Within an order array, you should include unprefixed property names.
 
 **By default, unlisted properties will be placed after all listed properties.** So if you specify an array and do not include `display`, that means that the `display` property can be included before or after all specified properties. *This can be changed with the [`unspecified-properties-position`](./unspecified-properties-position.md) option*.
 
@@ -96,18 +92,10 @@ Given:
 
 ```js
 [
-	{
-		properties: [
-			"position",
-			"top"
-		]
-	},
-	{
-		properties: [
-			"display",
-			"z-index"
-		]
-	}
+	"position",
+	"top"
+	"display",
+	"z-index"
 ]
 ```
 

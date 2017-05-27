@@ -306,39 +306,6 @@ testConfig({
 });
 
 testConfig({
-	description: 'valid. default order (one object)',
-	valid: true,
-	config: {
-		'properties-order': [
-			{
-				properties: [
-					'color',
-				],
-			},
-		],
-	},
-});
-
-testConfig({
-	description: 'valid. default order (two objects)',
-	valid: true,
-	config: {
-		'properties-order': [
-			{
-				properties: [
-					'color',
-				],
-			},
-			{
-				properties: [
-					'display',
-				],
-			},
-		],
-	},
-});
-
-testConfig({
 	description: 'valid. alphabetical',
 	valid: true,
 	config: {
@@ -383,69 +350,10 @@ testConfig({
 });
 
 testConfig({
-	description: 'invalid. object lacks \'properties\' property',
-	valid: false,
-	config: {
-		'properties-order': [
-			{
-				emptyLineBefore: true,
-			},
-		],
-	},
-});
-
-testConfig({
-	description: 'invalid. object outside of array',
-	valid: false,
-	config: {
-		'properties-order': {
-			properties: [
-				'color',
-			],
-		},
-	},
-});
-
-testConfig({
 	description: 'invalid. not an array',
 	valid: false,
 	config: {
 		'properties-order': 'declarations',
-	},
-});
-
-testConfig({
-	description: 'valid. emptyLineBefore is optional',
-	valid: true,
-	config: {
-		'properties-order': [
-			{
-				properties: [
-					'color',
-				],
-			},
-			{
-				emptyLineBefore: true,
-				properties: [
-					'display',
-				],
-			},
-		],
-	},
-});
-
-testConfig({
-	description: 'invalid. emptyLineBefore isn\'t boolean',
-	valid: false,
-	config: {
-		'properties-order': [
-			{
-				emptyLineBefore: 'nope',
-				properties: [
-					'display',
-				],
-			},
-		],
 	},
 });
 
