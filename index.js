@@ -3,8 +3,8 @@
 const postcss = require('postcss');
 const _ = require('lodash');
 
-const features = require('./lib/features');
-const isSet = require('./lib/isSet');
+const order = require('./lib/order');
+const propertiesOrder = require('./lib/properties-order');
 const validateOptions = require('./lib/validateOptions');
 
 module.exports = postcss.plugin('postcss-sorting', function (opts) {
@@ -24,9 +24,11 @@ function plugin(css, opts) {
 		return;
 	}
 
-	Object.keys(features).forEach(function (featureName) {
-		if (isSet(opts[featureName])) {
-			features[featureName](css, opts);
-		}
-	});
+	if (opts.order) {
+		order(css, opts);
+	}
+
+	if (opts['properties-order']) {
+		propertiesOrder(css, opts);
+	}
 }

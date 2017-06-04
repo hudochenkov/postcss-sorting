@@ -17,7 +17,6 @@
   },
   "homepage": "https://github.com/hudochenkov/postcss-sorting",
   "files": [
-    "docs",
     "lib",
     "index.js"
   ],

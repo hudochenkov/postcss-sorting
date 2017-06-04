@@ -23,8 +23,8 @@ global.groupTest = function (testGroups) {
 	});
 };
 
-global.runTest = function (input, opts) {
-	const dir = path.join(__dirname, './__tests__/fixtures/');
+global.runTest = function (input, opts, dirname) {
+	const dir = path.join(dirname, './fixtures/');
 	const inputSplitted = input.split('.');
 	let inputName = input;
 	let inputExt = 'css';
