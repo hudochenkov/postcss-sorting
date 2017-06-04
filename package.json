@@ -37,7 +37,7 @@
     "jest": "jest",
     "watch": "jest --watch",
     "coverage": "jest --coverage",
-    "lint": "eslint index.js lib/*.js __tests__/*.js"
+    "lint": "eslint *.js 'lib/**/*.js'"
   },
   "jest": {
     "setupFiles": [
