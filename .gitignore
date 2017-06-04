@@ -1,5 +1,5 @@
 node_modules/
 npm-debug.log
-__tests__/**/*.actual.*
+**/__tests__/**/*.actual.*
 dev/
 coverage/
