@@ -193,10 +193,6 @@ grunt.initConfig({
 
 If you want format style sheets, use [perfectionist] or [stylefmt], also a PostCSS-based tools.
 
-## Thanks
-
-This plugin is heavily inspired by [stylelint]. Some code logic, tests, and documentation parts are taken from this tool.
-
 [ci-img]: https://travis-ci.org/hudochenkov/postcss-sorting.svg
 [ci]: https://travis-ci.org/hudochenkov/postcss-sorting
 [npm-version-img]: https://img.shields.io/npm/v/postcss-sorting.svg
