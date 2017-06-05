@@ -2,7 +2,7 @@
 
 [PostCSS] plugin to keep rules and at-rules content in order.
 
-Also available as [Sublime Text plugin], [Atom plugin], and [VS Code plugin].
+Also available as [Sublime Text], [Atom], [VS Code], and [Emacs] plugin.
 
 Lint style sheets order with [stylelint-order].
 
@@ -176,7 +176,7 @@ See [PostCSS] docs for examples for your environment.
 
 ### Text editor
 
-This plugin available as [Sublime Text plugin], [Atom plugin], and [VS Code plugin].
+This plugin available as [Sublime Text], [Atom], [VS Code], and [Emacs] plugin.
 
 ### Gulp
 
@@ -249,9 +249,10 @@ This plugin is heavily inspired by [stylelint]. Some code logic, tests, and docu
 [npm]: https://www.npmjs.com/package/postcss-sorting
 
 [PostCSS]: https://github.com/postcss/postcss
-[Sublime Text plugin]: https://github.com/hudochenkov/sublime-postcss-sorting
-[Atom plugin]: https://github.com/lysyi3m/atom-postcss-sorting
-[VS Code plugin]: https://github.com/mrmlnc/vscode-postcss-sorting
+[Sublime Text]: https://github.com/hudochenkov/sublime-postcss-sorting
+[Atom]: https://github.com/lysyi3m/atom-postcss-sorting
+[VS Code]: https://github.com/mrmlnc/vscode-postcss-sorting
+[Emacs]: https://github.com/P233/postcss-sorting.el
 [predefined configs]: https://github.com/hudochenkov/postcss-sorting/tree/ee71c3b61eea8fa11bc3aa2d26dd99a832df6d54/configs
 [migrated predefined configs]: https://gist.github.com/hudochenkov/b7127590d3013a5982ed90ad63a85306
 
