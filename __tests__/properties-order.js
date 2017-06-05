@@ -280,3 +280,20 @@ test(
 		}
 	)
 );
+
+test(
+	`Should look for the matching segment before the hyphen when the property is not specified`,
+	() => runTest('prehyphen-segment-order',
+		{
+			'properties-order': [
+				{
+					properties: [
+						'border',
+						'background',
+						'color',
+					],
+				},
+			],
+		}
+	)
+);
