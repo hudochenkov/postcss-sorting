@@ -4,7 +4,7 @@
 
 Also available as [Sublime Text], [Atom], [VS Code], and [Emacs] plugin.
 
-Lint style sheets order with [stylelint-order].
+Lint and autofix style sheets order with [stylelint-order].
 
 ## Features
 
