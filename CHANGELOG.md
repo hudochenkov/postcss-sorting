@@ -2,6 +2,21 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 3.0.0
+This is a cleanup release. Removed everything not related to ordering stylesheets. I recommend to use combination [stylelint 7.11+](https://stylelint.io/) with `--fix` option and [stylelint-order 0.5+](https://github.com/hudochenkov/stylelint-order) plugin instead of this plugin. Using combination above you'll receive linting and autofixing using only one tool!
+
+* Removed options:
+	* `at-rule-nested-empty-line-before`
+	* `clean-empty-lines`
+	* `comment-empty-line-before`
+	* `custom-property-empty-line-before`
+	* `declaration-empty-line-before`
+	* `dollar-variable-empty-line-before`
+	* `rule-nested-empty-line-before`
+* Changes to `properties-order`:
+	* Removed `emptyLineBefore` option.
+	* Removed objects support in configuration. Use plain arrays instead.
+
 ## 2.1.0
 * Added: `order` supports new `rule` extended object, which has new `selector` option. Rules in `order` can be specified by their selector.
 * Fixed: Inconsistency with shared line comments.

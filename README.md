@@ -168,5 +168,5 @@ If you want format style sheets, use [perfectionist] or [stylefmt], also a PostC
 [postcss-scss]: https://github.com/postcss/postcss-scss
 [perfectionist]: https://github.com/ben-eb/perfectionist
 [stylefmt]: https://github.com/morishitter/stylefmt
-[stylelint]: http://stylelint.io/
+[stylelint]: https://stylelint.io/
 [stylelint-order]: https://github.com/hudochenkov/stylelint-order
