@@ -16,6 +16,7 @@ This is a cleanup release. Removed everything not related to ordering stylesheet
 * Changes to `properties-order`:
 	* Removed `emptyLineBefore` option.
 	* Removed objects support in configuration. Use plain arrays instead.
+* Updated to PostCSS 6.
 
 ## 2.1.0
 * Added: `order` supports new `rule` extended object, which has new `selector` option. Rules in `order` can be specified by their selector.
