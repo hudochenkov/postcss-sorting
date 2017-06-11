@@ -75,7 +75,7 @@ Config for `3.x`:
 {
 	"properties-order": [
 		"margin",
-		"padding"
+		"padding",
 		"border",
 		"background"
 	]
