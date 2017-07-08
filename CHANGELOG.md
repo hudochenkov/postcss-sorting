@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 3.0.1
+* Fixed: Inconsistent sorting for the same name properties in `properties-order`.
+
 ## 3.0.0
 This is a cleanup release. Removed everything not related to ordering stylesheets. I recommend to use combination [stylelint 7.11+](https://stylelint.io/) with `--fix` option and [stylelint-order 0.5+](https://github.com/hudochenkov/stylelint-order) plugin instead of this plugin. Using combination above you'll receive linting and autofixing using only one tool!
 
