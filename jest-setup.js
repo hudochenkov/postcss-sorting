@@ -5,17 +5,17 @@ const path = require('path');
 const plugin = require('./');
 const postcss = require('postcss');
 
-global.groupTest = function (testGroups) {
-	testGroups.forEach((group) => {
-		group.cases.forEach((item) => {
-			const message = item.description || group.message || `Should work with ${JSON.stringify(group.options)}`;
+global.groupTest = function(testGroups) {
+	testGroups.forEach(group => {
+		group.cases.forEach(item => {
+			const message =
+				item.description || group.message || `Should work with ${JSON.stringify(group.options)}`;
 			const testFn = item.only ? test.only : test;
 
-			testFn(
-				message,
-				() => postcss(plugin(group.options))
+			testFn(message, () =>
+				postcss(plugin(group.options))
 					.process(item.fixture)
-					.then((root) => {
+					.then(root => {
 						expect(root.css).toEqual(item.expected);
 					})
 			);
@@ -23,7 +23,7 @@ global.groupTest = function (testGroups) {
 	});
 };
 
-global.runTest = function (input, opts, dirname) {
+global.runTest = function(input, opts, dirname) {
 	const dir = path.join(dirname, './fixtures/');
 	const inputSplitted = input.split('.');
 	let inputName = input;
@@ -53,8 +53,9 @@ global.runTest = function (input, opts, dirname) {
 		fs.writeFileSync(expectPath, expectCSS);
 	}
 
-	return postcss([plugin(opts)]).process(inputCSS)
-		.then((result) => {
+	return postcss([plugin(opts)])
+		.process(inputCSS)
+		.then(result => {
 			const actualCSS = result.css;
 
 			fs.writeFileSync(actualPath, actualCSS);

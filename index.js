@@ -7,8 +7,8 @@ const order = require('./lib/order');
 const propertiesOrder = require('./lib/properties-order');
 const validateOptions = require('./lib/validateOptions');
 
-module.exports = postcss.plugin('postcss-sorting', function (opts) {
-	return function (css) {
+module.exports = postcss.plugin('postcss-sorting', function(opts) {
+	return function(css) {
 		plugin(css, opts);
 	};
 });
@@ -17,7 +17,8 @@ function plugin(css, opts) {
 	const validatedOptions = validateOptions(opts);
 
 	if (validatedOptions !== true) {
-		if (console && console.warn && _.isString(validatedOptions)) { // eslint-disable-line no-console
+		// eslint-disable-next-line no-console
+		if (console && console.warn && _.isString(validatedOptions)) {
 			console.warn(validatedOptions); // eslint-disable-line no-console
 		}
 
