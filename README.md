@@ -144,9 +144,9 @@ grunt.initConfig({
 
 ## Related tools
 
-[stylelint] and [stylelint-order] help lint style sheets and let know if style sheet order is correct.
+[stylelint] and [stylelint-order] help lint style sheets and let you know if style sheet order is correct. Also, they could autofix style sheets.
 
-If you want format style sheets, use [perfectionist] or [stylefmt], also a PostCSS-based tools.
+Other style sheet formatting tools are [Prettier], [perfectionist], [scssfmt].
 
 [ci-img]: https://travis-ci.org/hudochenkov/postcss-sorting.svg
 [ci]: https://travis-ci.org/hudochenkov/postcss-sorting
@@ -167,6 +167,7 @@ If you want format style sheets, use [perfectionist] or [stylefmt], also a PostC
 [PreCSS]: https://github.com/jonathantneal/precss
 [postcss-scss]: https://github.com/postcss/postcss-scss
 [perfectionist]: https://github.com/ben-eb/perfectionist
-[stylefmt]: https://github.com/morishitter/stylefmt
+[scssfmt]: https://github.com/morishitter/scssfmt
+[Prettier]: https://github.com/prettier/prettier
 [stylelint]: https://stylelint.io/
 [stylelint-order]: https://github.com/hudochenkov/stylelint-order
