@@ -2,7 +2,9 @@
 
 Specify the order of properties within declaration blocks.
 
-Prefixed properties *will always* precede the unprefixed version.
+This rule ignore prefixes to determine properties order. E. g. `-moz-transform` is treated as `transform`. But prefixed properties *will always* precede the unprefixed version (e. g. `-moz-transform` will be always before `transform`).
+
+Recommended to use this rule only on source files, rather autoprefixed files. Some “non-standard” prefixes could be treated wrong. E. g. different flexbox implementations; `-ms-flex-align: center; align-items: center;` with alphabetical order will be sorted as `align-items: center; -ms-flex-align: center;` because alphabetically `flex-align` is after `align-item`.
 
 This rule ignores variables (`$sass`, `@less`, `--custom-property`).
 
