@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 3.0.2
+* Changed: Show more helpful error messages for invalid config.
+
 ## 3.0.1
 * Fixed: Inconsistent sorting for the same name properties in `properties-order`.
 
