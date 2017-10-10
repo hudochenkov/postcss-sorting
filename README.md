@@ -142,6 +142,38 @@ grunt.initConfig({
 });
 ```
 
+### CLI (via [postcss-cli](https://github.com/postcss/postcss-cli))
+
+Create an appropriate `postcss.config.js` like this example:
+
+```js
+module.exports = (ctx) => ({
+  plugins: {
+    'postcss-sorting': {
+      'order': [
+        'custom-properties',
+        'dollar-variables',
+        'declarations',
+        'at-rules',
+        'rules'
+      ],
+
+      'properties-order': 'alphabetical',
+
+      'unspecified-properties-position': 'bottom'
+    }
+  }
+})
+```
+
+Or, simply add the `'postcss-sorting'` section to your existing postcss-cli configuration file. Next, execute:
+
+```bash
+postcss -c postcss.config.js  --no-map -r your_css_file.css
+```
+
+For more information and options, please consult the [postcss-cli docs](https://github.com/postcss/postcss-cli/blob/master/README.md).
+
 ## Related tools
 
 [stylelint] and [stylelint-order] help lint style sheets and let you know if style sheet order is correct. Also, they could autofix style sheets.
