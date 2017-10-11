@@ -142,7 +142,13 @@ grunt.initConfig({
 });
 ```
 
-### CLI (via [postcss-cli](https://github.com/postcss/postcss-cli))
+### Command Line
+
+Add [postcss-cli]((https://github.com/postcss/postcss-cli))) and PostCSS Sorting to your project:
+
+```bash
+npm install postcss-cli postcss-sorting --save-dev
+```
 
 Create an appropriate `postcss.config.js` like this example:
 
