@@ -27,6 +27,7 @@ The plugin has no default options. Everything is disabled by default.
 - [`order`](./lib/order/README.md): Specify the order of content within declaration blocks.
 - [`properties-order`](./lib/properties-order/README.md): Specify the order of properties within declaration blocks.
 - [`unspecified-properties-position`](./lib/properties-order/unspecified-properties-position.md): Specify position for properties not specified in `properties-order`.
+- `throw-validate-errors`: Throw config validation errors instead of just showing and ignoring them.
 
 ## Handling comments
 

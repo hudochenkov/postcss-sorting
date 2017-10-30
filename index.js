@@ -17,12 +17,22 @@ function plugin(css, opts) {
 	const validatedOptions = validateOptions(opts);
 
 	if (validatedOptions !== true) {
-		// eslint-disable-next-line no-console
-		if (console && console.warn && _.isString(validatedOptions)) {
-			console.warn(validatedOptions); // eslint-disable-line no-console
-		}
+		const throwValidateErrors = _.get(opts, 'throw-validate-errors', false);
 
-		return;
+		if (throwValidateErrors) {
+			if (_.isString(validatedOptions)) {
+				throw new Error(validatedOptions);
+			}
+
+			throw new Error(`postcss-sorting: Invalid config.`);
+		} else {
+			// eslint-disable-next-line no-console
+			if (console && console.warn && _.isString(validatedOptions)) {
+				console.warn(validatedOptions); // eslint-disable-line no-console
+			}
+
+			return;
+		}
 	}
 
 	if (opts.order) {
