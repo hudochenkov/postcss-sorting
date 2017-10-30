@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 3.1.0
+* Added: `throw-validate-errors` option.
+
 ## 3.0.2
 * Changed: Show more helpful error messages for invalid config.
 
