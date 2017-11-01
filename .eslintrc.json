@@ -25,6 +25,9 @@
 				"singleQuote": true,
 				"trailingComma": "es5"
 			}
-		]
+		],
+		"prefer-destructuring": ["error"],
+		"prefer-rest-params": ["error"],
+		"prefer-spread": ["error"]
 	}
 }

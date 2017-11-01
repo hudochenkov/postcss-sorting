@@ -28,8 +28,7 @@ global.runTest = function(input, opts, dirname) {
 	let inputExt = 'css';
 
 	if (inputSplitted.length > 1) {
-		inputName = inputSplitted[0];
-		inputExt = inputSplitted[1];
+		[inputName, inputExt] = inputSplitted;
 	}
 
 	const inputPath = path.resolve(`${dir + inputName}.${inputExt}`);
