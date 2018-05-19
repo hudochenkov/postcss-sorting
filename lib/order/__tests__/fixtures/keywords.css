@@ -7,6 +7,7 @@ a {
 	--width: 10px;
 	display: none;
 	$height: 20px;
+	@size: 30px;
 }
 
 div {
@@ -21,6 +22,7 @@ div {
 	a {
 		color: blue;
 		top: 0;
+		@width: 10px;
 		$hello: 10px;
 	}
 }
@@ -29,6 +31,7 @@ a {
 	$height: 20px;
 	--width: 10px;
 	display: none;
+	@size: 30px;
 
 	span {}
 

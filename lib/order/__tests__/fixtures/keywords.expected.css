@@ -6,6 +6,7 @@ a {
 a {
 	--width: 10px;
 	$height: 20px;
+	@size: 30px;
 	display: none;
 }
 
@@ -20,6 +21,7 @@ div {
 div {
 	a {
 		$hello: 10px;
+		@width: 10px;
 		color: blue;
 		top: 0;
 	}
@@ -28,6 +30,7 @@ div {
 a {
 	--width: 10px;
 	$height: 20px;
+	@size: 30px;
 	display: none;
 
 	span {}
