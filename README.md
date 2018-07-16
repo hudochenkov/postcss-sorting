@@ -42,6 +42,10 @@ a {
 }
 ```
 
+## Ignored at-rules
+
+Some at-rules, like [control](http://sass-lang.com/documentation/file.SASS_REFERENCE.html#control_directives__expressions) and [function](http://sass-lang.com/documentation/file.SASS_REFERENCE.html#function_directives) directives in Sass, are ignored. It means rules won't touch content inside these at-rules, as doing so could change or break functionality.
+
 ## Migration from `2.x`
 
 Remove all `*-empty-line-before` and `clean-empty-lines` options. Use [stylelint] with `--fix` option instead.
