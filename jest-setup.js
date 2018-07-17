@@ -12,7 +12,7 @@ global.groupTest = function(testGroups) {
 
 			testFn(message, () =>
 				postcss(plugin(group.options))
-					.process(item.fixture)
+					.process(item.fixture, { from: undefined })
 					.then(root => {
 						expect(root.css).toEqual(item.expected);
 					})
@@ -51,7 +51,7 @@ global.runTest = function(input, opts, dirname) {
 	}
 
 	return postcss([plugin(opts)])
-		.process(inputCSS)
+		.process(inputCSS, { from: inputPath })
 		.then(result => {
 			const actualCSS = result.css;
 
