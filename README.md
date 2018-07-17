@@ -1,4 +1,4 @@
-# PostCSS Sorting [![Build Status][ci-img]][ci] [![npm version][npm-version-img]][npm] [![npm downloads last month][npm-downloads-img]][npm] [![Dependency status][dependencies-img]][dependencies-status]
+# PostCSS Sorting [![Build Status][ci-img]][ci] [![npm version][npm-version-img]][npm] [![npm downloads last month][npm-downloads-img]][npm]
 
 [PostCSS] plugin to keep rules and at-rules content in order.
 
@@ -44,7 +44,7 @@ a {
 
 ## Ignored at-rules
 
-Some at-rules, like [control](http://sass-lang.com/documentation/file.SASS_REFERENCE.html#control_directives__expressions) and [function](http://sass-lang.com/documentation/file.SASS_REFERENCE.html#function_directives) directives in Sass, are ignored. It means rules won't touch content inside these at-rules, as doing so could change or break functionality.
+Some at-rules, like [control](https://sass-lang.com/documentation/file.SASS_REFERENCE.html#control_directives__expressions) and [function](https://sass-lang.com/documentation/file.SASS_REFERENCE.html#function_directives) directives in Sass, are ignored. It means rules won't touch content inside these at-rules, as doing so could change or break functionality.
 
 ## Migration from `2.x`
 
@@ -189,14 +189,12 @@ For more information and options, please consult the [postcss-cli docs](https://
 
 [stylelint] and [stylelint-order] help lint style sheets and let you know if style sheet order is correct. Also, they could autofix style sheets.
 
-Other style sheet formatting tools are [Prettier], [perfectionist], [scssfmt].
+I recommend [Prettier] for formatting style sheets.
 
 [ci-img]: https://travis-ci.org/hudochenkov/postcss-sorting.svg
 [ci]: https://travis-ci.org/hudochenkov/postcss-sorting
 [npm-version-img]: https://img.shields.io/npm/v/postcss-sorting.svg
 [npm-downloads-img]: https://img.shields.io/npm/dm/postcss-sorting.svg
-[dependencies-img]: https://img.shields.io/gemnasium/hudochenkov/postcss-sorting.svg
-[dependencies-status]: https://gemnasium.com/github.com/hudochenkov/postcss-sorting
 [npm]: https://www.npmjs.com/package/postcss-sorting
 
 [PostCSS]: https://github.com/postcss/postcss
@@ -209,8 +207,6 @@ Other style sheet formatting tools are [Prettier], [perfectionist], [scssfmt].
 [Grunt PostCSS]: https://github.com/nDmitry/grunt-postcss
 [PreCSS]: https://github.com/jonathantneal/precss
 [postcss-scss]: https://github.com/postcss/postcss-scss
-[perfectionist]: https://github.com/ben-eb/perfectionist
-[scssfmt]: https://github.com/morishitter/scssfmt
-[Prettier]: https://github.com/prettier/prettier
+[Prettier]: https://prettier.io/
 [stylelint]: https://stylelint.io/
 [stylelint-order]: https://github.com/hudochenkov/stylelint-order
