@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](https://semver.org/).
 
+## 4.0.1
+* Fixed: Incorrect sorting in Node.js 11, due recent change to `Array.sort()` in V8.
+* Fixed: Logic for `at-variables` keyword for `order` now follows `postcss-less@3` parser.
+
 ## 4.0.0
 * Breaking change: Dropped Node.js 4 support. Node.js 6.14.3 is the minimum supported version.
 * Could be a breaking change: Plugin won't sort inside some at-rule (mostly Sass specific directives). Read more about [ignored at-rules](https://github.com/hudochenkov/postcss-sorting#ignored-at-rules).
