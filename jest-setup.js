@@ -3,6 +3,7 @@ const path = require('path');
 const plugin = require('./');
 const postcss = require('postcss');
 const jsx = require('postcss-jsx');
+const html = require('postcss-html');
 
 global.groupTest = function(testGroups) {
 	testGroups.forEach(group => {
@@ -51,10 +52,20 @@ global.runTest = function(input, opts, dirname) {
 		fs.writeFileSync(expectPath, expectCSS);
 	}
 
+	let syntax;
+
+	if (inputExt === 'js') {
+		syntax = jsx;
+	}
+
+	if (inputExt === 'html') {
+		syntax = html;
+	}
+
 	return postcss([plugin(opts)])
 		.process(inputCSS, {
 			from: inputPath,
-			syntax: inputExt === 'js' ? jsx : undefined,
+			syntax,
 		})
 		.then(result => {
 			const actualCSS = result.css;
