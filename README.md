@@ -12,7 +12,7 @@ Lint and autofix style sheets order with [stylelint-order].
 * Sorts properties.
 * Sorts at-rules by different options.
 * Groups properties, custom properties, dollar variables, nested rules, nested at-rules.
-* Supports CSS, SCSS (if [postcss-scss] parser is used), [PreCSS] and most likely any other syntax added by other PostCSS plugins.
+* Supports CSS, SCSS (using [postcss-scss]), HTML (with [postcss-html]), CSS-in-JS (with [postcss-jsx]), [PreCSS] and most likely any other syntax added by other PostCSS plugins.
 
 ## Installation
 
@@ -29,7 +29,9 @@ The plugin has no default options. Everything is disabled by default.
 - [`unspecified-properties-position`](./lib/properties-order/unspecified-properties-position.md): Specify position for properties not specified in `properties-order`.
 - `throw-validate-errors`: Throw config validation errors instead of just showing and ignoring them. Defaults to `false`.
 
-## Handling comments
+## Caveats
+
+### Handling comments
 
 Comments that are before node and on a separate line linked to that node. Shared-line comments are also linked to that node. Shared-line comments are comments which are located after a node and on the same line as a node.
 
@@ -42,9 +44,32 @@ a {
 }
 ```
 
-## Ignored at-rules
+### Ignored at-rules
 
 Some at-rules, like [control](https://sass-lang.com/documentation/file.SASS_REFERENCE.html#control_directives__expressions) and [function](https://sass-lang.com/documentation/file.SASS_REFERENCE.html#function_directives) directives in Sass, are ignored. It means rules won't touch content inside these at-rules, as doing so could change or break functionality.
+
+### CSS-in-JS
+
+Plugin will ignore rules, which have template literal interpolation, to avoid breaking logic:
+
+```js
+const Component = styled.div`
+	/* The following properties WILL NOT be sorted, because interpolation is on properties level */
+	z-index: 1;
+	top: 1px;
+	${props => props.great && 'color: red'};
+	position: absolute;
+	display: block;
+
+	div {
+		/* The following properties WILL be sorted, because interpolation for property value only */
+		z-index: 2;
+		position: static;
+		top: ${2 + 10}px;
+		display: inline-block;
+	}
+`;
+```
 
 ## Migration from `2.x`
 
@@ -207,6 +232,8 @@ I recommend [Prettier] for formatting style sheets.
 [Grunt PostCSS]: https://github.com/nDmitry/grunt-postcss
 [PreCSS]: https://github.com/jonathantneal/precss
 [postcss-scss]: https://github.com/postcss/postcss-scss
+[postcss-html]: https://github.com/gucong3000/postcss-html
+[postcss-jsx]: https://github.com/gucong3000/postcss-jsx
 [Prettier]: https://prettier.io/
 [stylelint]: https://stylelint.io/
 [stylelint-order]: https://github.com/hudochenkov/stylelint-order
