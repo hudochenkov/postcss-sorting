@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const plugin = require('./');
 const postcss = require('postcss');
+const jsx = require('postcss-jsx');
 
 global.groupTest = function(testGroups) {
 	testGroups.forEach(group => {
@@ -51,7 +52,10 @@ global.runTest = function(input, opts, dirname) {
 	}
 
 	return postcss([plugin(opts)])
-		.process(inputCSS, { from: inputPath })
+		.process(inputCSS, {
+			from: inputPath,
+			syntax: inputExt === 'js' ? jsx : undefined,
+		})
 		.then(result => {
 			const actualCSS = result.css;
 
