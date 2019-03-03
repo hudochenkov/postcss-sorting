@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](https://semver.org/).
 
+## 4.1.0
+* Added: Support for HTML style tag and attribute (when used with [postcss-html](https://github.com/gucong3000/postcss-html) syntax).
+* Added: Support for CSS-in-JS (when used with [postcss-jsx](https://github.com/gucong3000/postcss-jsx) syntax).
+
 ## 4.0.1
 * Fixed: Incorrect sorting in Node.js 11, due recent change to `Array.sort()` in V8.
 * Fixed: Logic for `at-variables` keyword for `order` now follows `postcss-less@3` parser.
