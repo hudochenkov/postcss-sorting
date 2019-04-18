@@ -23,7 +23,7 @@
     "!.DS_Store"
   ],
   "engines": {
-    "node": ">=6.14.3"
+    "node": ">=8.7.0"
   },
   "dependencies": {
     "lodash": "^4.17.4",
