@@ -1,0 +1,23 @@
+a {
+	text-decoration: none;
+	border-bottom-color: pink;
+	border-color: transparent;
+	border-width: 1px;
+	border-style: solid;
+}
+
+a {
+	border-top-style: solid;
+	animation-delay: 0.2s;
+	align-items: center;
+	align-self: flex-start;
+	border-top-color: red;
+	background: none;
+	background-color: transparent;
+	border-top: 1px solid;
+}
+
+a {
+	border-color: transparent;
+	border-bottom-color: pink;
+}
