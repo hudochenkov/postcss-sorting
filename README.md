@@ -27,7 +27,7 @@ The plugin has no default options. Everything is disabled by default.
 - [`order`](./lib/order/README.md): Specify the order of content within declaration blocks.
 - [`properties-order`](./lib/properties-order/README.md): Specify the order of properties within declaration blocks.
 - [`unspecified-properties-position`](./lib/properties-order/unspecified-properties-position.md): Specify position for properties not specified in `properties-order`.
-- `throw-validate-errors`: Throw config validation errors instead of just showing and ignoring them. Defaults to `false`.
+- `throw-validate-errors`: Throw config validation errors instead of showing and ignoring them. Defaults to `false`.
 
 ## Caveats
 
@@ -75,7 +75,7 @@ const Component = styled.div`
 
 Remove all `*-empty-line-before` and `clean-empty-lines` options. Use [stylelint] with `--fix` option instead.
 
-`properties-order` doesn't support property groups. Convert it to simple array. Use [stylelint-order] with `--fix` option for empty line before property groups.
+`properties-order` doesn't support property groups. Convert it to a simple array. Use [stylelint-order] with `--fix` option for empty line before property groups.
 
 Config for `2.x`:
 
@@ -202,7 +202,7 @@ module.exports = (ctx) => ({
 })
 ```
 
-Or, simply add the `'postcss-sorting'` section to your existing postcss-cli configuration file. Next, execute:
+Or, add the `'postcss-sorting'` section to your existing postcss-cli configuration file. Next, execute:
 
 ```bash
 postcss -c postcss.config.js  --no-map -r your_css_file.css
