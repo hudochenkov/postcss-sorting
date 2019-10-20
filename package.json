@@ -30,6 +30,7 @@
     "postcss": "^7.0.17"
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.144",
     "eslint": "^6.0.1",
     "eslint-config-hudochenkov": "^3.0.1",
     "eslint-config-prettier": "^6.0.0",
@@ -40,15 +41,17 @@
     "postcss-html": "^0.36.0",
     "postcss-jsx": "^0.36.1",
     "postcss-syntax": "^0.36.2",
-    "prettier": "^1.18.2"
+    "prettier": "^1.18.2",
+    "typescript": "^3.6.4"
   },
   "scripts": {
-    "test": "npm run lint && jest",
+    "test": "npm run lint && tsc && jest",
     "jest": "jest",
     "watch": "jest --watch",
     "coverage": "jest --coverage",
     "fix": "npm run lint -- --fix && prettier --write *.js 'lib/**/*.js'",
-    "lint": "eslint *.js 'lib/**/*.js'"
+    "lint": "eslint *.js 'lib/**/*.js'",
+    "types": "tsc"
   },
   "lint-staged": {
     "*.js": [
