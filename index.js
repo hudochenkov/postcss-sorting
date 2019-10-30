@@ -11,6 +11,15 @@ module.exports = postcss.plugin('postcss-sorting', function(opts) {
 	};
 });
 
+/**
+ * @param {{}} css
+ * @param {{
+ * 	order?: {},
+ * 	'properties-order'?: {},
+ * 	'unspecified-properties-position'?: string,
+ * 	'throw-validate-errors'?: boolean
+ * }} opts
+ */
 function plugin(css, opts) {
 	const validatedOptions = validateOptions(opts);
 
