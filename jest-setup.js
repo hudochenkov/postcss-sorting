@@ -1,11 +1,11 @@
 const fs = require('fs');
 const path = require('path');
-const plugin = require('./');
+const plugin = require('.');
 const postcss = require('postcss');
-const jsx = require('postcss-jsx');
-const html = require('postcss-html');
+const jsx = require('postcss-jsx'); // eslint-disable-line import/no-extraneous-dependencies
+const html = require('postcss-html'); // eslint-disable-line import/no-extraneous-dependencies
 
-global.groupTest = function(testGroups) {
+global.groupTest = function groupTest(testGroups) {
 	testGroups.forEach(group => {
 		group.cases.forEach(item => {
 			const message =
@@ -23,7 +23,7 @@ global.groupTest = function(testGroups) {
 	});
 };
 
-global.runTest = function(input, opts, dirname) {
+global.runTest = function runTest(input, opts, dirname) {
 	const dir = path.join(dirname, './fixtures/');
 	const inputSplitted = input.split('.');
 	let inputName = input;

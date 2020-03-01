@@ -12,10 +12,5 @@
 	"globals": {
 		"groupTest": true,
 		"runTest": true
-	},
-	"rules": {
-		"prefer-destructuring": ["error"],
-		"prefer-rest-params": ["error"],
-		"prefer-spread": ["error"]
 	}
 }

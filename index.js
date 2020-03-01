@@ -5,8 +5,8 @@ const order = require('./lib/order');
 const propertiesOrder = require('./lib/properties-order');
 const validateOptions = require('./lib/validateOptions');
 
-module.exports = postcss.plugin('postcss-sorting', function(opts) {
-	return function(css) {
+module.exports = postcss.plugin('postcss-sorting', opts => {
+	return css => {
 		plugin(css, opts);
 	};
 });
