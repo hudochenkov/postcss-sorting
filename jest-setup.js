@@ -6,16 +6,18 @@ const jsx = require('postcss-jsx'); // eslint-disable-line import/no-extraneous-
 const html = require('postcss-html'); // eslint-disable-line import/no-extraneous-dependencies
 
 global.groupTest = function groupTest(testGroups) {
-	testGroups.forEach(group => {
-		group.cases.forEach(item => {
+	testGroups.forEach((group) => {
+		group.cases.forEach((item) => {
 			const message =
-				item.description || group.message || `Should work with ${JSON.stringify(group.options)}`;
+				item.description ||
+				group.message ||
+				`Should work with ${JSON.stringify(group.options)}`;
 			const testFn = item.only ? test.only : test;
 
 			testFn(message, () =>
 				postcss(plugin(group.options))
 					.process(item.fixture, { from: undefined })
-					.then(root => {
+					.then((root) => {
 						expect(root.css).toEqual(item.expected);
 					})
 			);
@@ -67,7 +69,7 @@ global.runTest = function runTest(input, opts, dirname) {
 			from: inputPath,
 			syntax,
 		})
-		.then(result => {
+		.then((result) => {
 			const actualCSS = result.css;
 
 			fs.writeFileSync(actualPath, actualCSS);
