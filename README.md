@@ -1,4 +1,6 @@
-# PostCSS Sorting [![Build Status][ci-img]][ci] [![npm version][npm-version-img]][npm] [![npm downloads last month][npm-downloads-img]][npm]
+# PostCSS Sorting
+
+[![npm version][npm-version-img]][npm] [![npm downloads last month][npm-downloads-img]][npm]
 
 [PostCSS] plugin to keep rules and at-rules content in order.
 
@@ -216,8 +218,6 @@ For more information and options, please consult the [postcss-cli docs](https://
 
 I recommend [Prettier] for formatting style sheets.
 
-[ci-img]: https://travis-ci.org/hudochenkov/postcss-sorting.svg
-[ci]: https://travis-ci.org/hudochenkov/postcss-sorting
 [npm-version-img]: https://img.shields.io/npm/v/postcss-sorting.svg
 [npm-downloads-img]: https://img.shields.io/npm/dm/postcss-sorting.svg
 [npm]: https://www.npmjs.com/package/postcss-sorting
