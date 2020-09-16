@@ -61,7 +61,7 @@
       "./jest-setup.js"
     ],
     "testEnvironment": "node",
-    "testRegex": "__tests__/[a-zA-Z-]+\\.js$",
+    "testRegex": "__tests__/[a-zA-Z-.]+\\.js$",
     "watchPlugins": [
       "jest-watch-typeahead/filename",
       "jest-watch-typeahead/testname"
