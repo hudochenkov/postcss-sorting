@@ -2,6 +2,11 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](https://semver.org/).
 
+## 6.0.0
+* Dropped Node.js 8 support.
+* Moved to PostCSS 8.
+* Moved `postcss` to `peerDependencies`.
+
 ## 5.0.1
 * Fixed: `properties-order: "alphabetical"` now puts shorthands before their longhand forms even if that isn't alphabetical to avoid broken CSS. E. g. `border-color` will be before `border-bottom-color`.
 
