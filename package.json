@@ -29,6 +29,7 @@
     "postcss": "^8.0.4"
   },
   "devDependencies": {
+    "@stylelint/postcss-css-in-js": "^0.37.2",
     "eslint": "^7.9.0",
     "eslint-config-hudochenkov": "^7.1.0",
     "eslint-config-prettier": "^6.11.0",
@@ -40,7 +41,6 @@
     "lint-staged": "^10.4.0",
     "postcss": "^8.0.4",
     "postcss-html": "^0.36.0",
-    "postcss-jsx": "^0.36.4",
     "postcss-syntax": "^0.36.2",
     "prettier": "^2.1.2",
     "prettier-config-hudochenkov": "^0.2.0"
