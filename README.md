@@ -19,7 +19,7 @@ Lint and autofix style sheets order with [stylelint-order].
 ## Installation
 
 ```bash
-$ npm install postcss-sorting
+$ npm install --save-dev postcss postcss-sorting
 ```
 
 ## Options

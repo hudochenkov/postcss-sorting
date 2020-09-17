@@ -23,8 +23,10 @@
     "!.DS_Store"
   ],
   "dependencies": {
-    "lodash": "^4.17.20",
-    "postcss": "^7.0.27"
+    "lodash": "^4.17.20"
+  },
+  "peerDependencies": {
+    "postcss": "^8.0.4"
   },
   "devDependencies": {
     "eslint": "^7.9.0",
@@ -36,6 +38,7 @@
     "jest": "^26.4.2",
     "jest-watch-typeahead": "^0.6.1",
     "lint-staged": "^10.4.0",
+    "postcss": "^8.0.4",
     "postcss-html": "^0.36.0",
     "postcss-jsx": "^0.36.4",
     "postcss-syntax": "^0.36.2",

@@ -1,15 +1,19 @@
-const postcss = require('postcss');
 const _ = require('lodash');
 
 const order = require('./lib/order');
 const propertiesOrder = require('./lib/properties-order');
 const validateOptions = require('./lib/validateOptions');
 
-module.exports = postcss.plugin('postcss-sorting', (opts) => {
-	return (css) => {
-		plugin(css, opts);
+module.exports = (opts) => {
+	return {
+		postcssPlugin: 'postcss-sorting',
+		Root(css) {
+			plugin(css, opts);
+		},
 	};
-});
+};
+
+module.exports.postcss = true;
 
 function plugin(css, opts) {
 	const validatedOptions = validateOptions(opts);
