@@ -23,26 +23,26 @@
     "!.DS_Store"
   ],
   "dependencies": {
-    "lodash": "^4.17.20"
+    "lodash": "^4.17.21"
   },
   "peerDependencies": {
     "postcss": "^8.0.4"
   },
   "devDependencies": {
     "@stylelint/postcss-css-in-js": "^0.37.2",
-    "eslint": "^7.9.0",
-    "eslint-config-hudochenkov": "^7.1.0",
+    "eslint": "^7.27.0",
+    "eslint-config-hudochenkov": "^7.2.0",
     "eslint-config-prettier": "^6.11.0",
-    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-import": "^2.23.4",
     "eslint-plugin-unicorn": "^21.0.0",
-    "husky": "^4.3.0",
-    "jest": "^26.4.2",
-    "jest-watch-typeahead": "^0.6.1",
-    "lint-staged": "^10.4.0",
-    "postcss": "^8.0.4",
+    "husky": "^6.0.0",
+    "jest": "^27.0.3",
+    "jest-watch-typeahead": "^0.6.4",
+    "lint-staged": "^11.0.0",
+    "postcss": "^8.3.0",
     "postcss-html": "^0.36.0",
     "postcss-syntax": "^0.36.2",
-    "prettier": "^2.1.2",
+    "prettier": "^2.3.0",
     "prettier-config-hudochenkov": "^0.2.0"
   },
   "scripts": {
@@ -51,7 +51,8 @@
     "watch": "jest --watch",
     "coverage": "jest --coverage",
     "fix": "npm run lint -- --fix && prettier --write *.js 'lib/**/*.js'",
-    "lint": "eslint *.js 'lib/**/*.js' --max-warnings=0"
+    "lint": "eslint *.js 'lib/**/*.js' --max-warnings=0",
+    "prepare": "husky install"
   },
   "lint-staged": {
     "*.js": [
@@ -69,11 +70,6 @@
       "jest-watch-typeahead/filename",
       "jest-watch-typeahead/testname"
     ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
   },
   "prettier": "prettier-config-hudochenkov"
 }
