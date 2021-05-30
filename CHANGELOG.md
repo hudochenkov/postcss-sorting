@@ -100,7 +100,7 @@ This release completely incompatible with the previous API. There is a lot new o
 * Fixed a regression in 1.6.0. Sort order with item like `@include media` didn't found rules like `@include media(">=desk") {}`.
 
 ## 1.6.0
-* Add special comments to disable processing for some part in style sheet
+* Add special comments to disable processing for some part in stylesheet
 * Support custom properties as $variable #27
 * Fix an issue when there is a lot of comments in the end of a rule #24
 * At-rule parameter now supports parentheses. For example, `@include mwp(1)`. (thanks, @Redknife) #29

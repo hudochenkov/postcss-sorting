@@ -4,7 +4,7 @@
 
 [PostCSS] plugin to keep rules and at-rules content in order.
 
-Lint and autofix style sheets order with [stylelint-order].
+Lint and autofix stylesheet order with [stylelint-order].
 
 ## Features
 
@@ -150,9 +150,9 @@ This plugin available as [Sublime Text], [Atom], [VS Code], and [Emacs] plugin. 
 
 ## Related tools
 
-[stylelint] and [stylelint-order] help lint style sheets and let you know if style sheet order is correct. Also, they could autofix style sheets.
+[stylelint] and [stylelint-order] help lint stylesheets and let you know if stylesheet order is correct. Also, they could autofix stylesheets.
 
-I recommend [Prettier] for formatting style sheets.
+I recommend [Prettier] for formatting stylesheets.
 
 [npm-version-img]: https://img.shields.io/npm/v/postcss-sorting.svg
 [npm-downloads-img]: https://img.shields.io/npm/dm/postcss-sorting.svg
