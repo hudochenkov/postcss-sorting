@@ -4,8 +4,6 @@
 
 [PostCSS] plugin to keep rules and at-rules content in order.
 
-Also available as [Sublime Text], [Atom], [VS Code], and [Emacs] plugin.
-
 Lint and autofix style sheets order with [stylelint-order].
 
 ## Features
@@ -19,7 +17,7 @@ Lint and autofix style sheets order with [stylelint-order].
 ## Installation
 
 ```bash
-$ npm install --save-dev postcss postcss-sorting
+npm install --save-dev postcss postcss-sorting
 ```
 
 ## Options
@@ -52,7 +50,7 @@ Some at-rules, like [control](https://sass-lang.com/documentation/file.SASS_REFE
 
 ### CSS-in-JS
 
-Plugin will ignore rules, which have template literal interpolation, to avoid breaking logic:
+Plugin will ignore rules, which have template literal interpolation, to avoid breaking the logic:
 
 ```js
 const Component = styled.div`
@@ -75,101 +73,80 @@ const Component = styled.div`
 
 ## Usage
 
-See [PostCSS] docs for examples for your environment.
-
-### Text editor
-
-This plugin available as [Sublime Text], [Atom], [VS Code], and [Emacs] plugin.
-
-### Gulp
-
-Add [Gulp PostCSS] and PostCSS Sorting to your build tool:
-
-```bash
-npm install gulp-postcss postcss-sorting --save-dev
-```
-
-Enable PostCSS Sorting within your Gulpfile:
-
-```js
-var postcss = require('gulp-postcss');
-var sorting = require('postcss-sorting');
-
-gulp.task('css', function () {
-	return gulp.src('./css/src/*.css').pipe(
-		postcss([
-			sorting({ /* options */ })
-		])
-	).pipe(
-		gulp.dest('./css/src')
-	);
-});
-```
-
-### Grunt
-
-Add [Grunt PostCSS] and PostCSS Sorting to your build tool:
-
-```bash
-npm install grunt-postcss postcss-sorting --save-dev
-```
-
-Enable PostCSS Sorting within your Gruntfile:
-
-```js
-grunt.loadNpmTasks('grunt-postcss');
-
-grunt.initConfig({
-	postcss: {
-		options: {
-			processors: [
-				require('postcss-sorting')({ /* options */ })
-			]
-		},
-		dist: {
-			src: 'css/*.css'
-		}
-	}
-});
-```
+See [PostCSS] docs for more examples.
 
 ### Command Line
 
 Add [postcss-cli](https://github.com/postcss/postcss-cli) and PostCSS Sorting to your project:
 
 ```bash
-npm install postcss-cli postcss-sorting --save-dev
+npm install postcss postcss-cli postcss-sorting --save-dev
 ```
 
-Create an appropriate `postcss.config.js` like this example:
+Create a `postcss.config.js` with PostCSS Sorting configuration:
 
 ```js
-module.exports = (ctx) => ({
-  plugins: {
-    'postcss-sorting': {
-      'order': [
-        'custom-properties',
-        'dollar-variables',
-        'declarations',
-        'at-rules',
-        'rules'
-      ],
+module.exports = {
+	plugins: [
+		'postcss-sorting': {
+			order: [
+				'custom-properties',
+				'dollar-variables',
+				'declarations',
+				'at-rules',
+				'rules',
+			],
 
-      'properties-order': 'alphabetical',
+			'properties-order': 'alphabetical',
 
-      'unspecified-properties-position': 'bottom'
-    }
-  }
-})
+			'unspecified-properties-position': 'bottom',
+		},
+	],
+};
 ```
 
-Or, add the `'postcss-sorting'` section to your existing postcss-cli configuration file. Next, execute:
+Or, add the `'postcss-sorting'` section to your existing `postcss-cli` configuration file.
+
+Next execute:
 
 ```bash
-postcss -c postcss.config.js  --no-map -r your_css_file.css
+npx postcss --no-map --replace your-css-file.css
 ```
 
-For more information and options, please consult the [postcss-cli docs](https://github.com/postcss/postcss-cli/blob/master/README.md).
+For more information and options, please consult the [postcss-cli docs](https://github.com/postcss/postcss-cli).
+
+### Gulp
+
+Add [gulp-postcss] and PostCSS Sorting to your build tool:
+
+```bash
+npm install postcss gulp-postcss postcss-sorting --save-dev
+```
+
+Enable PostCSS Sorting within your Gulpfile:
+
+```js
+let gulp = require('gulp');
+let postcss = require('gulp-postcss');
+let sorting = require('postcss-sorting');
+
+exports['sort-css'] = () => {
+	return gulp
+		.src('./css/src/*.css')
+		.pipe(
+			postcss([
+				sorting({
+					/* options */
+				}),
+			])
+		)
+		.pipe(gulp.dest('./css/src'));
+};
+```
+
+### Text editor
+
+This plugin available as [Sublime Text], [Atom], [VS Code], and [Emacs] plugin. Though, seems all these plugins are not maintained.
 
 ## Related tools
 
@@ -187,8 +164,7 @@ I recommend [Prettier] for formatting style sheets.
 [VS Code]: https://github.com/mrmlnc/vscode-postcss-sorting
 [Emacs]: https://github.com/P233/postcss-sorting.el
 
-[Gulp PostCSS]: https://github.com/postcss/gulp-postcss
-[Grunt PostCSS]: https://github.com/nDmitry/grunt-postcss
+[gulp-postcss]: https://github.com/postcss/gulp-postcss
 [PreCSS]: https://github.com/jonathantneal/precss
 [postcss-scss]: https://github.com/postcss/postcss-scss
 [postcss-html]: https://github.com/gucong3000/postcss-html
