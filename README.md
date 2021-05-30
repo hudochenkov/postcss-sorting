@@ -73,47 +73,6 @@ const Component = styled.div`
 `;
 ```
 
-## Migration from `2.x`
-
-Remove all `*-empty-line-before` and `clean-empty-lines` options. Use [stylelint] with `--fix` option instead.
-
-`properties-order` doesn't support property groups. Convert it to a simple array. Use [stylelint-order] with `--fix` option for empty line before property groups.
-
-Config for `2.x`:
-
-```json
-{
-	"properties-order": [
-		{
-			"properties": [
-				"margin",
-				"padding"
-			]
-		},
-		{
-			"emptyLineBefore": true,
-			"properties": [
-				"border",
-				"background"
-			]
-		}
-	]
-}
-```
-
-Config for `3.x`:
-
-```json
-{
-	"properties-order": [
-		"margin",
-		"padding",
-		"border",
-		"background"
-	]
-}
-```
-
 ## Usage
 
 See [PostCSS] docs for examples for your environment.
