@@ -22,9 +22,6 @@
     "index.js",
     "!.DS_Store"
   ],
-  "dependencies": {
-    "lodash": "^4.17.21"
-  },
   "peerDependencies": {
     "postcss": "^8.0.4"
   },
