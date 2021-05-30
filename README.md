@@ -12,7 +12,7 @@ Lint and autofix stylesheet order with [stylelint-order].
 * Sorts properties.
 * Sorts at-rules by different options.
 * Groups properties, custom properties, dollar variables, nested rules, nested at-rules.
-* Supports CSS, SCSS (using [postcss-scss]), HTML (with [postcss-html]), CSS-in-JS (with [postcss-jsx]), [PreCSS] and most likely any other syntax added by other PostCSS plugins.
+* Supports CSS, SCSS (using [postcss-scss]), CSS-in-JS (with [@stylelint/postcss-css-in-js]), HTML (with [postcss-html]), and most likely any other syntax added by other PostCSS plugins.
 
 ## Installation
 
@@ -165,10 +165,9 @@ I recommend [Prettier] for formatting stylesheets.
 [Emacs]: https://github.com/P233/postcss-sorting.el
 
 [gulp-postcss]: https://github.com/postcss/gulp-postcss
-[PreCSS]: https://github.com/jonathantneal/precss
 [postcss-scss]: https://github.com/postcss/postcss-scss
 [postcss-html]: https://github.com/gucong3000/postcss-html
-[postcss-jsx]: https://github.com/gucong3000/postcss-jsx
+[@stylelint/postcss-css-in-js]: https://github.com/stylelint/postcss-css-in-js
 [Prettier]: https://prettier.io/
 [stylelint]: https://stylelint.io/
 [stylelint-order]: https://github.com/hudochenkov/stylelint-order
