@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](https://semver.org/).
 
+## 7.0.0
+* Dropped Node.js 10 support.
+* Reduced package install size.
+
 ## 6.0.0
 * Dropped Node.js 8 support.
 * Moved to PostCSS 8.
