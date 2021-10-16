@@ -1,7 +1,8 @@
-const order = require('./lib/order');
-const propertiesOrder = require('./lib/properties-order');
 const validateOptions = require('./lib/validateOptions');
 const isString = require('./lib/isString');
+const getContainingNode = require('./lib/getContainingNode');
+const sortNode = require('./lib/order/sortNode');
+const sortNodeProperties = require('./lib/properties-order/sortNodeProperties');
 
 module.exports = (opts) => {
 	return {
@@ -37,10 +38,21 @@ function plugin(css, opts) {
 	}
 
 	if (opts.order) {
-		order(css, opts);
+		css.walk((input) => {
+			const node = getContainingNode(input);
+
+			sortNode(node, opts.order);
+		});
 	}
 
 	if (opts['properties-order']) {
-		propertiesOrder(css, opts);
+		css.walk((input) => {
+			const node = getContainingNode(input);
+
+			sortNodeProperties(node, {
+				order: opts['properties-order'],
+				unspecifiedPropertiesPosition: opts['unspecified-properties-position'] || 'bottom',
+			});
+		});
 	}
 }
