@@ -87,7 +87,7 @@ Create a `postcss.config.js` with PostCSS Sorting configuration:
 
 ```js
 module.exports = {
-	plugins: [
+	plugins: {
 		'postcss-sorting': {
 			order: [
 				'custom-properties',
@@ -101,7 +101,7 @@ module.exports = {
 
 			'unspecified-properties-position': 'bottom',
 		},
-	],
+	},
 };
 ```
 
