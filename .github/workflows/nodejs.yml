@@ -17,14 +17,17 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node: [12, 14, 16]
+        node: [12, 14, 16, 18]
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node }}
+
+      - name: Install latest npm
+        run: npm install --location=global npm@latest
 
       - run: npm ci
 
