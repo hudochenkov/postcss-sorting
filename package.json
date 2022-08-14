@@ -41,8 +41,8 @@
 		"prettier-config-hudochenkov": "^0.3.0"
 	},
 	"scripts": {
-		"test": "npm run lint && jest",
-		"jest": "jest",
+		"test-full": "npm run lint && jest",
+		"test": "jest",
 		"watch": "jest --watch",
 		"coverage": "jest --coverage",
 		"fix": "npm run lint -- --fix && prettier --write *.js 'lib/**/*.js'",
