@@ -23,7 +23,7 @@
 		"!.DS_Store"
 	],
 	"peerDependencies": {
-		"postcss": "^8.3.9"
+		"postcss": "^8.4.20"
 	},
 	"devDependencies": {
 		"eslint": "^8.31.0",

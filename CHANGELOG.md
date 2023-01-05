@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](https://semver.org/).
 
+## 8.0.0
+* Dropped Node.js 12 and 14 support.
+* Added support for `postcss-styled-syntax`.
+
 ## 7.0.1
 * Internal refactoring for compatibility with newer stylelint-order version. No public API changes.
 
