@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const plugin = require('.');
 const postcss = require('postcss');
-const cssInJS = require('@stylelint/postcss-css-in-js'); // eslint-disable-line import/no-extraneous-dependencies
+const cssInJS = require('postcss-styled-syntax'); // eslint-disable-line import/no-extraneous-dependencies
 const html = require('postcss-html'); // eslint-disable-line import/no-extraneous-dependencies
 
 global.groupTest = function groupTest(testGroups) {
