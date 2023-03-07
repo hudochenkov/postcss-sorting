@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](https://semver.org/).
 
+## 8.0.2
+* Fixed sorting inside CSS-in-JS `css` helper
+* Fixed crash when using postcss-sass syntax
+
 ## 8.0.1
 * Fix regression causing root of CSS or SCSS to be sorted.
 
