@@ -4,8 +4,8 @@
         -ms-flex-pack: justify;
             justify-content: space-between;
     display: -webkit-box;
-    Display: -ms-flexbox;
-    Display: flex;
+    display: -ms-flexbox;
+    display: flex;
     -webkit-box-align: center;
         -ms-flex-align: center;
             align-items: center;

@@ -1,0 +1,29 @@
+.header {
+	Padding-bottom: 20px;
+	-webkit-box-pack: justify;
+	-ms-flex-pack: justify;
+	Justify-content: space-between;
+	display: -webkit-box;
+	Display: -ms-flexbox;
+	display: flex;
+	-webkit-box-align: center;
+	-ms-flex-align: center;
+	Align-items: center;
+	-ms-flex-wrap: wrap;
+	flex-wrap: wrap;
+}
+
+.header {
+	-webkit-box-pack: justify;
+	-ms-Flex-pack: justify;
+	justify-content: space-between;
+	Display: -webkit-box;
+	display: -ms-flexbox;
+	Display: flex;
+	-webkit-box-align: center;
+	-ms-Flex-align: center;
+	align-items: center;
+	-ms-flex-wrap: wrap;
+	flex-wrap: wrap;
+	padding-bottom: 20px;
+}
