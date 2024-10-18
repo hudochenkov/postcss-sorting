@@ -1,29 +1,9 @@
 .header {
 	Align-items: center;
-	-webkit-box-align: center;
-	-webkit-box-pack: justify;
 	display: -webkit-box;
 	Display: -ms-flexbox;
 	display: flex;
-	-ms-flex-align: center;
-	-ms-flex-pack: justify;
-	-ms-flex-wrap: wrap;
 	flex-wrap: wrap;
 	Justify-content: space-between;
 	Padding-bottom: 20px;
-}
-
-.header {
-	align-items: center;
-	-webkit-box-align: center;
-	-webkit-box-pack: justify;
-	Display: -webkit-box;
-	display: -ms-flexbox;
-	Display: flex;
-	-ms-Flex-align: center;
-	-ms-Flex-pack: justify;
-	-ms-flex-wrap: wrap;
-	flex-wrap: wrap;
-	justify-content: space-between;
-	padding-bottom: 20px;
 }
