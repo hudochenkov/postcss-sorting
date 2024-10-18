@@ -1,27 +1,11 @@
 div {
 	position: fixed;
 	top: 0;
-	Top: $header-height;
-	A: 0;
-	b: 1;
-	C: 2;
-	d: 3;
-	E: 4;
-	f: 5;
-	G: 6;
-	h: 7;
+	Top: 0;
 }
 
 div {
 	position: fixed;
-	Top: $header-height;
+	Top: 0;
 	top: 0;
-	a: 0;
-	B: 1;
-	c: 2;
-	D: 3;
-	e: 4;
-	F: 5;
-	g: 6;
-	H: 7;
 }
