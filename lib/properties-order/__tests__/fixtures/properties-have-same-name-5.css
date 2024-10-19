@@ -1,0 +1,9 @@
+.header {
+	Padding-bottom: 20px;
+	Justify-content: space-between;
+	display: -webkit-box;
+	Display: -ms-flexbox;
+	display: flex;
+	Align-items: center;
+	flex-wrap: wrap;
+}
