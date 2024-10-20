@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](https://semver.org/).
 
+## 9.1.0
+* Added more shorthand data
+
 ## 9.0.0
 * Ignore properties case when sorting declarations.
 * Added more shorthands properties to look for. Will affect alphabetical order.
