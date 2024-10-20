@@ -19,7 +19,7 @@ global.groupTest = function groupTest(testGroups) {
 					.process(item.fixture, { from: undefined })
 					.then((root) => {
 						expect(root.css).toEqual(item.expected);
-					})
+					}),
 			);
 		});
 	});
