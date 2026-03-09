@@ -50,11 +50,11 @@ Some at-rules, like [control](https://sass-lang.com/documentation/file.SASS_REFE
 
 ### CSS-in-JS
 
-Plugin will ignore rules, which have template literal interpolation, to avoid breaking the logic:
+To avoid breaking the logic if the rule has a template literal interpolation, properties will be sorted only among neighbouring properties before or after the interpolation:
 
 ```js
 const Component = styled.div`
-	/* The following properties WILL NOT be sorted, because interpolation is on properties level */
+	/* 'z-index' and 'top' will be sorted as a single group. 'position' and 'display' will be sorted as a second group. Interpolation separates properties into groups. */
 	z-index: 1;
 	top: 1px;
 	${props => props.great && 'color: red'};
@@ -62,7 +62,7 @@ const Component = styled.div`
 	display: block;
 
 	div {
-		/* The following properties WILL be sorted, because interpolation for property value only */
+		/* The following properties WILL be sorted together, because interpolation is for property value only */
 		z-index: 2;
 		position: static;
 		top: ${2 + 10}px;
