@@ -2,6 +2,11 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](https://semver.org/).
 
+## 10.0.0
+
+* Added limited sorting for properties in CSS-in-JS rules containing interpolation. Previosly such rules were ignored, now groups of properties are sorted. See [example](README.md#css-in-js) in the readme.
+* Removed code needed for `@stylelint/postcss-css-in-js` syntax
+
 ## 9.1.0
 * Added more shorthand data
 
