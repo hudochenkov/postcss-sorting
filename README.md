@@ -166,7 +166,7 @@ I recommend [Prettier] for formatting stylesheets.
 
 [gulp-postcss]: https://github.com/postcss/gulp-postcss
 [postcss-scss]: https://github.com/postcss/postcss-scss
-[postcss-html]: https://github.com/gucong3000/postcss-html
+[postcss-html]: https://github.com/ota-meshi/postcss-html
 [postcss-styled-syntax]: https://github.com/hudochenkov/postcss-styled-syntax
 [Prettier]: https://prettier.io/
 [stylelint]: https://stylelint.io/
