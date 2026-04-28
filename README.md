@@ -115,35 +115,6 @@ npx postcss --no-map --replace your-css-file.css
 
 For more information and options, please consult the [postcss-cli docs](https://github.com/postcss/postcss-cli).
 
-### Gulp
-
-Add [gulp-postcss] and PostCSS Sorting to your build tool:
-
-```bash
-npm install postcss gulp-postcss postcss-sorting --save-dev
-```
-
-Enable PostCSS Sorting within your Gulpfile:
-
-```js
-let gulp = require('gulp');
-let postcss = require('gulp-postcss');
-let sorting = require('postcss-sorting');
-
-exports['sort-css'] = () => {
-	return gulp
-		.src('./css/src/*.css')
-		.pipe(
-			postcss([
-				sorting({
-					/* options */
-				}),
-			])
-		)
-		.pipe(gulp.dest('./css/src'));
-};
-```
-
 ### Text editor
 
 This plugin available as [Sublime Text], [Atom], [VS Code], and [Emacs] plugin. Though, seems all these plugins are not maintained.
@@ -164,7 +135,6 @@ I recommend [Prettier] for formatting stylesheets.
 [VS Code]: https://github.com/mrmlnc/vscode-postcss-sorting
 [Emacs]: https://github.com/P233/postcss-sorting.el
 
-[gulp-postcss]: https://github.com/postcss/gulp-postcss
 [postcss-scss]: https://github.com/postcss/postcss-scss
 [postcss-html]: https://github.com/ota-meshi/postcss-html
 [postcss-styled-syntax]: https://github.com/hudochenkov/postcss-styled-syntax
