@@ -1,9 +1,9 @@
-const fs = require('fs');
-const path = require('path');
-const plugin = require('.');
-const postcss = require('postcss');
-const cssInJS = require('postcss-styled-syntax'); // eslint-disable-line import/no-extraneous-dependencies
-const html = require('postcss-html'); // eslint-disable-line import/no-extraneous-dependencies
+import fs from 'node:fs';
+import path from 'node:path';
+import postcssSorting from './index.js';
+import postcss from 'postcss';
+import cssInJS from 'postcss-styled-syntax'; // eslint-disable-line import/no-extraneous-dependencies
+import html from 'postcss-html'; // eslint-disable-line import/no-extraneous-dependencies
 
 global.groupTest = function groupTest(testGroups) {
 	testGroups.forEach((group) => {
@@ -15,7 +15,7 @@ global.groupTest = function groupTest(testGroups) {
 			const testFn = item.only ? test.only : test;
 
 			testFn(message, () =>
-				postcss(plugin(group.options))
+				postcss(postcssSorting(group.options))
 					.process(item.fixture, { from: undefined })
 					.then((root) => {
 						expect(root.css).toEqual(item.expected);
@@ -64,7 +64,7 @@ global.runTest = function runTest(input, opts, dirname) {
 		syntax = html;
 	}
 
-	return postcss([plugin(opts)])
+	return postcss([postcssSorting(opts)])
 		.process(inputCSS, {
 			from: inputPath,
 			syntax,

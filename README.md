@@ -86,7 +86,7 @@ npm install postcss postcss-cli postcss-sorting --save-dev
 Create a `postcss.config.js` with PostCSS Sorting configuration:
 
 ```js
-module.exports = {
+export default {
 	plugins: {
 		'postcss-sorting': {
 			order: [

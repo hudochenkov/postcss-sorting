@@ -1,19 +1,21 @@
-const validateOptions = require('./lib/validateOptions');
-const isString = require('./lib/isString');
-const getContainingNode = require('./lib/getContainingNode');
-const sortNode = require('./lib/order/sortNode');
-const sortNodeProperties = require('./lib/properties-order/sortNodeProperties');
+import { validateOptions } from './lib/validateOptions.js';
+import { isString } from './lib/isString.js';
+import { getContainingNode } from './lib/getContainingNode.js';
+import { sortNode } from './lib/order/sortNode.js';
+import { sortNodeProperties } from './lib/properties-order/sortNodeProperties.js';
 
-module.exports = function postcssSorting(opts) {
+function postcssSorting(opts) {
 	return {
 		postcssPlugin: 'postcss-sorting',
 		Root(css) {
 			plugin(css, opts);
 		},
 	};
-};
+}
 
-module.exports.postcss = true;
+postcssSorting.postcss = true;
+
+export default postcssSorting;
 
 function plugin(css, opts) {
 	const validatedOptions = validateOptions(opts);
@@ -56,3 +58,6 @@ function plugin(css, opts) {
 		});
 	}
 }
+
+/** These are not a public API, and could be removed at any point */
+export { sortNode, sortNodeProperties }; // eslint-disable-line unicorn/prefer-export-from

@@ -19,4 +19,10 @@ export default [
 			},
 		},
 	},
+	{
+		files: ['eslint.config.js', 'index.js'],
+		rules: {
+			'import/no-default-export': 'off',
+		},
+	},
 ];

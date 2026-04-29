@@ -16,6 +16,8 @@
 		"url": "https://github.com/hudochenkov/postcss-sorting/issues"
 	},
 	"homepage": "https://github.com/hudochenkov/postcss-sorting",
+	"type": "module",
+	"exports": "./index.js",
 	"files": [
 		"lib",
 		"!lib/**/__tests__",
@@ -32,6 +34,7 @@
 		"globals": "^17.5.0",
 		"husky": "^9.1.7",
 		"jest": "^30.3.0",
+		"jest-light-runner": "^0.7.11",
 		"jest-watch-typeahead": "^3.0.1",
 		"lint-staged": "^16.4.0",
 		"postcss": "^8.5.12",
@@ -45,17 +48,18 @@
 		"test": "jest",
 		"watch": "jest --watch",
 		"coverage": "jest --coverage",
-		"fix": "eslint '*.{js,mjs}' 'lib/**/*.js' --max-warnings 0 --fix && prettier --write '*.{js,mjs}' 'lib/**/*.js'",
-		"lint": "eslint '*.{js,mjs}' 'lib/**/*.js' --max-warnings 0 && prettier --check '*.{js,mjs}' 'lib/**/*.js'",
+		"fix": "eslint '*.js' 'lib/**/*.js' --max-warnings 0 --fix && prettier --write '*.js' 'lib/**/*.js'",
+		"lint": "eslint '*.js' 'lib/**/*.js' --max-warnings 0 && prettier --check '*.js' 'lib/**/*.js'",
 		"prepare": "husky"
 	},
 	"lint-staged": {
-		"*.{js,mjs}": [
+		"*.js": [
 			"eslint --fix --max-warnings=0",
 			"prettier --write"
 		]
 	},
 	"jest": {
+		"runner": "jest-light-runner",
 		"setupFiles": [
 			"./jest-setup.js"
 		],
