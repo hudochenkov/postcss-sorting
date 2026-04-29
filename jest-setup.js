@@ -25,8 +25,8 @@ global.groupTest = function groupTest(testGroups) {
 	});
 };
 
-global.runTest = function runTest(input, opts, dirname) {
-	const dir = path.join(dirname, './fixtures/');
+global.runTest = function runTest(input, opts) {
+	const dir = path.join(path.dirname(expect.getState().testPath), './fixtures/');
 	const inputSplitted = input.split('.');
 	let inputName = input;
 	let inputExt = 'css';
