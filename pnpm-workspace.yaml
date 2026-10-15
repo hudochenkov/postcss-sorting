@@ -1,4 +1,7 @@
 allowBuilds:
+  '@parcel/watcher': false
   unrs-resolver: false
+minimumReleaseAgeExclude:
+  - postcss-styled-syntax@0.7.4
 trustPolicyExclude:
   - semver@6.3.1
