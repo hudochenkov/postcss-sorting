@@ -1,0 +1,4 @@
+allowBuilds:
+  unrs-resolver: false
+trustPolicyExclude:
+  - semver@6.3.1
