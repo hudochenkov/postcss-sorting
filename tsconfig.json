@@ -1,0 +1,15 @@
+{
+	"compilerOptions": {
+		"allowJs": true,
+		"checkJs": true,
+		"noEmit": true,
+		"strict": true,
+		"noUncheckedIndexedAccess": true,
+		"target": "es2022",
+		"module": "nodenext",
+		"moduleResolution": "nodenext",
+		"types": ["node", "jest"]
+	},
+	"include": ["index.js", "jest-setup.js", "jest-globals.d.ts", "lib/**/*"],
+	"exclude": ["node_modules", "dev", "**/fixtures/**"]
+}

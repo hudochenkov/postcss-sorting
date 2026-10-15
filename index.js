@@ -4,6 +4,13 @@ import { getContainingNode } from './lib/getContainingNode.js';
 import { sortNode } from './lib/order/sortNode.js';
 import { sortNodeProperties } from './lib/properties-order/sortNodeProperties.js';
 
+/** @import { Plugin, Root } from 'postcss' */
+/** @import { PluginOptions } from './lib/types.js' */
+
+/**
+ * @param {PluginOptions} [opts]
+ * @returns {Plugin}
+ */
 function postcssSorting(opts) {
 	return {
 		postcssPlugin: 'postcss-sorting',
@@ -17,6 +24,10 @@ postcssSorting.postcss = true;
 
 export default postcssSorting;
 
+/**
+ * @param {Root} css
+ * @param {PluginOptions} [opts]
+ */
 function plugin(css, opts) {
 	const validatedOptions = validateOptions(opts);
 
@@ -39,21 +50,26 @@ function plugin(css, opts) {
 		}
 	}
 
-	if (opts.order) {
+	const order = opts?.order;
+
+	if (order) {
 		css.walk((input) => {
 			const node = getContainingNode(input);
 
-			sortNode(node, opts.order);
+			sortNode(node, order);
 		});
 	}
 
-	if (opts['properties-order']) {
+	const propertiesOrder = opts?.['properties-order'];
+
+	if (propertiesOrder) {
 		css.walk((input) => {
 			const node = getContainingNode(input);
 
 			sortNodeProperties(node, {
-				order: opts['properties-order'],
-				unspecifiedPropertiesPosition: opts['unspecified-properties-position'] || 'bottom',
+				order: propertiesOrder,
+				unspecifiedPropertiesPosition:
+					opts?.['unspecified-properties-position'] || 'bottom',
 			});
 		});
 	}

@@ -21,6 +21,7 @@
 	"files": [
 		"lib",
 		"!lib/**/__tests__",
+		"!lib/**/*.d.ts",
 		"index.js",
 		"!.DS_Store"
 	],
@@ -28,6 +29,8 @@
 		"postcss": "^8.4.20"
 	},
 	"devDependencies": {
+		"@types/jest": "^30.0.0",
+		"@types/node": "^26.6.5",
 		"eslint": "^9.39.5",
 		"eslint-config-hudochenkov": "^13.0.0",
 		"eslint-config-prettier": "^10.1.8",
@@ -41,15 +44,17 @@
 		"postcss-html": "^2.0.0",
 		"postcss-styled-syntax": "^0.7.4",
 		"prettier": "^3.9.10",
-		"prettier-config-hudochenkov": "^0.4.0"
+		"prettier-config-hudochenkov": "^0.4.0",
+		"typescript": "^6.0.3"
 	},
 	"scripts": {
-		"test-full": "pnpm run lint && pnpm run test",
+		"test-full": "pnpm run lint && pnpm run types && pnpm run test",
 		"test": "jest",
 		"watch": "jest --watch",
 		"coverage": "jest --coverage",
-		"fix": "eslint '*.js' 'lib/**/*.js' --max-warnings 0 --fix && prettier --write '*.js' 'lib/**/*.js'",
-		"lint": "eslint '*.js' 'lib/**/*.js' --max-warnings 0 && prettier --check '*.js' 'lib/**/*.js'",
+		"fix": "eslint '*.js' 'lib/**/*.js' --max-warnings 0 --fix && prettier --write '*.js' '*.d.ts' 'lib/**/*.js' 'lib/**/*.d.ts'",
+		"lint": "eslint '*.js' 'lib/**/*.js' --max-warnings 0 && prettier --check '*.js' '*.d.ts' 'lib/**/*.js' 'lib/**/*.d.ts'",
+		"types": "tsc",
 		"prepare": "husky"
 	},
 	"lint-staged": {
