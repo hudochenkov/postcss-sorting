@@ -4,7 +4,7 @@ import globals from 'globals';
 
 export default [
 	{
-		ignores: ['**/fixtures/*.js'],
+		ignores: ['**/fixtures/*.js', 'dev/', 'coverage/'],
 	},
 	...configs.main,
 	eslintConfigPrettier,

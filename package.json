@@ -53,14 +53,14 @@
 		"test": "jest",
 		"watch": "jest --watch",
 		"coverage": "jest --coverage",
-		"fix": "eslint '*.js' 'lib/**/*.js' 'benchmark/**/*.js' --max-warnings 0 --fix && prettier --write '*.js' '*.d.ts' 'lib/**/*.js' 'lib/**/*.d.ts' 'benchmark/**/*.js'",
-		"lint": "eslint '*.js' 'lib/**/*.js' 'benchmark/**/*.js' --max-warnings 0 && prettier --check '*.js' '*.d.ts' 'lib/**/*.js' 'lib/**/*.d.ts' 'benchmark/**/*.js'",
+		"fix": "eslint . --max-warnings 0 --fix && prettier --write '**/*.{js,ts}'",
+		"lint": "eslint . --max-warnings 0 && prettier --check '**/*.{js,ts}'",
 		"types": "tsc",
 		"benchmark": "node benchmark/run.js",
 		"prepare": "husky"
 	},
 	"lint-staged": {
-		"*.js": [
+		"*.{js,ts}": [
 			"eslint --fix --max-warnings=0",
 			"prettier --write"
 		]
