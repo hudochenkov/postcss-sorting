@@ -112,6 +112,7 @@ type PropertyDataBase = {
 
 export type DeclarationData = PropertyDataBase & {
 	name: string;
+	hasVendorPrefix: boolean;
 	node: Declaration;
 };
 
