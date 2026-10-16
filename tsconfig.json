@@ -10,6 +10,6 @@
 		"moduleResolution": "nodenext",
 		"types": ["node", "jest"]
 	},
-	"include": ["index.js", "jest-setup.js", "jest-globals.d.ts", "lib/**/*"],
-	"exclude": ["node_modules", "dev", "**/fixtures/**"]
+	"include": ["index.js", "jest-setup.js", "jest-globals.d.ts", "lib/**/*", "benchmark/**/*"],
+	"exclude": ["node_modules", "dev", "**/fixtures/**", "benchmark/.cache", "benchmark/results"]
 }

@@ -20,6 +20,15 @@ export default [
 		},
 	},
 	{
+		files: ['benchmark/**/*.js'],
+		rules: {
+			'no-console': 'off',
+			'no-await-in-loop': 'off',
+			'no-bitwise': 'off',
+			'import/no-extraneous-dependencies': 'off',
+		},
+	},
+	{
 		files: ['eslint.config.js', 'index.js'],
 		rules: {
 			'import/no-default-export': 'off',

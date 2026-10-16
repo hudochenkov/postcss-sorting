@@ -119,6 +119,18 @@ For more information and options, please consult the [postcss-cli docs](https://
 
 This plugin available as [Sublime Text], [Atom], [VS Code], and [Emacs] plugin. Though, seems all these plugins are not maintained.
 
+## Benchmarking
+
+The benchmark times only the plugin on real stylesheets, synthetic edge cases and hot helpers. Parsing and cloning are not measured.
+
+```bash
+pnpm benchmark --save=benchmark/results/baseline.json
+# change the code, then:
+pnpm benchmark --compare=benchmark/results/baseline.json
+```
+
+Run `pnpm benchmark --help` for all options.
+
 ## Related tools
 
 [stylelint] and [stylelint-order] help lint stylesheets and let you know if stylesheet order is correct. Also, they could autofix stylesheets.

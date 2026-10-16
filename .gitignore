@@ -3,3 +3,5 @@ npm-debug.log
 **/__tests__/**/*.actual.*
 dev/
 coverage/
+benchmark/.cache/
+benchmark/results/
