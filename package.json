@@ -60,10 +60,8 @@
 		"prepare": "husky"
 	},
 	"lint-staged": {
-		"*.{js,ts}": [
-			"eslint --fix --max-warnings=0",
-			"prettier --write"
-		]
+		"*.js": "eslint --fix --max-warnings=0",
+		"*.{js,ts}": "prettier --write"
 	},
 	"jest": {
 		"runner": "jest-light-runner",
