@@ -8,7 +8,22 @@ import { validateOptions } from '../lib/validateOptions.js';
 
 /** @import { PluginOptions } from '../lib/types.js' */
 
-/** @typedef {'real' | 'wide-rule' | 'deep-nesting' | 'many-comments' | 'many-rules'} InputName */
+/** @typedef {'real' | 'wide-rule' | 'deep-nesting' | 'many-comments' | 'many-rules' | 'vendor-prefixed' | 'many-at-rules'} InputName */
+
+/** @type {NonNullable<PluginOptions['order']>} */
+const atRulePatternsOrder = [
+	'custom-properties',
+	'declarations',
+	{ type: 'at-rule', name: 'import' },
+	{ type: 'at-rule', name: 'font-face' },
+	{ type: 'at-rule', name: 'supports', hasBlock: true },
+	{ type: 'at-rule', name: 'container', parameter: /sidebar/ },
+	{ type: 'at-rule', name: 'media', parameter: /min-width/ },
+	{ type: 'at-rule', name: 'media', parameter: /max-width/ },
+	{ type: 'at-rule', name: 'media', parameter: /print/ },
+	'at-rules',
+	'rules',
+];
 
 /**
  * Plugin scenarios run the plugin on a clone of a parsed tree.
@@ -86,6 +101,38 @@ export const pluginScenarios = [
 		group: 'synthetic',
 		input: 'many-rules',
 		options,
+	},
+	{
+		name: 'wide rule, already sorted',
+		group: 'synthetic',
+		input: 'wide-rule',
+		options,
+		sorted: true,
+	},
+	{
+		name: 'many rules, already sorted',
+		group: 'synthetic',
+		input: 'many-rules',
+		options,
+		sorted: true,
+	},
+	{
+		name: 'vendor prefixes',
+		group: 'synthetic',
+		input: 'vendor-prefixed',
+		options,
+	},
+	{
+		name: 'vendor prefixes, alphabetical',
+		group: 'synthetic',
+		input: 'vendor-prefixed',
+		options: { 'properties-order': 'alphabetical' },
+	},
+	{
+		name: 'many at-rules',
+		group: 'synthetic',
+		input: 'many-at-rules',
+		options: { order: atRulePatternsOrder },
 	},
 ];
 

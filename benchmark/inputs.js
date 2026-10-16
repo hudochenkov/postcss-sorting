@@ -63,14 +63,78 @@ export function manyComments(count = 3000) {
 	return `${css}}\n`;
 }
 
-/** A flat stylesheet with a huge number of small rules. */
+/** A huge number of small rules in one container, because root-level children are not sorted. */
 export function manyRules(count = 15000) {
 	const random = createRandom();
-	let css = '';
+	let css = '.container {\n';
 
 	for (let index = 0; index < count; index++) {
-		css += `.rule-${index} {\n${declarations(random, 3)}}\n`;
+		css += `\t.rule-${index} {\n${declarations(random, 3)}\t}\n`;
 	}
 
-	return css;
+	// A trailing declaration forces `order` to move something.
+	return `${css}\tcolor: red;\n}\n`;
+}
+
+const vendorPrefixes = ['', '-webkit-', '-moz-', '-ms-'];
+
+/** One rule where most declarations come in several vendor-prefixed variants. */
+export function vendorPrefixed(count = 3000) {
+	const random = createRandom();
+	let css = '.prefixed {\n';
+
+	for (let index = 0; index < count; index++) {
+		const prefix = vendorPrefixes[Math.floor(random() * vendorPrefixes.length)];
+		const property = properties[Math.floor(random() * properties.length)];
+
+		css += `\t${prefix}${property}: ${index}px;\n`;
+	}
+
+	return `${css}}\n`;
+}
+
+/** Root-level children are never sorted by the plugin, so everything goes inside one rule. */
+export function manyAtRules(count = 3000) {
+	const random = createRandom();
+	let css = '.container {\n';
+
+	for (let index = 0; index < count; index++) {
+		const body = `\t.inner-${index} {\n${declarations(random, 2)}\t}\n`;
+
+		switch (Math.floor(random() * 8)) {
+			case 0: {
+				css += `@media (min-width: ${index}px) {\n${body}}\n`;
+				break;
+			}
+			case 1: {
+				css += `@media (max-width: ${index}px) {\n${body}}\n`;
+				break;
+			}
+			case 2: {
+				css += `@media print {\n${body}}\n`;
+				break;
+			}
+			case 3: {
+				css += `@supports (display: grid) {\n${body}}\n`;
+				break;
+			}
+			case 4: {
+				css += `@container sidebar (min-width: ${index}px) {\n${body}}\n`;
+				break;
+			}
+			case 5: {
+				css += `@font-face {\n\tfont-family: font-${index};\n}\n`;
+				break;
+			}
+			case 6: {
+				css += `@import url('file-${index}.css');\n`;
+				break;
+			}
+			default: {
+				css += `.rule-${index} {\n${declarations(random, 2)}}\n`;
+			}
+		}
+	}
+
+	return `${css}}\n`;
 }

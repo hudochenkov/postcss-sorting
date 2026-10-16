@@ -8,7 +8,14 @@ import postcss from 'postcss';
 import { Bench } from 'tinybench';
 
 import postcssSorting from '../index.js';
-import { deepNesting, manyComments, manyRules, wideRule } from './inputs.js';
+import {
+	deepNesting,
+	manyAtRules,
+	manyComments,
+	manyRules,
+	vendorPrefixed,
+	wideRule,
+} from './inputs.js';
 import { heading, renderComparison, renderResults } from './reporter.js';
 import { loadSources } from './sources.js';
 import { microScenarios, pluginScenarios } from './scenarios.js';
@@ -91,6 +98,8 @@ const inputFactories = {
 	'deep-nesting': () => deepNesting(),
 	'many-comments': () => manyComments(),
 	'many-rules': () => manyRules(),
+	'vendor-prefixed': () => vendorPrefixed(),
+	'many-at-rules': () => manyAtRules(),
 };
 
 /**
