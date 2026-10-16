@@ -51,28 +51,28 @@ function plugin(css, opts) {
 	}
 
 	const order = opts?.order;
-
-	if (order) {
-		css.walk((input) => {
-			const node = getContainingNode(input);
-
-			sortNode(node, order);
-		});
-	}
-
 	const propertiesOrder = opts?.['properties-order'];
 
-	if (propertiesOrder) {
-		css.walk((input) => {
-			const node = getContainingNode(input);
+	if (!order && !propertiesOrder) {
+		return;
+	}
 
+	const unspecifiedPropertiesPosition = opts?.['unspecified-properties-position'] || 'bottom';
+
+	css.walk((input) => {
+		const node = getContainingNode(input);
+
+		if (order) {
+			sortNode(node, order);
+		}
+
+		if (propertiesOrder) {
 			sortNodeProperties(node, {
 				order: propertiesOrder,
-				unspecifiedPropertiesPosition:
-					opts?.['unspecified-properties-position'] || 'bottom',
+				unspecifiedPropertiesPosition,
 			});
-		});
-	}
+		}
+	});
 }
 
 /** These are not a public API, and could be removed at any point */
