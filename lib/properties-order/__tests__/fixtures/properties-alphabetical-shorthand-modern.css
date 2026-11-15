@@ -1,0 +1,34 @@
+a {
+	column-gap: 2px;
+	gap: 1px;
+}
+
+a {
+	justify-content: end;
+	align-content: start;
+	place-content: center;
+}
+
+a {
+	justify-items: end;
+	place-items: center;
+	align-items: start;
+}
+
+a {
+	align-self: start;
+	place-self: center;
+	justify-self: end;
+}
+
+a {
+	contain-intrinsic-width: 30px;
+	contain-intrinsic-height: 20px;
+	contain-intrinsic-size: 10px;
+}
+
+a {
+	gap: 1px;
+	row-gap: 3px;
+	column-gap: 2px;
+}
