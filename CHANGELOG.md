@@ -2,8 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](https://semver.org/).
 
-## Unreleased
+## 11.0.0
 
+* Updated shorthand data with new properties, and fixed some incorrect shorthands
 * Fixed `order`: an at-rule pattern with `parameter` no longer matches at-rules that have no parameters.
 * Improved performance. Sorting is about 2x to 10x faster depending on the stylesheet: roughly 4–5× on typical CSS using both `order` and `properties-order`, and more on large rules or stylesheets with many rules or comments
 
